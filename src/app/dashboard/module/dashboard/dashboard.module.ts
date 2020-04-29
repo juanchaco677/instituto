@@ -1,3 +1,4 @@
+import { ProgramaService } from './../../../service/dashboard/programa.service';
 import { LineaMateriaService } from './../../../service/dashboard/linea-materia.service';
 import { EliminarLineaMateriasComponent } from './../../configuracion/materias/lineas/eliminar-linea-materias/eliminar-linea-materias.component';
 import { MenuService } from './../../../service/menu.service';
@@ -54,6 +55,10 @@ import { PlantillaMateriaComponent } from '../../configuracion/materias/plantill
 import { SidenavComponent } from '../../pantallas-base/sidenav/sidenav.component';
 import { LineaMateriasComponent } from '../../configuracion/materias/lineas/linea-materias/linea-materias.component';
 import { PlantillaLineaMateriasComponent } from '../../configuracion/materias/lineas/plantilla-linea-materias/plantilla-linea-materias.component';
+import { CrearProgramaComponent } from '../../configuracion/programas/crear-programa/crear-programa.component';
+import { EliminarProgramaComponent } from '../../configuracion/programas/eliminar-programa/eliminar-programa.component';
+import { ActualizarProgramaComponent } from '../../configuracion/programas/actualizar-programa/actualizar-programa.component';
+import { PlantillaProgramaComponent } from '../../configuracion/programas/plantilla-programa/plantilla-programa.component';
 
 @NgModule({
   imports: [
@@ -109,7 +114,11 @@ import { PlantillaLineaMateriasComponent } from '../../configuracion/materias/li
     SidenavComponent,
     LineaMateriasComponent,
     EliminarLineaMateriasComponent,
-    PlantillaLineaMateriasComponent
+    PlantillaLineaMateriasComponent,
+    CrearProgramaComponent,
+    EliminarProgramaComponent,
+    ActualizarProgramaComponent,
+    PlantillaProgramaComponent
   ],
   exports: [
   ],
@@ -123,7 +132,8 @@ import { PlantillaLineaMateriasComponent } from '../../configuracion/materias/li
     ConfiguracionService,
     MateriaService,
     MenuService,
-    LineaMateriaService
+    LineaMateriaService,
+    ProgramaService
   ]
 })
 export class DashboardModule { }

@@ -104,7 +104,6 @@ export class LogoComponent implements OnInit {
   consultarDatos() {
     if (this.configuracionService.empty$()) {
 
-      console.log("configuracion 1");
       this.configuracionService.getAllConfiguration().subscribe(
         data => {
           if (data['success']) {
@@ -133,7 +132,6 @@ export class LogoComponent implements OnInit {
         }
       );
     } else {
-      console.log("configuracion 2");
       this.configuracionService.getConfiguraciones$().subscribe(
         configuraciones => {
           configuraciones.forEach(element => {

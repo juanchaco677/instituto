@@ -1,3 +1,7 @@
+import { PlantillaProgramaComponent } from './../../../configuracion/programas/plantilla-programa/plantilla-programa.component';
+import { EliminarProgramaComponent } from './../../../configuracion/programas/eliminar-programa/eliminar-programa.component';
+import { ActualizarProgramaComponent } from './../../../configuracion/programas/actualizar-programa/actualizar-programa.component';
+import { CrearProgramaComponent } from './../../../configuracion/programas/crear-programa/crear-programa.component';
 import { LineaMateriasComponent } from './../../../configuracion/materias/lineas/linea-materias/linea-materias.component';
 import { EliminarLineaMateriasComponent } from './../../../configuracion/materias/lineas/eliminar-linea-materias/eliminar-linea-materias.component';
 import { PlantillaLineaMateriasComponent } from './../../../configuracion/materias/lineas/plantilla-linea-materias/plantilla-linea-materias.component';
@@ -159,6 +163,28 @@ export const routes = [
           {
             path: 'crear-asignatura',
             component: LineaMateriasComponent
+          }
+        ]
+      },
+      {
+        path: 'dashboard/configuracion/programa',
+        component: PlantillaProgramaComponent,
+        children: [
+          {
+            path: 'eliminar-programa',
+            component: EliminarProgramaComponent
+          },
+          {
+            path: 'crear-programa',
+            component: CrearProgramaComponent
+          },
+          {
+            path: 'actualizar-programa',
+            component: ActualizarProgramaComponent,
+          },
+          {
+            path: 'actualizar-programa/:id',
+            component: CrearProgramaComponent
           }
         ]
       },
