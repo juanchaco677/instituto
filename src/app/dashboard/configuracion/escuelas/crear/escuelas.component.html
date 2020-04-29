@@ -1,0 +1,49 @@
+<app-loading [activar]="activar"></app-loading>
+<div class="d-flex justify-content-center">
+  <div class="row">
+    <div class="col-md-12">
+      <form [formGroup]="crearEscuela" (ngSubmit)="onSubmit()"  novalidate>
+
+      <mat-card class="example-card">
+
+        <mat-card-content>
+          <mat-card-title>Escuelas</mat-card-title>
+           <div class="col-md-12 ">
+            <mat-form-field appearance="legacy" class="form-campo">
+              <mat-label>Sede</mat-label>
+              <input matInput [readonly]="true"  [formControl]="getControls('sede')" placeholder="sede" [(ngModel)]="sede.nombre">
+              <mat-icon matSuffix style="cursor:pointer"   (click)="openDialog()">table_chart</mat-icon>
+              <mat-error
+              *ngIf="getControls('sede').errors!= null && getControls('sede').errors.required">
+              Nombre es <strong>obligatorio</strong>
+            </mat-error>
+            <mat-error
+              *ngIf="getControls('sede').errors!= null && getControls('sede').errors.pattern">
+              Solamente <strong>letras</strong>
+            </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-12">
+          <mat-form-field class="form-campo">
+            <mat-label>Nombre Escuela</mat-label>
+            <input matInput [formControl]="getControls('nombre')"
+              placeholder="nombre" [(ngModel)]="escuela.nombre">
+            <mat-error
+              *ngIf="getControls('nombre').errors!= null && getControls('nombre').errors.required">
+              Nombre es <strong>obligatorio</strong>
+            </mat-error>
+            <mat-error
+              *ngIf="getControls('nombre').errors!= null && getControls('nombre').errors.pattern">
+              Solamente <strong>letras</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button type="submit" class="btn-block" mat-raised-button color="accent">Guardar</button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+    </div>
+  </div>
+</div>

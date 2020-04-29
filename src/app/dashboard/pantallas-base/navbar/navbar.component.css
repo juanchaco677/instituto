@@ -1,0 +1,19 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.contenedor-toolbar{
+  position:absolute;
+  left: 85%;
+  top: 10px;
+}
+a {
+  color: #74b1be;
+}
+a:hover{
+  color: #9feaf9!important;
+}
+
+.mat-icon-button{
+  background: transparent!important;
+}

@@ -1,0 +1,88 @@
+.nav-list-menu{
+
+    height: 400px;
+    overflow-y: auto;
+
+}
+
+/* Scroll 2 */
+.nav-list-menu::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.nav-list-menu::-webkit-scrollbar-track {
+  background-color: transparent;
+  border-radius: 10px;
+}
+.nav-list-menu::-webkit-scrollbar-thumb {
+  background-color: #00000040;
+  border-radius: 10px;
+}
+
+.mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.mat-accordion .mat-expansion-panel:first-of-type {
+  border-radius: 0;
+  border:0;
+}
+.mat-nav-list .mat-list-item:hover{
+background-color: #303030;
+color:#fff;
+}
+.mat-list-item a {
+  font-size: 13px;
+}
+.mat-list-base .mat-list-item {
+  color: white;
+}
+.mat-nav-list .mat-list-item {
+  cursor: pointer;
+  outline: none;
+}
+.mat-list-base .mat-list-item, .mat-list-base .mat-list-option {
+  display: block;
+  height: 48px;
+  -webkit-tap-highlight-color: transparent;
+  width: 100%;
+  padding: 0;
+  position: relative;
+}
+
+
+.mat-list-item.active {
+  background: #fff!important;
+}
+mat-expansion-panel-header{
+  border-bottom:1px #303030 solid;
+}
+mat-expansion-panel-header{
+  background: transparent!important;
+  font-size: 14px;
+}
+mat-expansion-panel-header.mat-expanded{
+  background: #00000040!important;
+}
+mat-expansion-panel{
+background: rgba(0, 0, 0, 0.2);
+/* background-color: #2f3241; */
+}
+::ng-deep .mat-expansion-panel-body,.mat-list-base{
+  padding:0px!important;
+}
+
+.mat-expansion-panel:not([class*=mat-elevation-z]) {
+   box-shadow:0 0 0 0 ;
+}
+
+a {
+  color: #74b1be!important;
+}
+a:hover{
+  color: #9feaf9!important;
+}
+
+mat-panel-title{
+  color: #9feaf9!important;
+}

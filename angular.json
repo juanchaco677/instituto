@@ -24,6 +24,7 @@
               "src/assets"
             ],
             "styles": [
+              "src/theme.scss",
               "src/styles.css"
             ],
             "scripts": []
@@ -88,6 +89,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -119,6 +121,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "instituto"
+    }
+  },
+  "defaultProject": "instituto",
+  "cli": {
+    "analytics": "0e9e3c47-480b-4d8b-b70c-7b55184abb7a"
+  }
 }

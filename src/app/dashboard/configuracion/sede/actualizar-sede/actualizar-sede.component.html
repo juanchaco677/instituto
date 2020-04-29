@@ -1,0 +1,60 @@
+<app-loading [activar]="activar"></app-loading>
+
+<mat-card>
+  <mat-card-content>
+    <div class="bmd-form-group bmd-collapse-inline pull-xs-right">
+      <button mat-fab for="search"  data-toggle="collapse" data-target="#collapse-search"
+        aria-expanded="false" aria-controls="collapse-search">
+        <i class="material-icons">search</i>
+      </button>
+      <span id="collapse-search" class="collapse">
+        <mat-form-field class="form-campo">
+          <mat-label>Buscar</mat-label>
+          <input matInput (keyup)="onSearchChange($event.target.value)">
+        </mat-form-field>
+      </span>
+    </div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let sede"> {{ sede.id }} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td mat-cell *matCellDef="let sede"> {{ sede.nombre }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="direccion">
+        <th mat-header-cell *matHeaderCellDef> Correo </th>
+        <td mat-cell *matCellDef="let sede"> {{ sede.localizacion.direccion }} </td>
+      </ng-container>
+      <ng-container matColumnDef="latitud">
+        <th mat-header-cell *matHeaderCellDef> Cédula </th>
+        <td mat-cell *matCellDef="let sede"> {{ sede.localizacion.latitud }} </td>
+      </ng-container>
+      <ng-container matColumnDef="longitud">
+        <th mat-header-cell *matHeaderCellDef> Celular </th>
+        <td mat-cell *matCellDef="let sede"> {{ sede.localizacion.longitud }} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr id="selected-id" style="cursor:pointer;" mat-row *matRowDef="let row; columns: displayedColumns;"
+        [ngClass]="{ 'selected': selection.isSelected(row)}" (click)="selectRow(row)"></tr>
+    </table>
+
+
+    <div class="row">
+      <div class="col-md-6 mt-4">
+        <mat-paginator *ngIf="paginationMaterial" [length]="paginationMaterial.length"
+          [pageSize]="paginationMaterial.pageSize" [pageSizeOptions]="paginationMaterial.pageSizeOptions"
+          (page)="reciveMaterial($event)" [pageIndex]="paginationMaterial.page">
+        </mat-paginator>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

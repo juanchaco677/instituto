@@ -1,0 +1,66 @@
+<mat-nav-list class="nav-list-menu">
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Configuración
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-nav-list>
+        <mat-list-item>
+          <a matLine class="ml-5" [routerLink]="['dashboard/configuracion/general']" (click)="addMenuOpcion('General')" >General</a>
+        </mat-list-item>
+        <mat-list-item>
+          <a matLine class="ml-5"[routerLink]="['dashboard/configuracion/sedes']"  (click)="addMenuOpcion('Sedes')">Sedes</a>
+        </mat-list-item>
+        <mat-list-item>
+          <a matLine class="ml-5" [routerLink]="['dashboard/configuracion/escuelas']"  (click)="addMenuOpcion('Escuelas')">Escuelas</a>
+        </mat-list-item>
+        <mat-list-item>
+          <a matLine class="ml-5" [routerLink]="['dashboard/configuracion/asignatura']"  (click)="addMenuOpcion('Asignaturas')">Asignaturas</a>
+        </mat-list-item>
+        <mat-list-item>
+          <a matLine class="ml-5" [routerLink]="['dashboard/configuracion/linea-asignatura']"  (click)="addMenuOpcion('Linea Asignaturas')">Linea Asignaturas</a>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Usuarios
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <mat-nav-list>
+        <mat-list-item>
+          <a matLine class="ml-5" [routerLink]="['dashboard/usuario/','pr']"  (click)="addMenuOpcion('Profesor')">Profesor</a>
+
+        </mat-list-item>
+        <mat-list-item>
+          <a matLine class="ml-5" [routerLink]="['dashboard/usuario/escuela','pr']"  (click)="addMenuOpcion('Escuela Profesores')">Escuela Profesores</a>
+
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Software
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <mat-nav-list>
+        <mat-list-item>
+          <a matLine class="ml-5">Acerca de</a>
+
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+</mat-nav-list>
