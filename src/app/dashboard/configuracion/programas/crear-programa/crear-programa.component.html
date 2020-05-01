@@ -9,18 +9,18 @@
       <mat-card class="example-card">
 
         <mat-card-content>
-          <mat-card-title>Programa</mat-card-title>
+          <mat-card-title>{{properties.get('t-programa').value}}</mat-card-title>
           <div class="col-md-12 mt-5">
           <mat-form-field class="form-campo">
-            <mat-label>Nombre</mat-label>
-            <input matInput [formControl]="getControls('nombre')"
-              placeholder="nombre" [(ngModel)]="programa.nombre">
+            <mat-label>{{properties.get('f-c-nombre').value}}</mat-label>
+            <input matInput [formControl]="getControls(properties.get('f-c-nombre').control)"
+              placeholder="{{properties.get('f-c-nombre').placeholder}}" [(ngModel)]="programa.nombre">
             <mat-error
-              *ngIf="getControls('nombre').errors!= null && getControls('nombre').errors.required">
-              Nombre es <strong>obligatorio</strong>
+              *ngIf="getControls(properties.get('f-c-nombre').control).errors!= null && getControls(properties.get('f-c-nombre').control).errors.required">
+              {{properties.get('f-c-nombre').value}}} es <strong>obligatorio</strong>
             </mat-error>
             <mat-error
-              *ngIf="getControls('nombre').errors!= null && getControls('nombre').errors.pattern">
+              *ngIf="getControls(properties.get('f-c-nombre').control).errors!= null && getControls(properties.get('f-c-nombre').control).errors.pattern">
               Solamente <strong>letras</strong>
             </mat-error>
           </mat-form-field>

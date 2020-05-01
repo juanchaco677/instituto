@@ -16,24 +16,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EliminarPlanComponent extends EliminarBaseComponent implements OnInit {
 
-  paginationMaterial: PaginationMaterial;
-  plan: Plan;
-  planes: Plan[] = [];
-  isLoadingResults = true;
-  dataSource: MatTableDataSource<Plan>;
-  displayedColumns: string[] ;
-  selection = new SelectionModel<Plan>(true, []);
-  searchValue: string;
-  activar: boolean;
-  tipo: string;
-
   constructor(
     public properties: PropertiesPlan,
     public snackBar: MatSnackBar,
-    public planService: PlanService,
+    public service: PlanService,
     private menuService: MenuService,
   ) {
-    super(snackBar, planService , 'plan' );
+    super(snackBar, service , properties.get('r-plan').value );
     this.displayedColumns = properties.get('t-e-plan-col').value;
     this.menuService.add$(properties.get('m-t-plan').value);
   }

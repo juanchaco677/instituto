@@ -1,10 +1,30 @@
 
 export class PropertiesPlan {
+  /**
+   * r=> ruta
+   * f=formulario
+   * t=>tabla
+   * m=>menu
+   * c=>campo
+   * a=>actualizar
+   * e=>eliminar
+   * r-c=>route - crear
+   */
 
   datos = [
     {
-      key: 'f-c-g-nombre',
+      key: 'r-plan',
+      value: 'plan',
+    },
+    {
+      key: 'l-buscar',
+      value: 'Buscar'
+    },
+    {
+      key: 'f-c-nombre',
       value: 'Nombre',
+      placeholder: 'ej: cuatrimestral - bimestral - anual - semestral.',
+      control: 'nombre',
     },
     {
       key: 't-plan',
@@ -17,11 +37,15 @@ export class PropertiesPlan {
 
     {
       key: 't-a-plan-col',
-      value: ['id', 'nombre']
+      value: ['id', 'nombre'],
+      matColumnDef: 'nombre',
+      matHeaderCellDef: 'Nombre',
     },
     {
       key: 't-e-plan-col',
-      value: ['select', 'id', 'nombre']
+      value: ['select', 'id', 'nombre'],
+      matColumnDef: 'nombre',
+      matHeaderCellDef: 'Nombre',
     },
 
     {

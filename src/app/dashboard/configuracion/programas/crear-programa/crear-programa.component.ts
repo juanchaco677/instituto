@@ -51,6 +51,6 @@ export class CrearProgramaComponent  extends CrearBaseComponent  implements OnIn
 
 
   onSubmit() {
-    this.onSubmit$('programa' , this.programa);
+    this.onSubmit$(this.properties.get('r-programa').value, this.programa);
   }
 }

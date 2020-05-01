@@ -46,6 +46,6 @@ export class CrearPlanComponent extends CrearBaseComponent implements OnInit {
 
 
   onSubmit() {
-    this.onSubmit$('plan' , this.plan);
+    this.onSubmit$(this.properties.get('r-plan').value , this.plan);
   }
 }

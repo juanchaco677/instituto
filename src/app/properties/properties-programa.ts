@@ -1,10 +1,29 @@
 
 export class PropertiesPrograma {
-
+  /**
+   * r=> ruta
+   * f=formulario
+   * t=>tabla
+   * m=>menu
+   * c=>campo
+   * a=>actualizar
+   * e=>eliminar
+   * r-c=>route - crear
+   */
   datos = [
     {
-      key: 'f-c-programa-nombre',
+      key: 'r-programa',
+      value: 'programa',
+    },
+    {
+      key: 'l-buscar',
+      value: 'Buscar'
+    },
+    {
+      key: 'f-c-nombre',
       value: 'Nombre',
+      placeholder: 'ej: Ingeniera de Sistemas - Técnico en Sisttemas.',
+      control: 'nombre',
     },
     {
       key: 't-programa',
@@ -17,11 +36,15 @@ export class PropertiesPrograma {
 
     {
       key: 't-a-programa-col',
-      value: ['id', 'nombre']
+      value: ['id', 'nombre'],
+      matColumnDef: 'nombre',
+      matHeaderCellDef: 'Nombre',
     },
     {
       key: 't-e-programa-col',
-      value: ['select', 'id', 'nombre']
+      value: ['select', 'id', 'nombre'],
+      matColumnDef: 'nombre',
+      matHeaderCellDef: 'Nombre',
     },
 
     {

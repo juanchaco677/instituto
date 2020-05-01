@@ -19,7 +19,7 @@ export class ActualizarPlanComponent extends ActualizarBaseComponent implements 
     public route: ActivatedRoute,
     private menuService: MenuService,
   ) {
-    super(router , route , planService , 'plan');
+    super(router , route , planService , properties.get('r-plan').value);
 
     this.displayedColumns = properties.get('t-a-plan-col').value;
     this.menuService.add$(properties.get('m-t-plan').value);

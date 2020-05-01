@@ -12,15 +12,15 @@
           <mat-card-title>{{properties.get('t-plan').value}}</mat-card-title>
           <div class="col-md-12 mt-5">
           <mat-form-field class="form-campo">
-            <mat-label>{{properties.get('f-c-g-nombre').value}}</mat-label>
-            <input matInput [formControl]="getControls('nombre')"
-              placeholder="ej: cuatrimestral - bimestral - anual - semestral" [(ngModel)]="plan.nombre">
+            <mat-label>{{properties.get('f-c-nombre').value}}</mat-label>
+            <input matInput [formControl]="getControls(properties.get('f-c-nombre').control)"
+              placeholder="{{properties.get('f-c-nombre').placeholder}}" [(ngModel)]="plan.nombre">
             <mat-error
-              *ngIf="getControls('nombre').errors!= null && getControls('nombre').errors.required">
-              {{properties.get('f-c-g-nombre').value}} es <strong>obligatorio</strong>
+              *ngIf="getControls(properties.get('f-c-nombre').control).errors!= null && getControls(properties.get('f-c-nombre').control).errors.required">
+              {{properties.get('f-c-nombre').value}} es <strong>obligatorio</strong>
             </mat-error>
             <mat-error
-              *ngIf="getControls('nombre').errors!= null && getControls('nombre').errors.pattern">
+              *ngIf="getControls(properties.get('f-c-nombre').control).errors!= null && getControls(properties.get('f-c-nombre').control).errors.pattern">
               Solamente <strong>letras</strong>
             </mat-error>
           </mat-form-field>
