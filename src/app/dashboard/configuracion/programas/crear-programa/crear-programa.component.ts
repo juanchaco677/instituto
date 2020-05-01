@@ -1,3 +1,6 @@
+import { PropertiesPrograma } from './../../../../properties/properties-programa';
+import { MenuService } from './../../../../service/menu.service';
+import { CrearBaseComponent } from './../../../../modelo/crear-base-component';
 import { Util } from './../../../../utils/util';
 import { Validacion } from './../../../../utils/validacion';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +15,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './crear-programa.component.html',
   styleUrls: ['./crear-programa.component.css']
 })
-export class CrearProgramaComponent implements OnInit {
+export class CrearProgramaComponent  extends CrearBaseComponent  implements OnInit {
 
   crear;
   programa: Programa;
@@ -21,25 +24,24 @@ export class CrearProgramaComponent implements OnInit {
   actCrear: boolean;
 
   constructor(
-    private snackBar: MatSnackBar,
+    public properties: PropertiesPrograma,
+    public snackBar: MatSnackBar,
     private formBuilder: FormBuilder,
-    private programaService: ProgramaService,
-    private route: ActivatedRoute
+    public programaService: ProgramaService,
+    public route: ActivatedRoute,
+    private menuService: MenuService,
   ) {
+    super(route , programaService, snackBar);
+
+    this.menuService.add$(properties.get('m-t-plan').value);
 
     this.programa = new Programa();
-    this.route.paramMap.subscribe(params => {
-      this.programa.id = +params.get('id');
-    });
+
+    this.programa = !Util.empty(this.data) ? this.data : this.programa;
 
     this.crear = this.formBuilder.group({
       nombre: Validacion.getCampoLetras(true),
     });
-
-    if (!Util.emptyNaN(this.programa.id)) {
-      this.actCrear = true;
-      this.programa = this.programaService.buscarElementList$(this.programa);
-    }
 
   }
 
@@ -47,42 +49,8 @@ export class CrearProgramaComponent implements OnInit {
 
   }
 
-  getControls(key: string) {
-
-    return this.crear.controls[key];
-  }
 
   onSubmit() {
-
-    if (this.crear.invalid) {
-      return;
-    }
-    this.activar = true;
-    this.programaService.store({ programa: this.programa }, 'programa/store').subscribe(
-      data => {
-        if (data['success']) {
-
-          Util.openSnackBar(this.snackBar, 'Exito, Creación de programa.', 1, 'bottom');
-          if (!this.actCrear) {
-            if (!Util.empty(this.programaService.listPagination$)) {
-              if (this.programaService.size$() < 5) {
-                this.programaService.addElementList$(data['programa']);
-              } else {
-                this.programaService.listPagination$ = null;
-              }
-            }
-            this.crear.reset();
-          }
-        } else {
-          Util.openSnackBar(this.snackBar, 'Advertencia, Contacte con el administrador del sitio.', 2, 'bottom');
-        }
-        this.activar = false;
-
-      }, error => {
-        this.errors = error.error;
-        Util.openSnackBar(this.snackBar, 'Error, Almacenando la información del programa.', 3, 'top');
-        this.activar = false;
-      }
-    );
+    this.onSubmit$('programa' , this.programa);
   }
 }

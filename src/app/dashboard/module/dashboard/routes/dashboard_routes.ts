@@ -1,3 +1,7 @@
+import { ActualizarPlanComponent } from './../../../configuracion/plan/actualizar-plan/actualizar-plan.component';
+import { CrearPlanComponent } from './../../../configuracion/plan/crear-plan/crear-plan.component';
+import { EliminarPlanComponent } from './../../../configuracion/plan/eliminar-plan/eliminar-plan.component';
+import { PlantillaPlanComponent } from './../../../configuracion/plan/plantilla-plan/plantilla-plan.component';
 import { PlantillaProgramaComponent } from './../../../configuracion/programas/plantilla-programa/plantilla-programa.component';
 import { EliminarProgramaComponent } from './../../../configuracion/programas/eliminar-programa/eliminar-programa.component';
 import { ActualizarProgramaComponent } from './../../../configuracion/programas/actualizar-programa/actualizar-programa.component';
@@ -185,6 +189,28 @@ export const routes = [
           {
             path: 'actualizar-programa/:id',
             component: CrearProgramaComponent
+          }
+        ]
+      },
+      {
+        path: 'dashboard/configuracion/plan',
+        component: PlantillaPlanComponent,
+        children: [
+          {
+            path: 'eliminar-plan',
+            component: EliminarPlanComponent
+          },
+          {
+            path: 'crear-plan',
+            component: CrearPlanComponent
+          },
+          {
+            path: 'actualizar-plan',
+            component: ActualizarPlanComponent,
+          },
+          {
+            path: 'actualizar-plan/:id',
+            component: CrearPlanComponent
           }
         ]
       },

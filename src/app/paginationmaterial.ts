@@ -7,7 +7,7 @@ export class PaginationMaterial {
     public length: number,
     public pageSize: number,
     public pageSizeOptions: number[],
-    public page?:number
+    public page?: number
   ) {
 
   }

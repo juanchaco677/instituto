@@ -1,3 +1,4 @@
+import { PropertiesPrograma } from './../../../../properties/properties-programa';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,10 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./plantilla-programa.component.css']
 })
 export class PlantillaProgramaComponent implements OnInit {
+  constructor(public properties: PropertiesPrograma) {
 
-  constructor() { }
-
-  ngOnInit(): void {
   }
 
+ ngOnInit(): void {
+ }
 }

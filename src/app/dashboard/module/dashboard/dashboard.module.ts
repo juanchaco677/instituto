@@ -1,3 +1,4 @@
+import { PlanService } from './../../../service/dashboard/plan.service';
 import { ProgramaService } from './../../../service/dashboard/programa.service';
 import { LineaMateriaService } from './../../../service/dashboard/linea-materia.service';
 import { EliminarLineaMateriasComponent } from './../../configuracion/materias/lineas/eliminar-linea-materias/eliminar-linea-materias.component';
@@ -11,7 +12,6 @@ import { UsuarioService } from '../../../service/dashboard/usuario.service';
 import { DashboardRoutingModule } from './dashboard-routing/dashboard-routing.module';
 import { PlantillaComponent } from '../../usuario/estudiantes-profesores/plantilla/plantilla.component';
 import { HttpClientModule } from '@angular/common/http';
-import { PaginationComponent } from '../../../pagination/pagination.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { MaterialModule } from '../material/material.module';
 import { BtnUploadOneFileComponent } from 'src/app/btn-upload-one-file/btn-upload-one-file.component';
@@ -59,6 +59,14 @@ import { CrearProgramaComponent } from '../../configuracion/programas/crear-prog
 import { EliminarProgramaComponent } from '../../configuracion/programas/eliminar-programa/eliminar-programa.component';
 import { ActualizarProgramaComponent } from '../../configuracion/programas/actualizar-programa/actualizar-programa.component';
 import { PlantillaProgramaComponent } from '../../configuracion/programas/plantilla-programa/plantilla-programa.component';
+import { CrearPlanComponent } from '../../configuracion/plan/crear-plan/crear-plan.component';
+import { ActualizarPlanComponent } from '../../configuracion/plan/actualizar-plan/actualizar-plan.component';
+import { EliminarPlanComponent } from '../../configuracion/plan/eliminar-plan/eliminar-plan.component';
+import { PlantillaPlanComponent } from '../../configuracion/plan/plantilla-plan/plantilla-plan.component';
+import { PlantillaCRUDComponent } from '../../pantallas-base/plantilla-crud/plantilla-crud.component';
+import { PropertiesPrograma } from 'src/app/properties/properties-programa';
+import { PropertiesPlan } from 'src/app/properties/properties-plan';
+
 
 @NgModule({
   imports: [
@@ -91,7 +99,6 @@ import { PlantillaProgramaComponent } from '../../configuracion/programas/planti
     PlantillaConfiguracionComponent,
     LogoComponent,
     PlantillaComponent,
-    PaginationComponent,
     BtnUploadOneFileComponent,
     GoogleMapsComponent,
     BootstrapAlertsComponent,
@@ -118,7 +125,12 @@ import { PlantillaProgramaComponent } from '../../configuracion/programas/planti
     CrearProgramaComponent,
     EliminarProgramaComponent,
     ActualizarProgramaComponent,
-    PlantillaProgramaComponent
+    PlantillaProgramaComponent,
+    CrearPlanComponent,
+    ActualizarPlanComponent,
+    EliminarPlanComponent,
+    PlantillaPlanComponent,
+    PlantillaCRUDComponent
   ],
   exports: [
   ],
@@ -133,7 +145,10 @@ import { PlantillaProgramaComponent } from '../../configuracion/programas/planti
     MateriaService,
     MenuService,
     LineaMateriaService,
-    ProgramaService
+    ProgramaService,
+    PropertiesPrograma,
+    PlanService,
+    PropertiesPlan
   ]
 })
 export class DashboardModule { }
