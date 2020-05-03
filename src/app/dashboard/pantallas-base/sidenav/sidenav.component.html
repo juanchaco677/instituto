@@ -5,7 +5,7 @@
       <button mat-icon-button (click)="snav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
-      <img style="cursor: pointer;" [routerLink]="['/administrator']" *ngIf="confLogo.value"
+      <img (click)="addMenuOpcion('Noticias')"  style="cursor: pointer;" [routerLink]="['/administrator']" *ngIf="confLogo.value"
       class="img-fluid" width="60" height="60"
       src="{{confLogo.value}}"
       alt="Logo" />
@@ -14,7 +14,7 @@
       <app-navbar></app-navbar>
     </mat-toolbar-row>
     <mat-toolbar-row>
-      <h1 class="display-1"> {{menuOpcion}} </h1>
+      <h1  class="display-1"> {{menuOpcion}} </h1>
 
     </mat-toolbar-row>
   </mat-toolbar>

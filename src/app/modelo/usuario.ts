@@ -1,3 +1,4 @@
+import { Rol } from './rol';
 import { Localizacion } from './localizacion';
 
 export class Usuario {
@@ -20,7 +21,9 @@ export class Usuario {
     public created_at?: string,
     public updated_at?: string,
     public token?: string,
-    public localizacion?: Localizacion
+    public localizacion?: Localizacion,
+    public rol?: Rol,
+    public roles?: Rol[]
   ) {
 
   }

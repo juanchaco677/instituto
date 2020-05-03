@@ -1,3 +1,4 @@
+import { RolUsuario } from './../modelo/rol-usuario';
 import { Usuario } from '../modelo/usuario';
 export class Sesion {
   /**
@@ -6,8 +7,14 @@ export class Sesion {
   static setUser(usuario: Usuario) {
     sessionStorage.setItem('usuario', JSON.stringify(usuario));
   }
+  static setRolUser(rolUsuario: RolUsuario) {
+    sessionStorage.setItem('rolUsuario', JSON.stringify(rolUsuario));
+  }
   static getSesionStorage(): any {
     return JSON.parse(sessionStorage.getItem('usuario'));
+  }
+  static getSesionStorageRolUser(): any {
+    return JSON.parse(sessionStorage.getItem('rolUsuario'));
   }
   static getSesionStorageEmail(): any {
     return JSON.parse(sessionStorage.getItem('email'));
@@ -40,11 +47,16 @@ export class Sesion {
   static user(): Usuario {
     return Sesion.getSesionStorage() as Usuario;
   }
+
+  static rolUser(): Usuario {
+    return Sesion.getSesionStorageRolUser() as RolUsuario;
+  }
   /**
    * eliminar usuario
    */
   static delete() {
     sessionStorage.removeItem('usuario');
+    sessionStorage.removeItem('rolUsuario');
   }
   /**
    * eliminar todos los elementos

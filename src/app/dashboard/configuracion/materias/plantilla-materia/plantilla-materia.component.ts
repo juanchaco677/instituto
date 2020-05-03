@@ -1,3 +1,4 @@
+import { PropertiesMateria } from './../../../../properties/properties-materias';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PlantillaMateriaComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public properties: PropertiesMateria,
+  ) { }
 
   ngOnInit(): void {
   }

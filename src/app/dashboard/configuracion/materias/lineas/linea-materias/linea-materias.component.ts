@@ -1,3 +1,6 @@
+import { MenuService } from './../../../../../service/menu.service';
+import { PropertiesMateriaLinea } from './../../../../../properties/properties-materias-linea';
+import { CrearBaseComponent } from './../../../../../modelo/crear-base-component';
 import { LineaMateria } from './../../../../../modelo/linea-materia';
 import { Materia } from './../../../../../modelo/materia';
 import { Util } from './../../../../../utils/util';
@@ -15,27 +18,27 @@ import { Component, OnInit, ViewChild } from '@angular/core';
   templateUrl: './linea-materias.component.html',
   styleUrls: ['./linea-materias.component.css']
 })
-export class LineaMateriasComponent implements OnInit {
-  crearEscuelaUsuario;
-  activar: boolean;
+export class LineaMateriasComponent extends CrearBaseComponent implements OnInit {
   lineaMateria: LineaMateria;
-  materiaOrigen: Materia;
-  materia: Materia;
-  errors: [];
-  actCrear = false;
-  @ViewChild(ActualizarMateriasComponent) actualizarMateriasComponent: ActualizarMateriasComponent;
-  constructor(
-    private snackBar: MatSnackBar,
-    private formBuilder: FormBuilder,
-    public dialog: MatDialog,
-    public lineaMateriaService: LineaMateriaService,
-    private route: ActivatedRoute
-  ) {
-    this.materiaOrigen = new Materia();
-    this.materia = new Materia();
-    this.lineaMateria = new LineaMateria();
 
-    this.crearEscuelaUsuario = this.formBuilder.group({
+  constructor(
+    public dialog: MatDialog,
+    public properties: PropertiesMateriaLinea,
+    public snackBar: MatSnackBar,
+    private formBuilder: FormBuilder,
+    public lineaMateriaService: LineaMateriaService,
+    public route: ActivatedRoute,
+    private menuService: MenuService,
+  ) {
+    super(route , lineaMateriaService, snackBar);
+
+    this.menuService.add$(properties.get('menu-titulo-materia-linea').value);
+
+    this.lineaMateria = new LineaMateria(new Materia() , new Materia());
+
+    this.lineaMateria = !Util.empty(this.data) ? this.data : this.lineaMateria;
+
+    this.crear = this.formBuilder.group({
       materiaOrigen: Validacion.getCampoLetras(true),
       materia: Validacion.getCampoLetras(true),
     });
@@ -43,41 +46,14 @@ export class LineaMateriasComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
   }
+
 
   onSubmit() {
-    if (this.crearEscuelaUsuario.invalid) {
-      return;
-    }
-    this.lineaMateria.materia_origen = this.materiaOrigen;
-    this.lineaMateria.materia = this.materia;
-    this.activar = true;
-    this.lineaMateriaService.store({ linea_asginatura: this.lineaMateria }, 'linea-asignatura/store').subscribe(
-      data => {
-        if (data['success']) {
-
-          Util.openSnackBar(this.snackBar, 'Exito, Creación de registro Linea Asignatura.', 1, 'bottom');
-          if (!this.actCrear) {
-            if (!Util.empty(this.lineaMateriaService.listPagination$)) {
-              if (this.lineaMateriaService.size$() < 5) {
-                this.lineaMateriaService.addElementList$(data['linea-asignatura']);
-              } else {
-                this.lineaMateriaService.listPagination$ = null;
-              }
-            }
-            this.crearEscuelaUsuario.reset();
-          }
-        } else {
-          Util.openSnackBar(this.snackBar, 'Advertencia, Contacte con el administrador del sitio.', 2, 'bottom');
-        }
-        this.activar = false;
-      }, error => {
-        this.errors = error.error;
-        Util.openSnackBar(this.snackBar, error.error.error, 3, 'top');
-        this.activar = false;
-      }
-    );
+    this.onSubmit$(this.properties.get('route-materia-linea').value, this.lineaMateria);
   }
+
 
   openDialogMateriaOrigen(): void {
     const dialogRef = this.dialog.open(ActualizarMateriasComponent, {
@@ -85,13 +61,14 @@ export class LineaMateriasComponent implements OnInit {
     });
     dialogRef.componentInstance.combobox = true;
     dialogRef.componentInstance.out.subscribe((element) => {
-      this.materiaOrigen = new Materia(
+      const materiaOrigen = new Materia(
         element.id,
         element.nombre,
         element.credito,
         element.created,
         element.updated
       );
+      this.lineaMateria.materia_origen = materiaOrigen;
       dialogRef.close();
     });
   }
@@ -102,18 +79,33 @@ export class LineaMateriasComponent implements OnInit {
     });
     dialogRef.componentInstance.combobox = true;
     dialogRef.componentInstance.out.subscribe((element) => {
-      this.materia = new Materia(
+      const materia = new Materia(
         element.id,
         element.nombre,
         element.credito,
         element.created_at,
         element.updated_at
       );
+      this.lineaMateria.materia = materia;
       dialogRef.close();
     });
   }
 
-  getControls(key: string) {
-    return this.crearEscuelaUsuario.controls[key];
-  }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

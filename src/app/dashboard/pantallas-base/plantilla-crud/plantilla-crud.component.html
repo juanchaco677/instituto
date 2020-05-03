@@ -1,5 +1,5 @@
 
-  <mat-card class="example-card" style="cursor:pointer;" [routerLink]="[ruta]">
+  <mat-card class="example-card" style="cursor:pointer;" [routerLink]="parameter?[ruta,parameter]:[ruta]">
     <mat-card-header>
       <mat-card-title>{{titulo}}</mat-card-title>
       <mat-card-subtitle>{{subtitulo}}</mat-card-subtitle>

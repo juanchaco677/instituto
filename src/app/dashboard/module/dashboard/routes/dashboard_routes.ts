@@ -1,3 +1,4 @@
+import { CanActivateChild } from '@angular/router';
 import { ActualizarPlanComponent } from './../../../configuracion/plan/actualizar-plan/actualizar-plan.component';
 import { CrearPlanComponent } from './../../../configuracion/plan/crear-plan/crear-plan.component';
 import { EliminarPlanComponent } from './../../../configuracion/plan/eliminar-plan/eliminar-plan.component';
@@ -38,7 +39,11 @@ export const routes = [
   {
     path: 'administrator',
     canActivate: [AuthGuard],
+    data: {
+      rol: ['AD' , 'SE']
+    },
     component: SidenavComponent,
+    canActivateChild: [AuthGuard],
     children: [
       {
         path: 'dashboard/perfil-usuario/:tipo',
@@ -95,6 +100,9 @@ export const routes = [
         component: PlantillaSedeComponent,
         children: [
           {
+            data: {
+              rol: ['AD']
+            },
             path: 'eliminar-sede',
             component: EliminarSedeComponent
           },

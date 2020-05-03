@@ -1,3 +1,4 @@
+import { PropertiesLoginDashboard } from './../../properties/properties-login-dashboard';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Usuario } from '../../modelo/usuario';
@@ -20,6 +21,7 @@ export class LoginComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
 
   constructor(
+    public properties: PropertiesLoginDashboard,
     private snackBar: MatSnackBar,
     private usuarioService: UsuarioService,
     private formBuilder: FormBuilder,
@@ -29,6 +31,7 @@ export class LoginComponent implements OnInit {
     this.login = this.formBuilder.group({
       email: Validacion.getCampoEmail(true),
       password: Validacion.getPassword(true, 2, 3),
+      tipo: Validacion.getCampoLetras(true)
     });
   }
 
@@ -46,7 +49,7 @@ export class LoginComponent implements OnInit {
     }
     this.activar = true;
     this.usuarioService
-      .login({ email: this.usuario.email, password: this.usuario.password })
+      .login({ email: this.usuario.email, password: this.usuario.password, tipo: this.usuario.tipo })
       .subscribe(
         data => {
           const usuario = data['usuario'];

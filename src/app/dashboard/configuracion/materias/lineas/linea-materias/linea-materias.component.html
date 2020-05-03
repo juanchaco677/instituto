@@ -2,38 +2,38 @@
 <div class="d-flex justify-content-center">
   <div class="row">
     <div class="col-md-12">
-      <form [formGroup]="crearEscuelaUsuario" (ngSubmit)="onSubmit()"  novalidate>
+      <form [formGroup]="crear" (ngSubmit)="onSubmit()"  novalidate>
 
       <mat-card class="example-card">
 
         <mat-card-content>
-          <mat-card-title>Linea Asignatura</mat-card-title>
+          <mat-card-title>{{properties.get('titulo-materia-linea').value}}</mat-card-title>
            <div class="col-md-12 ">
             <mat-form-field appearance="legacy" class="form-campo">
-              <mat-label>Asignatura Padre</mat-label>
-              <input matInput [readonly]="true"  [formControl]="getControls('materiaOrigen')" placeholder="sede" [(ngModel)]="materiaOrigen.nombre">
+              <mat-label>{{properties.get('mat-form-field-materia-origen').value}}</mat-label>
+              <input matInput [readonly]="true"  [formControl]="getControls(properties.get('mat-form-field-materia-origen').control)" placeholder="{{properties.get('mat-form-field-materia-origen').placeholder}}" [(ngModel)]="lineaMateria.materia_origen.nombre">
               <mat-icon matSuffix style="cursor:pointer"   (click)="openDialogMateriaOrigen()">table_chart</mat-icon>
               <mat-error
-              *ngIf="getControls('materiaOrigen').errors!= null && getControls('materiaOrigen').errors.required">
-              Materia Padre es <strong>obligatorio</strong>
+              *ngIf="getControls(properties.get('mat-form-field-materia-origen').control).errors!= null && getControls(properties.get('mat-form-field-materia-origen').control).errors.required">
+              {{properties.get('mat-form-field-materia-origen').error}} es <strong>obligatorio</strong>
             </mat-error>
             <mat-error
-              *ngIf="getControls('materiaOrigen').errors!= null && getControls('materiaOrigen').errors.pattern">
+              *ngIf="getControls(properties.get('mat-form-field-materia-origen').control).errors!= null && getControls(properties.get('mat-form-field-materia-origen').control).errors.pattern">
               Solamente <strong>letras</strong>
             </mat-error>
             </mat-form-field>
           </div>
           <div class="col-md-12">
             <mat-form-field appearance="legacy" class="form-campo">
-              <mat-label>Asignatura</mat-label>
-              <input matInput [readonly]="true"  [formControl]="getControls('materia')" placeholder="sede" [(ngModel)]="materia.nombre">
+              <mat-label>{{properties.get('mat-form-field-materia').value}}</mat-label>
+              <input matInput [readonly]="true"  [formControl]="getControls(properties.get('mat-form-field-materia').control)" placeholder="{{properties.get('mat-form-field-materia').placeholder}}" [(ngModel)]="lineaMateria.materia.nombre">
               <mat-icon matSuffix style="cursor:pointer"   (click)="openDialogMateria()">table_chart</mat-icon>
               <mat-error
-              *ngIf="getControls('materia').errors!= null && getControls('materia').errors.required">
-              Asignatura es <strong>obligatorio</strong>
+              *ngIf="getControls(properties.get('mat-form-field-materia').control).errors!= null && getControls(properties.get('mat-form-field-materia').control).errors.required">
+              {{properties.get('mat-form-field-materia').error}} es <strong>obligatorio</strong>
             </mat-error>
             <mat-error
-              *ngIf="getControls('materia').errors!= null && getControls('materia').errors.pattern">
+              *ngIf="getControls(properties.get('mat-form-field-materia').control).errors!= null && getControls(properties.get('mat-form-field-materia').control).errors.pattern">
               Solamente <strong>letras</strong>
             </mat-error>
             </mat-form-field>

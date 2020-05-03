@@ -40,7 +40,6 @@ export class UsuarioService extends OperacionBD {
 
   logout(): Observable<any> {
 
-    this.logoutAuthUser$();
     return this.http
       .post<any>(
         Util.apiUrl + 'auth/logout',

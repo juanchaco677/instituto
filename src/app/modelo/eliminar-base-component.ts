@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AnyPagination } from './anyPagination';
 import { Util } from './../utils/util';
@@ -14,7 +15,7 @@ export class EliminarBaseComponent {
   datas: any[] = [];
   isLoadingResults = true;
   dataSource: MatTableDataSource<any>;
-  displayedColumns: string[] ;
+  displayedColumns: string[];
   selection = new SelectionModel<any>(true, []);
   searchValue: string;
   activar: boolean;
@@ -23,8 +24,14 @@ export class EliminarBaseComponent {
   constructor(
     public snackBar: MatSnackBar,
     public service: OperacionBD,
-    public key: string
-  ){
+    public routeBD: string,
+    public route?: ActivatedRoute,
+  ) {
+    if (!Util.empty(route)) {
+      this.route.paramMap.subscribe(params => {
+        this.tipo = !Util.empty(params.get('tipo')) ? params.get('tipo').toUpperCase() : null;
+      });
+    }
 
     if (Util.empty(this.service.listPagination$)) {
       this.consultarDatos(0, this.searchValue);
@@ -34,7 +41,7 @@ export class EliminarBaseComponent {
   }
 
   consultarDatos(page: number, searchValue: string) {
-    this.service.getAll(this.key + '/get-all-pagination', page, searchValue, null).subscribe(data => {
+    this.service.getAll(this.routeBD + '/get-all-pagination', page, searchValue, this.tipo).subscribe(data => {
 
       this.datas = data['data'].data;
       this.dataSource = new MatTableDataSource<any>(this.datas);
@@ -64,7 +71,7 @@ export class EliminarBaseComponent {
 
   removeSelectedRows() {
     this.activar = true;
-    this.service.delete({ datas: this.selection.selected }, this.key + '/delete').subscribe(data => {
+    this.service.delete({ datas: this.selection.selected }, this.routeBD + '/delete').subscribe(data => {
       if (data['success']) {
         if (this.service.size$() <= 1) {
           this.consultarDatos(
@@ -80,7 +87,11 @@ export class EliminarBaseComponent {
         Util.openSnackBar(this.snackBar, 'Eliminación exitosa.', 1, 'bottom');
       }
       this.activar = false;
-    });
+    },
+      error => {
+        Util.openSnackBar(this.snackBar, error.error.error, 3, 'top');
+        this.activar = false;
+      });
   }
 
 

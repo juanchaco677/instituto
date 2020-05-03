@@ -42,6 +42,7 @@ export class NavbarComponent implements OnInit {
       if (error) {
         Sesion.delete();
         this.router.navigate(['/cerrar-sesion']);
+        this.usuarioService.logoutAuthUser$();
       }
     });
   }

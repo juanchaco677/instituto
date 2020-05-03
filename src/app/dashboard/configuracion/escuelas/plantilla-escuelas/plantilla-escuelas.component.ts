@@ -1,3 +1,4 @@
+import { PropertiesEscuela } from './../../../../properties/properties-escuelas';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,7 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PlantillaEscuelasComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public properties: PropertiesEscuela,
+
+  ) { }
 
   ngOnInit(): void {
   }

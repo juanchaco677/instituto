@@ -1,33 +1,14 @@
 <div class="row mb-5">
-  <div class="col-lg-3 col-md-6 col-sm-6">
-    <mat-card class="example-card" style="cursor:pointer;" [routerLink]="['crear-asignatura']">
-      <mat-card-header>
-        <div mat-card-avatar ><i class="fas fa-building"></i></div>
-        <mat-card-title>Crear</mat-card-title>
-        <mat-card-subtitle>665</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <p>
-          Tener en cuenta
-        </p>
-      </mat-card-content>
-    </mat-card>
-  </div>
 
-  <div class="col-lg-3 col-md-6 col-sm-6">
-    <mat-card class="example-card" style="cursor:pointer;" [routerLink]="['eliminar-asignatura']">
-      <mat-card-header>
-        <div mat-card-avatar ><i class="fas fa-trash-alt"></i></div>
-        <mat-card-title>Eliminar</mat-card-title>
-        <mat-card-subtitle>4554</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <p>
-          Tener en cuenta
-        </p>
-      </mat-card-content>
-    </mat-card>
-  </div>
+  <app-plantilla-crud class="col-lg-3 col-md-6 col-sm-6" [titulo]="properties.get('r-c-linea-asignatura').titulo"
+    [subtitulo]="properties.get('r-c-linea-asignatura').subtitulo" [descripcion]="properties.get('r-c-linea-asignatura').descripcion"
+    [ruta]="properties.get('r-c-linea-asignatura').route">
+  </app-plantilla-crud>
+  <app-plantilla-crud class="col-lg-3 col-md-6 col-sm-6" [titulo]="properties.get('r-e-linea-asignatura').titulo"
+    [subtitulo]="properties.get('r-e-linea-asignatura').subtitulo" [descripcion]="properties.get('r-e-linea-asignatura').descripcion"
+    [ruta]="properties.get('r-e-linea-asignatura').route">
+  </app-plantilla-crud>
+
 </div>
 
-<router-outlet ></router-outlet>
+<router-outlet></router-outlet>

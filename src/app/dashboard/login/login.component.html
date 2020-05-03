@@ -1,16 +1,17 @@
 <app-loading [activar]="activar"></app-loading>
 <section class="login-block">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-4 login-sec">
-				<h2 class="text-center">Iniciar Sesión</h2>
-				<form [formGroup]="login" (ngSubmit)="onSubmit()" novalidate=''>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 login-sec">
+        <h2 class="text-center">{{properties.get('titulo').value}}</h2>
+        <form [formGroup]="login" (ngSubmit)="onSubmit()" novalidate=''>
 
           <mat-form-field class="form-campo">
-            <mat-label class="text-secondary">Correo</mat-label>
-            <input class="text-secondary" matInput [formControl]="getControls('email')"[(ngModel)]="usuario.email" [errorStateMatcher]="matcher"
-                   placeholder="Ex. pat@example.com">
-            <mat-error *ngIf="getControls('email').errors!= null && getControls('email').errors.email && !getControls('email').errors.required">
+            <mat-label class="text-secondary">Correo Electrónico</mat-label>
+            <input class="text-secondary" matInput [formControl]="getControls('email')" [(ngModel)]="usuario.email"
+              [errorStateMatcher]="matcher" placeholder="ej: pat@example.com">
+            <mat-error
+              *ngIf="getControls('email').errors!= null && getControls('email').errors.email && !getControls('email').errors.required">
               Por favor, ingrese un correo válido
             </mat-error>
             <mat-error *ngIf="getControls('email').errors!=null && getControls('email').errors.required">
@@ -19,69 +20,86 @@
           </mat-form-field>
 
           <mat-form-field class="form-campo">
-            <mat-label class=" text-secondary">Contraseña</mat-label>
-            <input class="text-secondary" type="password"  matInput [formControl]="getControls('password')" [(ngModel)]="usuario.password" [errorStateMatcher]="matcher"
-                   placeholder="Digite una contraseña">
-            <mat-error *ngIf="getControls('password').errors!= null  && getControls('password').errors.required">
-              Contraseña es <strong>obligatorio</strong>
+            <mat-label class=" text-secondary">{{properties.get('mat-form-field-contraseña').value}}</mat-label>
+            <input class="text-secondary" type="password" matInput [formControl]="getControls(properties.get('mat-form-field-contraseña').control)"
+              [(ngModel)]="usuario.password" [errorStateMatcher]="matcher" placeholder="ej: carlos1234567*.">
+            <mat-error *ngIf="getControls(properties.get('mat-form-field-contraseña').control).errors!= null  && getControls(properties.get('mat-form-field-contraseña').control).errors.required">
+              {{properties.get('mat-form-field-contraseña').error}} es <strong>obligatorio</strong>
             </mat-error>
-            <mat-error *ngIf="getControls('password').errors!= null && getControls('password').errors.minlength">
+            <mat-error *ngIf="getControls(properties.get('mat-form-field-contraseña').control).errors!= null && getControls(properties.get('mat-form-field-contraseña').control).errors.minlength">
               minimo 2 <strong>numeros</strong>
             </mat-error>
-            <mat-error *ngIf="getControls('password').errors!= null && getControls('password').errors.maxlength">
+            <mat-error *ngIf="getControls(properties.get('mat-form-field-contraseña').control).errors!= null && getControls(properties.get('mat-form-field-contraseña').control).errors.maxlength">
               maximo 3 <strong>numeros</strong>
             </mat-error>
           </mat-form-field>
 
-					<button type="submit"  class="btn btn-primary btn-block text-capitalize mt-4">Iniciar Sesión</button>
-				</form>
+          <mat-form-field class="form-campo">
+            <mat-label>{{properties.get('mat-form-field-rol').value}}</mat-label>
+            <mat-select [formControl]="getControls(properties.get('mat-form-field-rol').control)" [(ngModel)]="usuario.tipo">
+              <mat-option value="AD">
+                Administrador
+              </mat-option>
+              <mat-option value="SE">
+                Secretaria(o)
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="getControls(properties.get('mat-form-field-rol').control).errors!= null  && getControls(properties.get('mat-form-field-rol').control).errors.required">
+              El {{properties.get('mat-form-field-rol').error}} es <strong>obligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+          <button type="submit" class="btn-block" mat-raised-button color="accent">Iniciar Sesión</button>
+        </form>
 
-			</div>
-			<div class="col-md-8 banner-sec">
-				<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-					<ol class="carousel-indicators">
-						<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-						<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-						<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-					</ol>
-					<div class="carousel-inner" role="listbox">
-						<div class="carousel-item active">
-							<img class="d-block img-fluid" src="https://static.pexels.com/photos/33972/pexels-photo.jpg" alt="First slide">
-							<div class="carousel-caption d-none d-md-block">
-								<div class="banner-text">
-									<h2>This is Heaven</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-										incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-										nostrud exercitation</p>
-								</div>
-							</div>
-						</div>
-						<div class="carousel-item">
-							<img class="d-block img-fluid" src="https://images.pexels.com/photos/7097/people-coffee-tea-meeting.jpg" alt="First slide">
-							<div class="carousel-caption d-none d-md-block">
-								<div class="banner-text">
-									<h2>This is Heaven</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-										incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-										nostrud exercitation</p>
-								</div>
-							</div>
-						</div>
-						<div class="carousel-item">
-							<img class="d-block img-fluid" src="https://images.pexels.com/photos/872957/pexels-photo-872957.jpeg" alt="First slide">
-							<div class="carousel-caption d-none d-md-block">
-								<div class="banner-text">
-									<h2>This is Heaven</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-										incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-										nostrud exercitation</p>
-								</div>
-							</div>
-						</div>
-					</div>
+      </div>
+      <div class="col-md-8 banner-sec">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+          </ol>
+          <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active">
+              <img class="d-block img-fluid" src="https://static.pexels.com/photos/33972/pexels-photo.jpg"
+                alt="First slide">
+              <div class="carousel-caption d-none d-md-block">
+                <div class="banner-text">
+                  <h2>This is Heaven</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                    nostrud exercitation</p>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img class="d-block img-fluid" src="https://images.pexels.com/photos/7097/people-coffee-tea-meeting.jpg"
+                alt="First slide">
+              <div class="carousel-caption d-none d-md-block">
+                <div class="banner-text">
+                  <h2>This is Heaven</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                    nostrud exercitation</p>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img class="d-block img-fluid" src="https://images.pexels.com/photos/872957/pexels-photo-872957.jpeg"
+                alt="First slide">
+              <div class="carousel-caption d-none d-md-block">
+                <div class="banner-text">
+                  <h2>This is Heaven</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                    nostrud exercitation</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-				</div>
-			</div>
-		</div>
-	</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>

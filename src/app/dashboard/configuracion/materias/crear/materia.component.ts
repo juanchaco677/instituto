@@ -1,3 +1,6 @@
+import { MenuService } from './../../../../service/menu.service';
+import { PropertiesMateria } from './../../../../properties/properties-materias';
+import { CrearBaseComponent } from './../../../../modelo/crear-base-component';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validacion } from 'src/app/utils/validacion';
@@ -12,33 +15,29 @@ import { MateriaService } from 'src/app/service/dashboard/materia.service';
   templateUrl: './materia.component.html',
   styleUrls: ['./materia.component.css']
 })
-export class MateriaComponent implements OnInit {
-  crearMateria: FormGroup;
+export class MateriaComponent extends CrearBaseComponent implements OnInit {
   materia: Materia;
-  activar: boolean;
-  errors: any;
-  actCrear: boolean;
 
   constructor(
-    private snackBar: MatSnackBar,
+    public properties: PropertiesMateria,
+    public snackBar: MatSnackBar,
     private formBuilder: FormBuilder,
-    private materiaService: MateriaService,
-    private route: ActivatedRoute
+    public service: MateriaService,
+    public route: ActivatedRoute,
+    private menuService: MenuService,
   ) {
+    super(route , service, snackBar);
+
+    this.menuService.add$(properties.get('menu-titulo-materia-linea').value);
 
     this.materia = new Materia();
-    this.route.paramMap.subscribe(params => {
-      this.materia.id = +params.get('id');
-    });
 
-    this.crearMateria = this.formBuilder.group({
+    this.materia = !Util.empty(this.data) ? this.data : this.materia;
+
+    this.crear = this.formBuilder.group({
       nombre: Validacion.getCampoLetras(true),
-      credito: Validacion.getCampoNumero(true, 1 , 2),
+      credito: Validacion.getCampoNumero(true, 1, 2),
     });
-    if (!Util.emptyNaN(this.materia.id)) {
-      this.actCrear = true;
-      this.materia = this.materiaService.buscarElementList$(this.materia);
-    }
 
   }
 
@@ -46,45 +45,7 @@ export class MateriaComponent implements OnInit {
 
   }
 
-
-
-  getControls(key: string) {
-
-    return this.crearMateria.controls[key];
-  }
-
   onSubmit() {
-
-    if (this.crearMateria.invalid) {
-      return;
-    }
-
-    this.activar = true;
-    this.materiaService.store({ materia: this.materia }, 'materia/store').subscribe(
-      data => {
-        if (data['success']) {
-
-          Util.openSnackBar(this.snackBar, 'Exito, Creación de asignatura.', 1, 'bottom');
-          if (!this.actCrear) {
-            if (!Util.empty(this.materiaService.listPagination$)) {
-              if (this.materiaService.size$() < 5) {
-                this.materiaService.addElementList$(data['materia']);
-              } else {
-                this.materiaService.listPagination$ = null;
-              }
-            }
-            this.crearMateria.reset();
-          }
-        } else {
-          Util.openSnackBar(this.snackBar, 'Advertencia, Contacte con el administrador del sitio.', 2, 'bottom');
-        }
-        this.activar = false;
-
-      }, error => {
-        this.errors = error.error;
-        Util.openSnackBar(this.snackBar, 'Error, Almacenando la información de la asignatura.', 3, 'top');
-        this.activar = false;
-      }
-    );
+    this.onSubmit$(this.properties.get('route-materia').value, this.materia);
   }
 }

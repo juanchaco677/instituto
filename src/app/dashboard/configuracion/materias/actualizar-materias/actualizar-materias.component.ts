@@ -1,3 +1,6 @@
+import { MenuService } from './../../../../service/menu.service';
+import { PropertiesMateria } from 'src/app/properties/properties-materias';
+import { ActualizarBaseComponent } from './../../../../modelo/actualizar-base-component';
 import { MateriaService } from './../../../../service/dashboard/materia.service';
 import { Materia } from './../../../../modelo/materia';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
@@ -14,79 +17,22 @@ import { AnyPagination } from 'src/app/modelo/anyPagination';
   templateUrl: './actualizar-materias.component.html',
   styleUrls: ['./actualizar-materias.component.css']
 })
-export class ActualizarMateriasComponent implements OnInit {
-  @Output() out = new EventEmitter<Materia>();
-  paginationMaterial: PaginationMaterial;
-  materias: Materia[] = [];
-  dataSource: MatTableDataSource<Materia>;
-  displayedColumns: string[] = ['id', 'nombre', 'credito'];
-  searchValue: string;
-  activar: boolean;
-  selectedRowIndex = -1;
-  selection = new SelectionModel<Materia>(true, null);
-  tipo: string;
-  row: Materia;
-  combobox = false;
-  constructor(
-    private materiaService: MateriaService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {
+export class ActualizarMateriasComponent extends ActualizarBaseComponent implements OnInit {
 
-    if (Util.empty(this.materiaService.listPagination$)) {
-      this.consultarDatos(0, this.searchValue);
-    } else {
-      this.consultarDatosEnMemoria();
-    }
+  constructor(
+    public properties: PropertiesMateria,
+    public service: MateriaService,
+    public router: Router,
+    public route: ActivatedRoute,
+    private menuService: MenuService,
+  ) {
+    super(router , route , service , properties.get('route-materia').value , properties.get('r-a-asignatura').route);
+    this.displayedColumns = properties.get('table-actualizar-materia-col').value;
+    this.menuService.add$(properties.get('menu-materia').value);
+
   }
 
   ngOnInit() {
 
-  }
-
-
-  consultarDatos(page: number, searchValue: string) {
-    this.materiaService.getAll('materia/get-all-pagination', page, searchValue, null).subscribe(data => {
-
-      this.materias = data['materia'].data;
-      this.dataSource = new MatTableDataSource<Materia>(this.materias);
-      this.paginationMaterial = new PaginationMaterial(
-        data['materia'].total,
-        data['materia'].per_page,
-        [5, 10, 25, 100],
-        page - 1
-      );
-      this.materiaService.createList$(new AnyPagination(this.materias, this.paginationMaterial));
-    });
-  }
-
-  consultarDatosEnMemoria() {
-    this.materiaService.getList$().subscribe(
-      materiaPagination => {
-        this.materias = materiaPagination.array;
-        this.dataSource = new MatTableDataSource<Materia>(this.materias);
-        this.paginationMaterial = materiaPagination.pagination;
-      });
-  }
-
-  reciveMaterial(page) {
-    this.consultarDatos(page.pageIndex + 1, this.searchValue);
-  }
-  highlight(row) {
-    this.selectedRowIndex = row.id;
-  }
-
-  onSearchChange(searchValue: string): void {
-    this.searchValue = searchValue;
-    this.consultarDatos(1, searchValue);
-  }
-
-  selectRow(row?: Materia) {
-    this.row = row;
-    this.out.emit(row);
-    if (!this.combobox) {
-      this.selection.select(row);
-      this.router.navigate(['../actualizar-asignatura', row.id], { relativeTo: this.route });
-    }
   }
 }

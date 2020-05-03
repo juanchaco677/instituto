@@ -10,6 +10,7 @@ export class PlantillaCRUDComponent implements OnInit {
   @Input() subtitulo: string;
   @Input() descripcion: string;
   @Input() ruta: string;
+  @Input() parameter: string;
   constructor() { }
 
   ngOnInit(): void {

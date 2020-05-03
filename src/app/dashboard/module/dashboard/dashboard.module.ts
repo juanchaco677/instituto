@@ -1,3 +1,9 @@
+import { PropertiesLoginDashboard } from './../../../properties/properties-login-dashboard';
+import { PropertiesEscuelaUsuarios } from './../../../properties/properties-escuela-usuarios';
+import { PropertiesSede } from './../../../properties/properties-sede';
+import { PropertiesEscuela } from './../../../properties/properties-escuelas';
+import { PropertiesPrograma } from 'src/app/properties/properties-programa';
+import { PropertiesMateriaLinea } from './../../../properties/properties-materias-linea';
 import { PlanService } from './../../../service/dashboard/plan.service';
 import { ProgramaService } from './../../../service/dashboard/programa.service';
 import { LineaMateriaService } from './../../../service/dashboard/linea-materia.service';
@@ -64,8 +70,8 @@ import { ActualizarPlanComponent } from '../../configuracion/plan/actualizar-pla
 import { EliminarPlanComponent } from '../../configuracion/plan/eliminar-plan/eliminar-plan.component';
 import { PlantillaPlanComponent } from '../../configuracion/plan/plantilla-plan/plantilla-plan.component';
 import { PlantillaCRUDComponent } from '../../pantallas-base/plantilla-crud/plantilla-crud.component';
-import { PropertiesPrograma } from 'src/app/properties/properties-programa';
 import { PropertiesPlan } from 'src/app/properties/properties-plan';
+import { PropertiesMateria } from 'src/app/properties/properties-materias';
 
 
 @NgModule({
@@ -136,15 +142,21 @@ import { PropertiesPlan } from 'src/app/properties/properties-plan';
   ],
 
   providers: [
+    PropertiesLoginDashboard,
     AuthGuard,
     UsuarioService,
     SedeService,
+    PropertiesSede,
     EscuelaService,
     EscuelaUsuarioService,
+    PropertiesEscuelaUsuarios,
+    PropertiesEscuela,
     ConfiguracionService,
     MateriaService,
+    PropertiesMateria,
     MenuService,
     LineaMateriaService,
+    PropertiesMateriaLinea,
     ProgramaService,
     PropertiesPrograma,
     PlanService,

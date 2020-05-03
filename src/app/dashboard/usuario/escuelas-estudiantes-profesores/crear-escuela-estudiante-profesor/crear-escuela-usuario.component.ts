@@ -135,9 +135,9 @@ export class CrearEscuelaUsuarioComponent implements OnInit {
     dialogRef.componentInstance.combobox = true;
     dialogRef.componentInstance.out.subscribe((element) => {
       this.escuela = new Escuela(
+        element.sede,
         +element.id,
         element.nombre,
-        element.sede,
         element.created_at,
         element.updated_at);
       dialogRef.close();

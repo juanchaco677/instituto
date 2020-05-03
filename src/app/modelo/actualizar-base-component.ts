@@ -23,7 +23,8 @@ export class ActualizarBaseComponent {
     public router: Router,
     public route: ActivatedRoute,
     public service: OperacionBD,
-    public key: string
+    public routeBD: string,
+    public routeWeb: string
   ){
     if (Util.empty(this.service.listPagination$)) {
       this.consultarDatos(0, this.searchValue);
@@ -33,7 +34,7 @@ export class ActualizarBaseComponent {
   }
 
   consultarDatos(page: number, searchValue: string) {
-    this.service.getAll(this.key + '/get-all-pagination', page, searchValue, null).subscribe(data => {
+    this.service.getAll(this.routeBD + '/get-all-pagination', page, searchValue, null).subscribe(data => {
 
       this.datas = data['data'].data;
       this.dataSource = new MatTableDataSource<any>(this.datas);
@@ -74,7 +75,7 @@ export class ActualizarBaseComponent {
     this.out.emit(row);
     if (!this.combobox) {
       this.selection.select(row);
-      this.router.navigate(['../actualizar-plan', row.id], { relativeTo: this.route });
+      this.router.navigate(['../' + this.routeWeb, row.id], { relativeTo: this.route });
     }
   }
 

@@ -16,12 +16,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./crear-programa.component.css']
 })
 export class CrearProgramaComponent  extends CrearBaseComponent  implements OnInit {
-
-  crear;
   programa: Programa;
-  activar: boolean;
-  errors: any;
-  actCrear: boolean;
 
   constructor(
     public properties: PropertiesPrograma,

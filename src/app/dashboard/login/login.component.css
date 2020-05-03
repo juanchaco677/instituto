@@ -1,12 +1,9 @@
 .form-campo{
   width: 100%;
-  color: #000!important;
 }
 .login-block {
-  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to bottom, #FFB88C, #DE6262);
-  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to bottom, #FFB88C, #DE6262);
+  background-image: radial-gradient(circle, #84a7af, #64a1b7, #419ac3, #1c90cf, #1184d8);
+
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   float: left;
   width: 100%;
@@ -25,7 +22,7 @@
 .container {
   position: relative;
   top: 122px;
-  background: #fff;
+  background: #393939;
   border-radius: 10px;
   box-shadow: 15px 20px 0px rgba(0, 0, 0, 0.1);
 }
@@ -52,33 +49,18 @@
   text-align: center;
 }
 
-
-.login-sec .copy-text a {
-  color: #E36262;
+mat-label {
+  color: #9feaf9!important;
 }
 
+a {
+  color: #74b1be;
+}
 .login-sec h2 {
   margin-bottom: 30px;
   font-weight: 800;
   font-size: 30px;
-  color: #DE6262;
-}
-
-.login-sec h2:after {
-  content: " ";
-  width: 100px;
-  height: 5px;
-  display: block;
-  margin-top: 20px;
-  border-radius: 3px;
-  margin-left: auto;
-  margin-right: auto
-}
-
-.btn-login {
-  background: #DE6262;
-  /* color: #fff; */
-  font-weight: 600;
+  color: #74b1be ;
 }
 
 .banner-text {
@@ -114,8 +96,4 @@
   .login-block {
         height: 98vh;
   }
-}
-
-input[type=text] {
-  color:#000!important;
 }

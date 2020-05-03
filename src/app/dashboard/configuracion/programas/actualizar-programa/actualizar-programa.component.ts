@@ -25,7 +25,7 @@ export class ActualizarProgramaComponent extends ActualizarBaseComponent impleme
     public route: ActivatedRoute,
     private menuService: MenuService,
   ) {
-    super(router , route , programaService , properties.get('r-programa').value);
+    super(router , route , programaService , properties.get('r-programa').value, properties.get('r-a-programa').route);
 
     this.displayedColumns = properties.get('t-a-programa-col').value;
     this.menuService.add$(properties.get('m-t-programa').value);
