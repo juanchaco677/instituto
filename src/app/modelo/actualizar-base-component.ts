@@ -25,7 +25,7 @@ export class ActualizarBaseComponent {
     public service: OperacionBD,
     public routeBD: string,
     public routeWeb: string
-  ){
+  ) {
     if (Util.empty(this.service.listPagination$)) {
       this.consultarDatos(0, this.searchValue);
     } else {
@@ -75,7 +75,13 @@ export class ActualizarBaseComponent {
     this.out.emit(row);
     if (!this.combobox) {
       this.selection.select(row);
-      this.router.navigate(['../' + this.routeWeb, row.id], { relativeTo: this.route });
+      if (!Util.empty(row.id)) {
+        this.router.navigate(['../' + this.routeWeb, row.id], { relativeTo: this.route });
+      } else {
+        this.router.navigate(['../' + this.routeWeb, row.compoundKey],  {
+          relativeTo: this.route,
+        });
+      }
     }
   }
 

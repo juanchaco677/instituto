@@ -17,7 +17,7 @@ export class CrearBaseComponent {
       const idData = +params.get('id');
       if (!Util.emptyNaN(idData)) {
         this.actCrear = true;
-        this.data = this.service.buscarElementList$({ id: idData });
+        this.data = this.service.buscarElementList$({ id: idData});
       }
     });
   }
@@ -42,7 +42,7 @@ export class CrearBaseComponent {
           if (!this.actCrear) {
             if (!Util.empty(this.service.listPagination$)) {
               if (this.service.size$() < 5) {
-                this.service.addElementList$(data[key]);
+                this.service.addElementList$(data['data']);
               } else {
                 this.service.listPagination$ = null;
               }

@@ -60,9 +60,9 @@ export class EscuelasComponent extends CrearBaseComponent implements OnInit {
     dialogRef.componentInstance.combobox = true;
     dialogRef.componentInstance.out.subscribe((element) => {
       const sede = new Sede(
+        element.localizacion,
         element.id,
         element.nombre,
-        element.localizacion,
         element.created_at,
         element.updated_at
       );

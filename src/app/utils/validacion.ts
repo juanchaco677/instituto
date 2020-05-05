@@ -34,7 +34,7 @@ export class Validacion {
     if (required) {
       parameter.push(Validators.required);
     }
-    if (max !== 0) {
+    if (min !== 0) {
       parameter.push(Validators.minLength(min));
     }
     if (max !== 0) {

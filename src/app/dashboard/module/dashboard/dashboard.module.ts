@@ -1,3 +1,5 @@
+import { PropertiesPlanEstudio } from './../../../properties/properties-plan-estudio';
+import { PlanEstudioService } from './../../../service/dashboard/plan-estudio.service';
 import { PropertiesLoginDashboard } from './../../../properties/properties-login-dashboard';
 import { PropertiesEscuelaUsuarios } from './../../../properties/properties-escuela-usuarios';
 import { PropertiesSede } from './../../../properties/properties-sede';
@@ -72,6 +74,10 @@ import { PlantillaPlanComponent } from '../../configuracion/plan/plantilla-plan/
 import { PlantillaCRUDComponent } from '../../pantallas-base/plantilla-crud/plantilla-crud.component';
 import { PropertiesPlan } from 'src/app/properties/properties-plan';
 import { PropertiesMateria } from 'src/app/properties/properties-materias';
+import { CrearPlanEstudioComponent } from '../../configuracion/plan/plan-estudio/crear-plan-estudio/crear-plan-estudio.component';
+import { ActualizarPlanEstudioComponent } from '../../configuracion/plan/plan-estudio/actualizar-plan-estudio/actualizar-plan-estudio.component';
+import { EliminarPlanEstudioComponent } from '../../configuracion/plan/plan-estudio/eliiminar-plan-estudio/eliminar-plan-estudio.component';
+import { PlantillaPlanEstudioComponent } from '../../configuracion/plan/plan-estudio/plantilla-plan-estudio/plantilla-plan-estudio.component';
 
 
 @NgModule({
@@ -136,7 +142,11 @@ import { PropertiesMateria } from 'src/app/properties/properties-materias';
     ActualizarPlanComponent,
     EliminarPlanComponent,
     PlantillaPlanComponent,
-    PlantillaCRUDComponent
+    PlantillaCRUDComponent,
+    CrearPlanEstudioComponent,
+    ActualizarPlanEstudioComponent,
+    EliminarPlanEstudioComponent,
+    PlantillaPlanEstudioComponent
   ],
   exports: [
   ],
@@ -160,7 +170,9 @@ import { PropertiesMateria } from 'src/app/properties/properties-materias';
     ProgramaService,
     PropertiesPrograma,
     PlanService,
-    PropertiesPlan
+    PropertiesPlan,
+    PlanEstudioService,
+    PropertiesPlanEstudio
   ]
 })
 export class DashboardModule { }

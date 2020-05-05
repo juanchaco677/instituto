@@ -1,4 +1,7 @@
-import { CanActivateChild } from '@angular/router';
+import { EliminarPlanEstudioComponent } from './../../../configuracion/plan/plan-estudio/eliiminar-plan-estudio/eliminar-plan-estudio.component';
+import { ActualizarPlanEstudioComponent } from './../../../configuracion/plan/plan-estudio/actualizar-plan-estudio/actualizar-plan-estudio.component';
+import { CrearPlanEstudioComponent } from './../../../configuracion/plan/plan-estudio/crear-plan-estudio/crear-plan-estudio.component';
+import { PlantillaPlanEstudioComponent } from './../../../configuracion/plan/plan-estudio/plantilla-plan-estudio/plantilla-plan-estudio.component';
 import { ActualizarPlanComponent } from './../../../configuracion/plan/actualizar-plan/actualizar-plan.component';
 import { CrearPlanComponent } from './../../../configuracion/plan/crear-plan/crear-plan.component';
 import { EliminarPlanComponent } from './../../../configuracion/plan/eliminar-plan/eliminar-plan.component';
@@ -219,6 +222,28 @@ export const routes = [
           {
             path: 'actualizar-plan/:id',
             component: CrearPlanComponent
+          }
+        ]
+      },
+      {
+        path: 'dashboard/configuracion/plan-estudio',
+        component: PlantillaPlanEstudioComponent,
+        children: [
+          {
+            path: 'eliminar-plan-estudio',
+            component: EliminarPlanEstudioComponent
+          },
+          {
+            path: 'crear-plan-estudio',
+            component: CrearPlanEstudioComponent
+          },
+          {
+            path: 'actualizar-plan-estudio',
+            component: ActualizarPlanEstudioComponent,
+          },
+          {
+            path: 'actualizar-plan-estudio/:compoundKey',
+            component: CrearPlanEstudioComponent
           }
         ]
       },
