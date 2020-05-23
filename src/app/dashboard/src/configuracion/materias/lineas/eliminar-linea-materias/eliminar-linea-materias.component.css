@@ -1,0 +1,7 @@
+table {
+  width: 100%;
+}
+
+:host ::ng-deep.mat-paginator .mat-paginator-container{
+  width: 70%!important;
+}

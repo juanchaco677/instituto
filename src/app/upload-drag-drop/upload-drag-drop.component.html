@@ -1,0 +1,23 @@
+<div  class="container hover-icono" appDnd (fileDropped)="onFileDropped($event)">
+  <input type="file" style="cursor:pointer;"  #fileDropRef id="fileDropRef" multiple (change)="fileBrowseHandler($event.target.files)" />
+  <mat-icon class="mat-upload-icon">cloud_upload</mat-icon>
+
+  <h3 class="text-white" >Arrastra y Suelta el archivo aquí</h3>
+  <h3 class="text-white mb-1" >o</h3>
+  <h3  ></h3>
+
+</div>
+<label for="fileDropRef" class="label-button" style="cursor:pointer;">Buscar archivo</label>
+<div class="row w-70">
+<div class="col-md-4" *ngFor="let fileMultimedia of fileMultimedias; let i = index">
+
+  <mat-progress-bar [value]="fileMultimedia.progress"></mat-progress-bar>
+  <img class="img-fluid"  type="image/svg+xml"  [alt]="fileMultimedia.data.name" [src]="fileMultimedia.src" height="350">
+  <span id="file-label">
+    {{fileMultimedia.data.name}}
+    <a style="cursor: pointer;" title="Cancel" (click)="deleteFile(i)">
+      <mat-icon>cancel</mat-icon>
+    </a>
+  </span>
+</div>
+</div>

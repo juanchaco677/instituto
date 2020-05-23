@@ -1,10 +1,11 @@
-import { RolUsuario } from './../modelo/rol-usuario';
-import { Usuario } from '../modelo/usuario';
+import { RolUsuario } from './../dashboard/modelo/rol-usuario';
+import { Usuario } from '../dashboard/modelo/usuario';
 export class Sesion {
   /**
    * agregar el usuario logueado
    */
   static setUser(usuario: Usuario) {
+    this.delete();
     sessionStorage.setItem('usuario', JSON.stringify(usuario));
   }
   static setRolUser(rolUsuario: RolUsuario) {

@@ -1,3 +1,4 @@
+import { AulaVirtualModule } from './aula-virtual/module/aula-virtual/aula-virtual.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -6,15 +7,14 @@ import {routes} from './routes';
 import { AppComponent } from './app.component';
 import { DashboardModule } from './dashboard/module/dashboard/dashboard.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { EstudianteModule } from './aula-virtual/estudiante/modulo/estudiante/estudiante.module';
-import { LoginGuard } from './guard/login/login.guard';
+import { LoginGuard } from './dashboard/guard/login/login.guard';
 
 @NgModule({
   imports: [
     BrowserModule,
     ReactiveFormsModule,
+    AulaVirtualModule,
     DashboardModule,
-    EstudianteModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(routes),
   ],

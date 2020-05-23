@@ -1,0 +1,9 @@
+<div class="container-fluid d-flex justify-content-center align-items-center vh-100">
+  <mat-card class="example-card">
+    <mat-card-content>
+      <app-inscripcion-asig-es *ngIf="tipo === 'ES'"></app-inscripcion-asig-es>
+      <app-asig-profe-asigs *ngIf="tipo === 'PR'"></app-asig-profe-asigs>
+    </mat-card-content>
+  </mat-card>
+</div>
+

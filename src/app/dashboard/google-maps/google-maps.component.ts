@@ -1,10 +1,10 @@
 
 import { Component, OnInit, ViewChild, ElementRef, NgZone, Output, EventEmitter, Input } from '@angular/core';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
-import { Localizacion } from 'src/app/modelo/localizacion';
 import { Util } from 'src/app/utils/util';
 import { FormBuilder } from '@angular/forms';
 import { Validacion } from 'src/app/utils/validacion';
+import { Localizacion } from '../modelo/localizacion';
 @Component({
   selector: 'app-google-maps',
   templateUrl: './google-maps.component.html',

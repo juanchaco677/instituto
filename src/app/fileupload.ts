@@ -1,4 +1,4 @@
-import { FileMultimedia } from './modelo/filemultimedia';
+import { FileMultimedia } from './dashboard/modelo/filemultimedia';
 
 export class FileUpload {
 

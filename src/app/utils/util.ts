@@ -1,13 +1,13 @@
 
-import { Configuracion } from './../modelo/configuracion';
 import { Observable, of } from 'rxjs';
 import {
-  HttpClient,
   HttpHeaders,
 } from '@angular/common/http';
 import { Sesion } from './sesion';
 import { MatSnackBar, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { Usuario } from '../modelo/usuario';
+import { Usuario } from '../dashboard/modelo/usuario';
+import { Configuracion } from '../dashboard/modelo/configuracion';
+
 export class Util {
 
 

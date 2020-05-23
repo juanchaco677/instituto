@@ -1,0 +1,71 @@
+
+<div class="example-container">
+  <mat-sidenav-container class="example-container">
+    <mat-sidenav #sidenav mode="side" class="mat-sidenav-lateral vh-100">
+aafd
+    </mat-sidenav>
+
+    <mat-sidenav-content class="w-100 vh-100" >
+
+      <div class="d-flex align-items-start">
+        <div class="row bg bg-danger">
+          <div class="col-md-12">
+            <video class="h-100 w-100 bg-dark"></video>
+          </div>
+          <div class="col-md-12">
+            <video class="h-100 w-100 bg-success"></video>
+          </div>
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+</div>
+
+
+<div class="fixed-bottom">
+  <div class="d-flex justify-content-center contenedor-buttons">
+
+    <button mat-icon-button [routerLink]="['../../list-room']">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <button mat-icon-button >
+      <mat-icon >videocam</mat-icon>
+    </button>
+    <button mat-icon-button >
+      <mat-icon >mic</mat-icon>
+    </button>
+
+    <button mat-icon-button >
+      <mat-icon> portable_wifi_off</mat-icon>
+    </button>
+
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon>people</mat-icon>
+    </button>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>screen_share</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" id="panel-menu">
+      <button mat-menu-item >
+        <mat-icon>settings_overscan</mat-icon>
+        <span>Iniciar</span>
+      </button>
+      <button mat-menu-item >
+        <mat-icon>play_circle_filled</mat-icon>
+        <span>Continuar</span>
+      </button>
+      <button mat-menu-item >
+        <mat-icon> pause_presentation</mat-icon>
+        <span>Pausar</span>
+      </button>
+      <button mat-menu-item >
+        <mat-icon>stop_screen_share</mat-icon>
+        <span>Cerrar transmisión</span>
+      </button>
+    </mat-menu>
+
+  </div>
+
+</div>

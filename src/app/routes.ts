@@ -1,5 +1,5 @@
-import { LoginComponent } from './dashboard/login/login.component';
-import { LoginGuard } from './guard/login/login.guard';
+import { LoginComponent } from './dashboard/src/login/login.component';
+import { LoginGuard } from './dashboard/guard/login/login.guard';
 export const routes = [
   { path: '',
   canActivate:

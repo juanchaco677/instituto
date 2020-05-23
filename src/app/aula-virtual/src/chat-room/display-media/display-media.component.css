@@ -1,0 +1,38 @@
+.botones {
+  background: #000 !important;
+  opacity: 0.48 !important;
+}
+
+.mat-icon {
+  color: white !important;
+}
+
+.mat-icon:hover {
+  color: rgb(179, 179, 179) !important;
+}
+::ng-deep .mat-menu-content .mat-icon {
+  color: #000 !important;
+}
+
+.avatar-contenedor {
+
+  width: 100%;
+  height: 100%;
+  background: rgb(236, 98, 98);
+}
+
+.avatar-cuerpo {
+  height: 200px;
+  width: 200px;
+  background: rgb(202, 185, 185);
+  border-radius: 200px 200px 200px 200px;
+  -moz-border-radius: 200px 200px 200px 200px;
+  -webkit-border-radius: 200px 200px 200px 200px;
+  border: 0px solid #000000;
+}
+
+.posicion-elemento-multimedia{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
