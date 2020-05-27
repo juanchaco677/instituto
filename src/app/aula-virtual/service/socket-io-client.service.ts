@@ -6,12 +6,13 @@ import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 @Injectable()
 export class SocketIoClientService {
+  $addUsuario = this.socket.fromEvent<Usuario>('addUsuario');
+
   $peerConection = this.socket.fromEvent<any>('peer-conection');
   $streamingCam = this.socket.fromEvent<any>('streaming-cam');
   $currentRoom = this.socket.fromEvent<Room>('room');
   $error = this.socket.fromEvent<any>('err');
   $rooms = this.socket.fromEvent<string[]>('rooms');
-  $addUsuario = this.socket.fromEvent<Usuario>('addUsuario');
   $chatRoom = this.socket.fromEvent<Usuario>('chatRoom');
   chat$: BehaviorSubject<Chat[]> = new BehaviorSubject <Chat[]>([]);
   constructor(private socket: Socket) { }

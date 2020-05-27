@@ -26,6 +26,13 @@ export class PropertiesPrograma {
       control: 'nombre',
     },
     {
+      key: 'mat-form-field-nivel-academico',
+      value: 'Nivel Académico',
+      placeholder: 'ej: Pregrado - Doctorado.',
+      control: 'nivelAcademico',
+      error : 'Nivel Académico'
+    },
+    {
       key: 't-programa',
       value: 'Programa',
     },
@@ -36,15 +43,15 @@ export class PropertiesPrograma {
 
     {
       key: 't-a-programa-col',
-      value: ['id', 'nombre'],
-      matColumnDef: 'nombre',
-      matHeaderCellDef: 'Nombre',
+      value: ['id', 'nombre' , 'nivel'],
+      matColumnDef: ['nombre', 'nivel'],
+      matHeaderCellDef: ['Nombre' , 'Nivel Académico'],
     },
     {
       key: 't-e-programa-col',
-      value: ['select', 'id', 'nombre'],
-      matColumnDef: 'nombre',
-      matHeaderCellDef: 'Nombre',
+      value: ['select', 'id', 'nombre', 'nivel'],
+      matColumnDef: ['nombre', 'nivel'],
+      matHeaderCellDef: ['Nombre' , 'Nivel Académico'],
     },
 
     {

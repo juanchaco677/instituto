@@ -1,8 +1,8 @@
+import { PropertiesSalones } from './../../../../properties/properties-salones';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Component, OnInit } from '@angular/core';
 import { EliminarBaseComponent } from 'src/app/dashboard/modelo/eliminar-base-component';
-import { PropertiesSalon } from 'src/app/dashboard/properties/properties-salon';
 import { SalonService } from 'src/app/dashboard/service/dashboard/salon.service';
 import { MenuService } from 'src/app/dashboard/service/menu.service';
 
@@ -14,7 +14,7 @@ import { MenuService } from 'src/app/dashboard/service/menu.service';
 export class EliminarSalonComponent extends EliminarBaseComponent implements OnInit {
 
   constructor(
-    public properties: PropertiesSalon,
+    public properties: PropertiesSalones,
     public snackBar: MatSnackBar,
     public service: SalonService,
     private menuService: MenuService,

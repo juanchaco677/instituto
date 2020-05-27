@@ -8,11 +8,10 @@ import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter }
   styleUrls: ['./display-media.component.css']
 })
 export class DisplayMediaComponent implements OnInit {
-  btnCamera = false;
-  btnMicrofono = false;
+  @Output() btnCamera = false;
+  @Output() btnMicrofono = false;
   @ViewChild('deskopComponent') desktopComponent;
   private context: CanvasRenderingContext2D;
-  desktop = true;
   width = 670;
   height = 500;
   startHilo = true;
@@ -23,7 +22,7 @@ export class DisplayMediaComponent implements OnInit {
   set mainVideoEl(el: ElementRef) {
     this.video = el.nativeElement;
   }
-  @ViewChild('canvasEl') canvas: ElementRef;
+  // @ViewChild('canvasEl') canvas: ElementRef;
 
   audio = false;
   @Input() videoCam = false;
@@ -101,19 +100,13 @@ export class DisplayMediaComponent implements OnInit {
       this.pause();
       this.video.src = '';
       this.startHilo = false;
-      // this.context.fillStyle = '#fff';
-      // tslint:disable-next-line: max-line-length
-      this.context.canvas.width = 0;
-      this.context.canvas.height = 0;
     }
   }
 
   initCamera(config: any) {
     this.startHilo = true;
-    this.video.style.display = 'none';
+    // this.video.style.display = 'none';
     const browser = <any>navigator;
-
-    this.context = (this.canvas.nativeElement as HTMLCanvasElement).getContext('2d');
     browser.getUserMedia = (browser.getUserMedia ||
       browser.webkitGetUserMedia ||
       browser.mozGetUserMedia ||
@@ -124,35 +117,7 @@ export class DisplayMediaComponent implements OnInit {
       this.stream = stream;
       this.video.play();
     });
-    this.streamVideo();
   }
 
-  streamVideo() {
-    const outputStream = (this.canvas.nativeElement as HTMLCanvasElement).toDataURL('image/jpeg');
-    this.context.canvas.width = this.width;
-    this.context.canvas.height = this.height;
-    this.context.drawImage(this.video, 0, 0, this.width , this.height);
-    (window as any).playVideo(() => {
-      if (this.startHilo) {
-        this.streamVideo();
-      } else {
-        return;
-      }
-    });
-  }
 
-  startDesktop() {
-    this.init();
-    this.desktopComponent.start();
-    this.desktop = false;
-  }
-
-  stopDesktop() {
-    this.desktop = true;
-    this.desktopComponent.stop();
-    this.init();
-  }
-  recive(desktop) {
-    this.desktop = desktop;
-  }
 }

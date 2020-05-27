@@ -1,3 +1,4 @@
+import { PropertiesSalones } from './../../../../properties/properties-salones';
 import { ActualizarSedeComponent } from './../../sede/actualizar-sede/actualizar-sede.component';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
@@ -7,7 +8,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { CrearBaseComponent } from 'src/app/dashboard/modelo/crear-base-component';
 import { Salon } from 'src/app/dashboard/modelo/salon';
 import { Sede } from 'src/app/dashboard/modelo/sede';
-import { PropertiesSalon } from 'src/app/dashboard/properties/properties-salon';
 import { SalonService } from 'src/app/dashboard/service/dashboard/salon.service';
 import { MenuService } from 'src/app/dashboard/service/menu.service';
 import { Util } from 'src/app/utils/util';
@@ -22,7 +22,7 @@ export class CrearSalonComponent extends CrearBaseComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    public properties: PropertiesSalon,
+    public properties: PropertiesSalones,
     public snackBar: MatSnackBar,
     private formBuilder: FormBuilder,
     public service: SalonService,

@@ -1,3 +1,6 @@
+import { MatDialog } from '@angular/material/dialog';
+import { NivelEducativo } from './../../../../modelo/nivel-educativo';
+import { ActualizarNivelComponent } from './../../nivel-educativo/actualizar-nivel/actualizar-nivel.component';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -19,6 +22,7 @@ export class CrearProgramaComponent  extends CrearBaseComponent  implements OnIn
   programa: Programa;
 
   constructor(
+    public dialog: MatDialog,
     public properties: PropertiesPrograma,
     public snackBar: MatSnackBar,
     private formBuilder: FormBuilder,
@@ -31,11 +35,13 @@ export class CrearProgramaComponent  extends CrearBaseComponent  implements OnIn
     this.menuService.add$(properties.get('m-t-plan').value);
 
     this.programa = new Programa();
+    this.programa.nivel_academico = new NivelEducativo();
 
     this.programa = !Util.empty(this.data) ? this.data : this.programa;
 
     this.crear = this.formBuilder.group({
       nombre: Validacion.getCampoLetras(true),
+      nivelAcademico: Validacion.getCampoLetras(true),
     });
 
   }
@@ -47,5 +53,23 @@ export class CrearProgramaComponent  extends CrearBaseComponent  implements OnIn
 
   onSubmit() {
     this.onSubmit$(this.properties.get('r-programa').value, this.programa);
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ActualizarNivelComponent, {
+      width: '950px',
+    });
+    dialogRef.componentInstance.combobox = true;
+    dialogRef.componentInstance.out.subscribe((element) => {
+      const nivelAcademico = new NivelEducativo(
+        element.id,
+        element.nombre,
+        element.tipo,
+        element.created,
+        element.updated
+      );
+      this.programa.nivel_academico = nivelAcademico;
+      dialogRef.close();
+    });
   }
 }

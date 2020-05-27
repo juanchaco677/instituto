@@ -1,0 +1,62 @@
+<app-loading [activar]="activar"></app-loading>
+<div class="d-flex justify-content-center">
+  <div class="row">
+    <div class="col-md-12">
+      <form [formGroup]="crear" (ngSubmit)="onSubmit()" novalidate>
+
+        <mat-card class="example-card">
+
+          <mat-card-content>
+            <mat-card-title>{{properties.get('titulo-materia').value}}</mat-card-title>
+            <div class="col-md-12 ">
+              <mat-form-field appearance="legacy" class="form-campo">
+                <mat-label>{{properties.get('mat-form-field-nombre').value }}</mat-label>
+                <input matInput [formControl]="getControls(properties.get('mat-form-field-nombre').control)" placeholder="nombre" [(ngModel)]="nivelEducativo.nombre">
+                <mat-error *ngIf="getControls(properties.get('mat-form-field-nombre').control).errors!= null && getControls(properties.get('mat-form-field-nombre').control).errors.required">
+                  {{properties.get('mat-form-field-nombre').error}} es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error *ngIf="getControls(properties.get('mat-form-field-nombre').control).errors!= null && getControls(properties.get('mat-form-field-nombre').control).errors.pattern">
+                  Solamente <strong>letras</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-12">
+              <mat-form-field class="form-campo">
+                <mat-label>{{properties.get('mat-form-field-tipo').value}}</mat-label>
+                <mat-select [formControl]="getControls(properties.get('mat-form-field-tipo').control)" [(ngModel)]="nivelEducativo.tipo">
+                  <mat-option value="DO">
+                    Post Doctorado
+                  </mat-option>
+                  <mat-option value="DO">
+                    Doctorado
+                  </mat-option>
+                  <mat-option value="MA">
+                    Maestria
+                  </mat-option>
+                  <mat-option value="ES">
+                    Especialización
+                  </mat-option>
+                  <mat-option value="PRO">
+                    Profesional Universitario
+                  </mat-option>
+                  <mat-option value="TECNO">
+                    Tecnológico
+                  </mat-option>
+                  <mat-option value="TECNI">
+                    Tecnico
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="getControls(properties.get('mat-form-field-tipo').control).errors!= null  && getControls(properties.get('mat-form-field-tipo').control).errors.required">
+                  El {{properties.get('mat-form-field-tipo').error}} es <strong>obligatorio</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <button type="submit" class="btn-block" mat-raised-button color="accent">Guardar</button>
+          </mat-card-actions>
+        </mat-card>
+      </form>
+    </div>
+  </div>
+</div>

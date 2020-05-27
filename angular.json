@@ -25,7 +25,16 @@
             ],
             "styles": [
               "src/theme.scss",
-              "src/styles.css"
+              {
+                "input": "src/theme_default_dark.scss",
+                "lazy": true,
+                "bundleName":"theme-dark"
+              },
+              {
+                "input": "src/theme_light.scss",
+                "lazy": true,
+                "bundleName":"theme-light"
+              }
             ],
             "scripts": []
           },

@@ -1,4 +1,4 @@
-import { PropertiesSalon } from './../../../../properties/properties-';
+import { PropertiesSalones } from './../../../../properties/properties-salones';
 
 import { Component, OnInit } from '@angular/core';
 
@@ -10,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class PlantillaSalonComponent implements OnInit {
 
   constructor(
-    public properties: PropertiesSalon
+    public properties: PropertiesSalones
   ) { }
 
   ngOnInit(): void {

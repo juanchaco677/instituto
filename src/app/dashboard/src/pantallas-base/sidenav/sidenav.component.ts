@@ -1,3 +1,4 @@
+import { OverlayContainer } from '@angular/cdk/overlay';
 import { Configuracion } from '../../../modelo/configuracion';
 import { Util } from '../../../../utils/util';
 import { MenuService } from '../../../service/menu.service';
@@ -32,7 +33,14 @@ export class SidenavComponent implements OnInit {
     private configuracionService: ConfiguracionService,
     private snackBar: MatSnackBar,
     private menuService: MenuService,
-    changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
+    changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
+    private overlay: OverlayContainer) {
+
+    if (!this.overlay.getContainerElement().classList.contains('theme-dark')) {
+      overlay.getContainerElement().classList.add('theme-dark');
+      document.body.classList.add('theme-dark');
+    }
+
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);

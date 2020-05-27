@@ -8,4 +8,6 @@ import { RouterModule } from '@angular/router';
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class RouteModule { }
+export class RouteModule {
+
+ }

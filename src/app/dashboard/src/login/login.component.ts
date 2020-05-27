@@ -1,3 +1,4 @@
+import { OverlayContainer } from '@angular/cdk/overlay';
 import { PropertiesLoginDashboard } from '../../properties/properties-login-dashboard';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
@@ -25,8 +26,13 @@ export class LoginComponent implements OnInit {
     private snackBar: MatSnackBar,
     private usuarioService: UsuarioService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private overlay: OverlayContainer
   ) {
+    if (!this.overlay.getContainerElement().classList.contains('theme-dark')) {
+      overlay.getContainerElement().classList.add('theme-dark');
+      document.body.classList.add('theme-dark');
+    }
     this.usuario = new Usuario('', '');
     this.login = this.formBuilder.group({
       email: Validacion.getCampoEmail(true),

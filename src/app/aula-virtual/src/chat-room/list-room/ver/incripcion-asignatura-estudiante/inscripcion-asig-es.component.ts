@@ -1,7 +1,7 @@
 import { MenuService } from '../../../../../../dashboard/service/menu.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ListRoomService } from '../../../../../service/list-room.service';
-import { PropertiesListRoom } from '../../../../../../dashboard/properties/properties-list-room';
+import { PropertiesListRoom } from '../../../../../properties/properties-list-room';
 import { Component, OnInit } from '@angular/core';
 import { ActualizarBaseRedireccionarComponent } from 'src/app/dashboard/modelo/actualizar-base-redireccionar-component';
 

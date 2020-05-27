@@ -49,7 +49,7 @@ export class CrearProgramacionHorarioComponent extends CrearBaseComponent implem
       plan: Validacion.getCampoLetras(true),
       materia: Validacion.getCampoLetras(true),
       profesor: Validacion.getCampo(false),
-      salon: Validacion.getCampoLetras(true),
+      salon: Validacion.getCampo(true),
       cupos: Validacion.getCampoNumero(true, 1, 2),
       grupo: Validacion.getCampoNumero(true, 1, 1),
       dia: Validacion.getCampoLetras(true),

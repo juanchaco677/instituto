@@ -1,3 +1,7 @@
+import { ActualizarNivelComponent } from './../../../src/configuracion/nivel-educativo/actualizar-nivel/actualizar-nivel.component';
+import { CrearNivelComponent } from './../../../src/configuracion/nivel-educativo/crear-nivel/crear-nivel.component';
+import { EliminarNivelComponent } from './../../../src/configuracion/nivel-educativo/eliminar-nivel/eliminar-nivel.component';
+import { PlantillaNivelComponent } from './../../../src/configuracion/nivel-educativo/plantilla-nivel/plantilla-nivel.component';
 import { AuthGuard } from 'src/app/dashboard/guard/auth/auth.guard';
 import { SidenavComponent } from 'src/app/dashboard/src/pantallas-base/sidenav/sidenav.component';
 import { CrearUsuarioComponent } from 'src/app/dashboard/src/usuario/estudiantes-profesores/crear/crear-usuario.component';
@@ -209,6 +213,28 @@ export const routes = [
           {
             path: 'crear-asignatura',
             component: LineaMateriasComponent
+          }
+        ]
+      },
+      {
+        path: 'dashboard/configuracion/nivel-educativo',
+        component: PlantillaNivelComponent,
+        children: [
+          {
+            path: 'eliminar-nivel-educativo',
+            component: EliminarNivelComponent
+          },
+          {
+            path: 'crear-nivel-educativo',
+            component: CrearNivelComponent
+          },
+          {
+            path: 'actualizar-nivel-educativo',
+            component: ActualizarNivelComponent,
+          },
+          {
+            path: 'actualizar-nivel-educativo/:id',
+            component: CrearNivelComponent
           }
         ]
       },
@@ -428,9 +454,8 @@ export const routes = [
           }
         ]
       },
+      { path: '**', redirectTo: 'administrator', pathMatch: 'full' }
     ]
   },
-
   { path: 'cerrar-sesion', redirectTo: '/', pathMatch: 'full' },
-  { path: '**', redirectTo: 'not-found' }
 ];

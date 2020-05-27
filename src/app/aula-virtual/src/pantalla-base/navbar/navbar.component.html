@@ -1,0 +1,31 @@
+
+
+<mat-toolbar color="primary" class="contenedor-header mat-elevation-z2">
+  <mat-toolbar-row class="app-navbar-box-shodown">
+    <button mat-icon-button (click)="activarSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <img  style="cursor: pointer;" [routerLink]="['/aula-virtual']" *ngIf="confLogo.value"
+    class="img-fluid" width="60" height="60"
+    src="{{confLogo.value}}"
+    alt="Logo" />
+    <button class="ml-1" mat-icon-button (click)="addMenuOpcion('Noticias')"  [routerLink]="['/aula-virtual']"> {{confTitulo.value}}</button>
+
+    <div class="contenedor-toolbar row ">
+
+      <mat-menu #appMenu="matMenu">
+        <button mat-menu-item (click)="navegacion()">Perfil</button>
+        <button mat-menu-item (click)="emitir(true)">Cerrar Sesión</button>
+      </mat-menu>
+
+      <button mat-icon-button [matMenuTriggerFor]="appMenu">
+        <a>{{ usuario.nombre }}</a> <span>&nbsp;</span>
+        <img [src]="usuario.foto" width="40" height="40" class="rounded-circle" />
+      </button>
+
+    </div>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+    <h1  class="display-1"> {{menuOpcion}} </h1>
+  </mat-toolbar-row>
+</mat-toolbar>

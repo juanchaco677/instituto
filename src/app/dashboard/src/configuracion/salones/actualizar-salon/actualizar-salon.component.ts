@@ -1,7 +1,7 @@
+import { PropertiesSalones } from './../../../../properties/properties-salones';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { ActualizarBaseComponent } from 'src/app/dashboard/modelo/actualizar-base-component';
-import { PropertiesSalon } from 'src/app/dashboard/properties/properties-salon';
 import { SalonService } from 'src/app/dashboard/service/dashboard/salon.service';
 import { MenuService } from 'src/app/dashboard/service/menu.service';
 
@@ -13,7 +13,7 @@ import { MenuService } from 'src/app/dashboard/service/menu.service';
 export class ActualizarSalonComponent extends ActualizarBaseComponent implements OnInit {
 
   constructor(
-    public properties: PropertiesSalon,
+    public properties: PropertiesSalones,
     public service: SalonService,
     public router: Router,
     public route: ActivatedRoute,

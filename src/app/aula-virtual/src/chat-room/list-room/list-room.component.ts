@@ -16,16 +16,15 @@ export class ListRoomComponent implements OnInit {
   constructor(
     private socketService: SocketIoClientService,
     private router: Router
-    ) {
+  ) {
 
-      this.tipo = Sesion.user().rol.tipo;
-     }
-
+    this.tipo = Sesion.user().rol.tipo;
+  }
   ngOnInit(): void {
 
   }
 
-  livingRoom(parameter){
+  livingRoom(parameter) {
     this.router.navigate(['../living-room', parameter]);
 
   }

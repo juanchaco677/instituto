@@ -1,3 +1,4 @@
+import { OverlayContainer } from '@angular/cdk/overlay';
 import { PropertiesLoginChat } from '../../../../dashboard/properties/properties-login-chat';
 import { Util } from '../../../../utils/util';
 import { Sesion } from '../../../../utils/sesion';
@@ -25,8 +26,16 @@ export class LoginChatRoomComponent implements OnInit {
     private snackBar: MatSnackBar,
     private usuarioService: UsuarioService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private overlay: OverlayContainer
   ) {
+
+    if (!this.overlay.getContainerElement().classList.contains('theme-light')) {
+      console.log('entro al theme light');
+      overlay.getContainerElement().classList.add('theme-light');
+      document.body.classList.add('theme-light');
+    }
+
     this.usuario = new Usuario('', '');
     this.login = this.formBuilder.group({
       email: Validacion.getCampoEmail(true),
@@ -57,7 +66,7 @@ export class LoginChatRoomComponent implements OnInit {
           Sesion.setUser(usuario);
           this.usuarioService.addAuthUser$(usuario);
           this.activar = false;
-          this.router.navigate(['list-room']);
+          this.router.navigate(['aula-virtual']);
           this.login.reset();
         },
         error => {

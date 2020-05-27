@@ -1,9 +1,11 @@
+import { PropertiesSalones } from './../../properties/properties-salones';
+import { PropertiesNivelEducativo } from './../../properties/properties-nivel-educativo';
+import { NivelEsucativoService } from './../../service/dashboard/nivel-esucativo.service';
 import { PropertiesEscuelaPrograma } from '../../properties/properties-escuela-programa';
 import { EscuelaProgramaService } from '../../service/dashboard/escuela-programa.service';
 import { PropertiesProgramacionHorario } from '../../properties/properties-programacion-horario';
 import { ProgramacionHorarioService } from '../../service/dashboard/programacion-horario.service';
 import { AsigProfeAsigsService } from '../../service/dashboard/asig-profe-asigs.service';
-import { PropertiesSalon } from '../../properties/properties-salon';
 import { SalonService } from '../../service/dashboard/salon.service';
 import { PropertiesProgramaModalidad } from '../../properties/properties-programa-modalidad';
 import { ProgramaModalidadService } from '../../service/dashboard/programa-modalidad.service';
@@ -108,10 +110,6 @@ import { CrearProgramaModalidadComponent } from '../../src/configuracion/program
 import { ActualizarProgramaModalidadComponent } from '../../src/configuracion/programas/programa-modalidad/actualizar-programa-modalidad/actualizar-programa-modalidad.component';
 import { EliminarProgramaModalidadComponent } from '../../src/configuracion/programas/programa-modalidad/eliminar-programa-modalidad/eliminar-programa-modalidad.component';
 import { PlantillaProgramaModalidadComponent } from '../../src/configuracion/programas/programa-modalidad/plantilla-programa-modalidad/plantilla-programa-modalidad.component';
-import { PlantillaSalonComponent } from '../../src/configuracion/salones/plantilla-salon/plantilla-salon.component';
-import { CrearSalonComponent } from '../../src/configuracion/salones/crear-salon/crear-salon.component';
-import { ActualizarSalonComponent } from '../../src/configuracion/salones/actualizar-salon/actualizar-salon.component';
-import { EliminarSalonComponent } from '../../src/configuracion/salones/eliminar-salon/eliminar-salon.component';
 import { CrearAsigProfeAsigsComponent } from '../../src/configuracion/asig-profe-asigs/crear-asig-profe-asigs/crear-asig-profe-asigs.component';
 import { ActualizarAsigProfeAsigsComponent } from '../../src/configuracion/asig-profe-asigs/actualizar-asig-profe-asigs/actualizar-asig-profe-asigs.component';
 import { EliminarAsigProfeAsigsComponent } from '../../src/configuracion/asig-profe-asigs/eliminar-asig-profe-asigs/eliminar-asig-profe-asigs.component';
@@ -124,6 +122,15 @@ import { CrearEscuelaProgramaComponent } from '../../src/configuracion/escuelas/
 import { ActualizarEscuelaProgramaComponent } from '../../src/configuracion/escuelas/escuela-programa/actualizar-escuela-programa/actualizar-escuela-programa.component';
 import { EliminarEscuelaProgramaComponent } from '../../src/configuracion/escuelas/escuela-programa/eliminar-escuela-programa/eliminar-escuela-programa.component';
 import { PlantillaEscuelaProgramaComponent } from '../../src/configuracion/escuelas/escuela-programa/plantilla-escuela-programa/plantilla-escuela-programa.component';
+import { OverlayContainer } from '@angular/cdk/overlay';
+import { PlantillaNivelComponent } from '../../src/configuracion/nivel-educativo/plantilla-nivel/plantilla-nivel.component';
+import { CrearNivelComponent } from '../../src/configuracion/nivel-educativo/crear-nivel/crear-nivel.component';
+import { ActualizarNivelComponent } from '../../src/configuracion/nivel-educativo/actualizar-nivel/actualizar-nivel.component';
+import { EliminarNivelComponent } from '../../src/configuracion/nivel-educativo/eliminar-nivel/eliminar-nivel.component';
+import { PlantillaSalonComponent } from '../../src/configuracion/salones/plantilla-salon/plantilla-salon.component';
+import { CrearSalonComponent } from '../../src/configuracion/salones/crear-salon/crear-salon.component';
+import { ActualizarSalonComponent } from '../../src/configuracion/salones/actualizar-salon/actualizar-salon.component';
+import { EliminarSalonComponent } from '../../src/configuracion/salones/eliminar-salon/eliminar-salon.component';
 
 @NgModule({
   imports: [
@@ -222,7 +229,11 @@ import { PlantillaEscuelaProgramaComponent } from '../../src/configuracion/escue
     CrearEscuelaProgramaComponent,
     ActualizarEscuelaProgramaComponent,
     EliminarEscuelaProgramaComponent,
-    PlantillaEscuelaProgramaComponent
+    PlantillaEscuelaProgramaComponent,
+    PlantillaNivelComponent,
+    CrearNivelComponent,
+    ActualizarNivelComponent,
+    EliminarNivelComponent,
 
   ],
   exports: [
@@ -257,14 +268,19 @@ import { PlantillaEscuelaProgramaComponent } from '../../src/configuracion/escue
     PropertiesModalidad,
     ProgramaModalidadService,
     PropertiesProgramaModalidad,
-    SalonService,
-    PropertiesSalon,
     AsigProfeAsigsService,
     PropertiesAsigProfeAsigs,
     ProgramacionHorarioService,
     PropertiesProgramacionHorario,
     EscuelaProgramaService,
-    PropertiesEscuelaPrograma
+    PropertiesEscuelaPrograma,
+    NivelEsucativoService,
+    PropertiesNivelEducativo,
+    SalonService,
+    PropertiesSalones,
   ]
 })
-export class DashboardModule { }
+
+export class DashboardModule {
+
+}
