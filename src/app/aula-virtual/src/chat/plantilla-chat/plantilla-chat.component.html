@@ -6,20 +6,20 @@
           <ng-template mat-tab-label>
             <mat-icon>voice_chat</mat-icon>
           </ng-template>
-          <app-display-button  (sidenav) = "sidenav.toggle()"></app-display-button>
+          <app-list-video></app-list-video>
         </mat-tab>
 
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon> chat</mat-icon>
           </ng-template>
-          <app-list-display-estudiante></app-list-display-estudiante>
+          <!-- <app-list-display-estudiante></app-list-display-estudiante> -->
         </mat-tab>
       </mat-tab-group>
     </mat-sidenav>
     <!-- style="overflow:hidden!important;" -->
     <mat-sidenav-content class="w-100 vh-100"  style="overflow:hidden!important;" >
-      <app-display-button (sidenav) = "sidenav.toggle()"></app-display-button>
+      <app-video-desktop (sidenav) = "sidenav.toggle()"></app-video-desktop>
     </mat-sidenav-content>
   </mat-sidenav-container>
 

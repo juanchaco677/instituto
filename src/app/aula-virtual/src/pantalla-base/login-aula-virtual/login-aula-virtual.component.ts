@@ -12,11 +12,11 @@ import { Component, OnInit } from '@angular/core';
 import { Usuario } from 'src/app/dashboard/modelo/usuario';
 
 @Component({
-  selector: 'app-login-chat-room',
-  templateUrl: './login-chat-room.component.html',
-  styleUrls: ['./login-chat-room.component.css']
+  selector: 'app-login-aula-virtual',
+  templateUrl: './login-aula-virtual.component.html',
+  styleUrls: ['./login-aula-virtual.component.css']
 })
-export class LoginChatRoomComponent implements OnInit {
+export class LoginAulaVirtualComponent implements OnInit {
   login;
   usuario: Usuario;
   activar = false;

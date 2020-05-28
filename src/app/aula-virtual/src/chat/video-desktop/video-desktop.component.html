@@ -5,7 +5,7 @@
         <h1 class="posicion-alias">{{alias}}</h1>
       </div>
     </div>
-    <app-display-media #display [hidden]="startDesktop" style="position:absolute; left:0px; top:0px; z-index: 2;">
+    <app-display-media [width]="'100vw'" [height]="'100vh'" #display [hidden]="!startDesktop" style="position:absolute; left:0px; top:0px; z-index: 2;">
     </app-display-media>
     <app-desktop #deskopComponent [hidden]="startDesktop" style="position:absolute; left:0px; top:0px; z-index: 3;">
     </app-desktop>

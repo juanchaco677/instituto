@@ -1,15 +1,15 @@
+import { DisplayMediaComponent } from './../../multimedia/display-media/display-media.component';
 import { SocketIoClientService } from 'src/app/aula-virtual/service/socket-io-client.service';
 import { Usuario } from 'src/app/aula-virtual/model/usuario';
-import { DisplayMediaComponent } from './../../display-media/display-media.component';
-import { Sesion } from './../../../../../utils/sesion';
+import { Sesion } from '../../../../utils/sesion';
 import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 declare var Peer: any;
 @Component({
-  selector: 'app-display-button',
-  templateUrl: './display-button.component.html',
-  styleUrls: ['./display-button.component.css']
+  selector: 'app-video-desktop',
+  templateUrl: './video-desktop.component.html',
+  styleUrls: ['./video-desktop.component.css']
 })
-export class DisplayButtonComponent implements OnInit {
+export class VideoDesktopComponent implements OnInit {
   startDesktop = true;
   alias: string;
   tipo: string;

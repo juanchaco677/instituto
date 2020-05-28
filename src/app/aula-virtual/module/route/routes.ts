@@ -1,8 +1,7 @@
+import { ListRoomComponent } from '../../src/menu/list-room/list-room.component';
+import { LoginAulaVirtualComponent } from './../../src/pantalla-base/login-aula-virtual/login-aula-virtual.component';
+import { PlantillaChatComponent } from './../../src/chat/plantilla-chat/plantilla-chat.component';
 import { PlantillaPrincipalComponent } from './../../src/pantalla-base/plantilla-principal/plantilla-principal.component';
-import { RoomGuard } from '../../guard/room.guard';
-import { LoginChatRoomComponent } from '../../src/chat-room/login-chat-room/login-chat-room.component';
-import { ListRoomComponent } from '../../src/chat-room/list-room/list-room.component';
-import { ChatRoomComponent } from '../../src/chat-room/chat-room/chat-room.component';
 import { AulaVirtualGuard } from '../../guard/aula-virtual.guard';
 
 export const routes = [
@@ -20,11 +19,11 @@ export const routes = [
   // },
   {
     path: 'aula-virtual/living-room/:compoundKey',
-    component: ChatRoomComponent,
+    component: PlantillaChatComponent,
   },
   {
     path: 'login-aula-virtual',
-    component: LoginChatRoomComponent,
+    component: LoginAulaVirtualComponent,
   },
   {
     path: 'aula-virtual',

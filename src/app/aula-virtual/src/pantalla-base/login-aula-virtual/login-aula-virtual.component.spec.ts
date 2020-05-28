@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DisplayButtonComponent } from './display-button.component';
+import { LoginAulaVirtualComponent } from './login-aula-virtual.component';
 
-describe('DisplayButtonComponent', () => {
-  let component: DisplayButtonComponent;
-  let fixture: ComponentFixture<DisplayButtonComponent>;
+describe('LoginAulaVirtualComponent', () => {
+  let component: LoginAulaVirtualComponent;
+  let fixture: ComponentFixture<LoginAulaVirtualComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DisplayButtonComponent ]
+      declarations: [ LoginAulaVirtualComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DisplayButtonComponent);
+    fixture = TestBed.createComponent(LoginAulaVirtualComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
