@@ -82,9 +82,9 @@ export class ActualizarBaseRedireccionarComponent {
     if (!this.combobox) {
       this.selection.select(row);
       if (!Util.empty(row.compoundKey)) {
-        this.router.navigate([this.routeWeb, row.compoundKey], {
-          relativeTo: this.route,
-        });
+        console.log('la ruta es ' + this.routeWeb);
+        console.log(row.compoundKey);
+        this.router.navigate([this.routeWeb, row.compoundKey]);
       } else {
         if (!Util.empty(row.id)) {
           if (!Util.empty(this.tipo)) {

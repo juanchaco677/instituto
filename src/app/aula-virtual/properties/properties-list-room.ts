@@ -45,7 +45,7 @@ export class PropertiesListRoom {
     },
     {
       key: 'route-redirect-web',
-      route: '../../living-room',
+      route: '../../aula-virtual/living-room',
     },
   ];
 

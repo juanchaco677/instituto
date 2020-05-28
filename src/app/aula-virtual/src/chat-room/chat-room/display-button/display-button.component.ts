@@ -1,4 +1,5 @@
-import { SocketIoClientService } from './../../../../service/socket-io-client.service';
+import { SocketIoClientService } from 'src/app/aula-virtual/service/socket-io-client.service';
+import { Usuario } from 'src/app/aula-virtual/model/usuario';
 import { DisplayMediaComponent } from './../../display-media/display-media.component';
 import { Sesion } from './../../../../../utils/sesion';
 import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
@@ -12,23 +13,22 @@ export class DisplayButtonComponent implements OnInit {
   startDesktop = true;
   alias: string;
   tipo: string;
-  peer;
+  profesorT: any;
+  profesorR: any;
+  usuarios: Usuario [];
   @ViewChild('display')diplay: DisplayMediaComponent;
   @Output() sidenav = new EventEmitter();
   constructor(
+    private socket: SocketIoClientService
   ) {
     this.alias = Sesion.user().nombre.substr( 0 , 1 );
     this.tipo = Sesion.user().rol.tipo;
-    this.peer = new Peer('123');
   }
 
   ngOnInit(): void {
-    // if(this.diplay.video || this.diplay.sound){
-      // this.peer.on('call', call => {
 
-      // }
-    // }
   }
+
   hidden(){
     this.startDesktop = !this.startDesktop;
   }

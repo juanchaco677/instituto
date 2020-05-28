@@ -1,1 +1,2 @@
-<app-display-button *ngFor="let estudiante of estudiantes | async" ></app-display-button>
+<!-- <app-display-button *ngFor="let estudiante of estudiantes " ></app-display-button> -->
+<a *ngFor="let estudiante of estudiantes ">{{estudiante.nombre}}</a>

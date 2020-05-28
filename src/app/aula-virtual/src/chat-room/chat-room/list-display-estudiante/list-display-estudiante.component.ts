@@ -11,12 +11,19 @@ export class ListDisplayEstudianteComponent implements OnInit {
   estudiantes: Usuario[] = [];
   constructor(
     private socket: SocketIoClientService
-  ) { }
+  ) {
+    this.consultarUsuarios();
+  }
 
   ngOnInit(): void {
-    this.socket.$addUsuario.subscribe(
-      data => this.estudiantes.push(data)
-    );
+    this.consultarUsuarios();
+  }
+
+  consultarUsuarios() {
+    this.socket.getRoom$().subscribe(data => {
+      console.log('ingreso aqui');
+      this.estudiantes = data.usuarios;
+    });
   }
 
 }

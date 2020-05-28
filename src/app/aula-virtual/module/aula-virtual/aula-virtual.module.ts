@@ -1,3 +1,6 @@
+import { ContenedorChatComponent } from './../../src/chat/contenedor-chat/contenedor-chat.component';
+import { MenuChatComponent } from './../../src/chat/menu-chat/menu-chat.component';
+import { PlantillaChatComponent } from './../../src/chat/plantilla-chat/plantilla-chat.component';
 import { ListDisplayEstudianteComponent } from './../../src/chat-room/chat-room/list-display-estudiante/list-display-estudiante.component';
 import { DisplayButtonComponent } from './../../src/chat-room/chat-room/display-button/display-button.component';
 import { DisplayMediaComponent } from './../../src/chat-room/display-media/display-media.component';
@@ -46,10 +49,11 @@ const config: SocketIoConfig = { url: 'http://localhost:4444', options: {} };
     NavbarComponent,
     MenuLateralComponent,
     DisplayButtonComponent,
-    ListDisplayEstudianteComponent
-    // MenuLateralComponent,
-    // Sidena     vComponent,
-    // NavbarComponent,
+    ListDisplayEstudianteComponent,
+
+    PlantillaChatComponent,
+    MenuChatComponent,
+    ContenedorChatComponent
   ],
   imports: [
     MaterialModule,

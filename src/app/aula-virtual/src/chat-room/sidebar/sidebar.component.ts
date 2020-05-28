@@ -17,12 +17,6 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.socketService.getChat$().subscribe(
-      data => {
-        console.log('recibiendo el mensje');
-        console.log(data);
-        this.chats = data;
-      }
-    );
+
   }
 }

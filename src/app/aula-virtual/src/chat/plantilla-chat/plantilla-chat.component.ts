@@ -3,7 +3,6 @@ import { SocketIoClientService } from 'src/app/aula-virtual/service/socket-io-cl
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { ListRoomService } from './../../../service/list-room.service';
 
-import { DisplayMediaComponent } from './../display-media/display-media.component';
 import { ProgramacionHorarioService } from '../../../../dashboard/service/dashboard/programacion-horario.service';
 import { Sesion } from 'src/app/utils/sesion';
 import { Util } from '../../../../utils/util';
@@ -13,11 +12,11 @@ import { IncripcionAsigEs } from 'src/app/dashboard/modelo/incripcion-asig-es';
 import { ProgramacionHorario } from 'src/app/dashboard/modelo/programacion-horario';
 
 @Component({
-  selector: 'app-chat-room',
-  templateUrl: './chat-room.component.html',
-  styleUrls: ['./chat-room.component.css']
+  selector: 'app-plantilla-chat',
+  templateUrl: './plantilla-chat.component.html',
+  styleUrls: ['./plantilla-chat.component.css']
 })
-export class ChatRoomComponent implements OnInit {
+export class PlantillaChatComponent implements OnInit {
 
   incripcionAsigEs: IncripcionAsigEs;
   programacionHorario: ProgramacionHorario;

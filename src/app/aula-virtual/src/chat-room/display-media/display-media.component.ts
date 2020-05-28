@@ -8,12 +8,13 @@ import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter }
   styleUrls: ['./display-media.component.css']
 })
 export class DisplayMediaComponent implements OnInit {
+
   @Output() btnCamera = false;
   @Output() btnMicrofono = false;
   @ViewChild('deskopComponent') desktopComponent;
   private context: CanvasRenderingContext2D;
-  width = 670;
-  height = 500;
+  @Input() width ;
+  @Input() height ;
   startHilo = true;
   logs = [];
   video: HTMLVideoElement;
@@ -79,9 +80,9 @@ export class DisplayMediaComponent implements OnInit {
 
   init() {
     if (this.videoCam && this.audio) {
-      this.initCamera({ video: { width: this.width, height: this.height }, audio: this.audio });
+      this.initCamera({ video: this.video, audio: this.audio });
     } else if (this.videoCam && !this.audio) {
-      this.initCamera({ video: { width: this.width, height: this.height }, audio: this.audio });
+      this.initCamera({ video: this.video, audio: this.audio });
     } else if (!this.videoCam && !this.audio) {
       this.stop();
     } else if (!this.videoCam && this.audio) {

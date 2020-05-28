@@ -14,24 +14,25 @@ export class SocketIoClientService {
   $error = this.socket.fromEvent<any>('err');
   $rooms = this.socket.fromEvent<string[]>('rooms');
   $chatRoom = this.socket.fromEvent<Usuario>('chatRoom');
-  chat$: BehaviorSubject<Chat[]> = new BehaviorSubject <Chat[]>([]);
-  constructor(private socket: Socket) { }
 
-  entrarCrearRoom(room: Room){
-    this.socket.emit('entrarCrearRoom', room);
-  }
+  room$: BehaviorSubject<Room> = new BehaviorSubject <Room>(null);
+
+  constructor(private socket: Socket) { }
 
   emit(key: string, data: any){
     this.socket.emit(key, data);
   }
 
-  getChat$(){
-    return this.chat$.asObservable();
+  getRoom$(){
+    return this.room$.asObservable();
   }
 
-  addChat$(chat: Chat){
-    this.chat$.getValue().push(chat);
-    this.chat$.next(this.chat$.getValue());
+  addRoom$(room: Room){
+    this.room$.next(room);
+  }
+
+  deleteRoom$(){
+    this.room$.next(null);
   }
 
 }
