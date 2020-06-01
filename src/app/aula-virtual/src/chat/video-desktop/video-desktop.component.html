@@ -12,6 +12,10 @@
   </div>
 </div>
 <div class="fixed-bottom">
+  <button *ngIf="tipo === 'ES'" mat-icon-button (click)="display.consultarPeerClient()">
+    <mat-icon color="accent" >videocam</mat-icon>
+  </button>
+
   <div *ngIf="tipo === 'PR'" class="d-flex justify-content-center contenedor-buttons">
 
     <button mat-icon-button [routerLink]="['../../../aula-virtual']">

@@ -1,7 +1,7 @@
+import { ListChatComponent } from './../../src/chat/list-chat/list-chat.component';
 import { LoginAulaVirtualComponent } from './../../src/pantalla-base/login-aula-virtual/login-aula-virtual.component';
 import { VideoDesktopComponent } from './../../src/chat/video-desktop/video-desktop.component';
 import { ListVideoComponent } from './../../src/chat/list-video/list-video.component';
-import { ContenedorChatComponent } from './../../src/chat/contenedor-chat/contenedor-chat.component';
 import { MenuChatComponent } from './../../src/chat/menu-chat/menu-chat.component';
 import { PlantillaChatComponent } from './../../src/chat/plantilla-chat/plantilla-chat.component';
 import { MenuLateralComponent } from './../../src/pantalla-base/menu-lateral/menu-lateral.component';
@@ -44,9 +44,9 @@ const config: SocketIoConfig = { url: 'http://localhost:4444', options: {} };
     ListVideoComponent,
     PlantillaChatComponent,
     MenuChatComponent,
-    ContenedorChatComponent,
     VideoDesktopComponent,
-    LoginAulaVirtualComponent
+    LoginAulaVirtualComponent,
+    ListChatComponent
   ],
   imports: [
     MaterialModule,

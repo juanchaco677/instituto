@@ -1,8 +1,10 @@
+import { PeerClient } from './../../../model/peer-client';
+import { Usuario } from 'src/app/aula-virtual/model/usuario';
+import { PeerServer } from './../../../model/peer-server';
 import { Room } from './../../../model/room';
 import { SocketIoClientService } from 'src/app/aula-virtual/service/socket-io-client.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { ListRoomService } from './../../../service/list-room.service';
-
 import { ProgramacionHorarioService } from '../../../../dashboard/service/dashboard/programacion-horario.service';
 import { Sesion } from 'src/app/utils/sesion';
 import { Util } from '../../../../utils/util';
@@ -22,6 +24,8 @@ export class PlantillaChatComponent implements OnInit {
   programacionHorario: ProgramacionHorario;
   data: any;
   room: Room;
+  peerServer: PeerServer;
+  usuario: Usuario;
   constructor(
     private socket: SocketIoClientService,
     private service: ListRoomService,
@@ -30,11 +34,27 @@ export class PlantillaChatComponent implements OnInit {
     private router: Router,
     private overlay: OverlayContainer,
   ) {
+    this.peerServer = new PeerServer();
+    this.peerServer.addOffer();
+    this.socket.addPeerServer$(this.peerServer);
     this.room = new Room();
     if (!this.overlay.getContainerElement().classList.contains('theme-light')) {
       overlay.getContainerElement().classList.add('theme-light');
       document.body.classList.add('theme-light');
     }
+    this.usuario = new Usuario();
+
+    const user = Sesion.user();
+
+    this.usuario.email = user.email;
+    this.usuario.id = user.id;
+    this.usuario.nombre = user.nombre;
+    this.usuario.tipo = user.tipo;
+    this.usuario.cedula = user.cedula;
+    this.usuario.foto = user.foto;
+    this.usuario.sex = user.sex;
+    this.usuario.rol = user.rol;
+    this.usuario.peerServer = this.peerServer;
 
     this.route.paramMap.subscribe(params => {
       const compoundKey = params.get('compoundKey');
@@ -45,7 +65,7 @@ export class PlantillaChatComponent implements OnInit {
               compoundKey.split(',')[0] + ',' + compoundKey.split(',')[1]).subscribe(
                 res => {
                   this.incripcionAsigEs = res['data'];
-                  this.socket.emit('livingRoom', { programacion: this.incripcionAsigEs.programacion, usuario: Sesion.user() });
+                  this.socket.emit('livingRoom', { programacion: this.incripcionAsigEs.programacion, usuario: this.usuario });
                 }
               );
           } else {
@@ -53,7 +73,7 @@ export class PlantillaChatComponent implements OnInit {
             if (Util.empty(this.incripcionAsigEs)) {
               this.router.navigate(['../../../aula-virtual']);
             } else {
-              this.socket.emit('livingRoom', { programacion: this.incripcionAsigEs.programacion, usuario: Sesion.user() });
+              this.socket.emit('livingRoom', { programacion: this.incripcionAsigEs.programacion, usuario: this.usuario });
             }
           }
         } else {
@@ -63,7 +83,7 @@ export class PlantillaChatComponent implements OnInit {
               this.serviceProgramacion.get('programacion-horario/get', idProgramacion).subscribe(
                 res => {
                   this.programacionHorario = res['data'];
-                  this.socket.emit('livingRoom', { programacion: this.programacionHorario, usuario: Sesion.user() });
+                  this.socket.emit('livingRoom', { programacion: this.programacionHorario, usuario: this.usuario });
                 }
               );
             } else {
@@ -72,7 +92,7 @@ export class PlantillaChatComponent implements OnInit {
               if (Util.empty(this.programacionHorario)) {
                 this.router.navigate(['../../../aula-virtual']);
               } else {
-                this.socket.emit('livingRoom', { programacion: this.programacionHorario, usuario: Sesion.user() });
+                this.socket.emit('livingRoom', { programacion: this.programacionHorario, usuario: this.usuario });
               }
             }
           } else {
@@ -90,17 +110,56 @@ export class PlantillaChatComponent implements OnInit {
     this.socket.$currentRoom.subscribe(
       res => {
         this.room = res;
-        for (const item in this.room.usuarios) {
-          if (this.room.usuarios[item].id === Sesion.user().id) {
-            this.room.usuarios.splice( +item , 1);
-          }
-        }
-        this.socket.addRoom$(this.room);
+        console.log('reciviendo room ....');
+        this.connectionPeerProfesor(res);
+        this.socket.addRoom$(res);
       }
     );
+
+    this.socket.$answer.subscribe(data => {
+      console.log('reciviendo profesor');
+      console.log(data);
+      this.peerServer.addAnswer(data.answer);
+      this.socket.addPeerServer$(this.peerServer);
+    });
   }
 
-
+  async connectionPeerProfesor(room: any) {
+    console.log('connection profesor ');
+    console.log(room);
+    if (!Util.empty(room)
+      && Sesion.user().rol.tipo !== 'PR') {
+      console.log('ciclo for buscar usuario');
+      let usuarioAux: Usuario = null;
+      console.log(room.usuarios);
+      for (const user of room.usuarios) {
+        console.log('buscando...');
+        console.log(user.rol.tipo);
+        if (user.rol.tipo === 'PR') {
+          usuarioAux = user;
+          break;
+        }
+      }
+      console.log('usuarios conectadosss....');
+      console.log(usuarioAux);
+      if (!Util.empty(usuarioAux)) {
+        console.log('cliente....');
+        const peerClient = new PeerClient();
+        // peerClient.addAnswer(usuarioAux.peerServer.offer);
+        peerClient.peerConnection.setRemoteDescription(new RTCSessionDescription(usuarioAux.peerServer.offer));
+        const answer = await peerClient.peerConnection.createAnswer();
+        await peerClient.peerConnection.setLocalDescription(answer);
+        peerClient.answer = answer;
+        this.socket.addPeerClient$(peerClient);
+        console.log('paso ya existe respuesta por parte del answer');
+        if (Sesion.user().rol.tipo === 'ES') {
+          this.socket.emit('answer', { programacion: this.incripcionAsigEs.programacion, peer: peerClient, usuario: usuarioAux });
+        } else {
+          this.socket.emit('answer', { programacion: this.programacionHorario, peer: peerClient, usuario: usuarioAux });
+        }
+      }
+    }
+  }
 }
 
 

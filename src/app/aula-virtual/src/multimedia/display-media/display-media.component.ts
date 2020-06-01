@@ -1,3 +1,9 @@
+import { PeerClient } from './../../../model/peer-client';
+import { Sesion } from 'src/app/utils/sesion';
+import { Usuario } from 'src/app/aula-virtual/model/usuario';
+import { Util } from 'src/app/utils/util';
+import { SocketIoClientService } from 'src/app/aula-virtual/service/socket-io-client.service';
+import { PeerServer } from './../../../model/peer-server';
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 
 
@@ -36,9 +42,22 @@ export class DisplayMediaComponent implements OnInit {
 
   stream: any;
   streamDesktop: any;
+  peerServer: PeerServer;
+  PeerClient: PeerClient;
 
-  constructor() {
+  constructor(
+    private socket: SocketIoClientService
+  ) {
     this.agregarPrototypeWindow();
+    this.consultarPeerServer();
+  }
+
+
+
+  consultarPeerServer() {
+    this.socket.getPeerServer$().subscribe(
+      data => this.peerServer = data
+    );
   }
 
   agregarPrototypeWindow() {
@@ -54,6 +73,30 @@ export class DisplayMediaComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.consultarPeerClient();
+
+  }
+  consultarPeerClient() {
+    console.log('transmitiendo el servidor para los clientes');
+    console.log(this.socket.peerClient$);
+    if (!Util.empty(this.socket.peerClient$.getValue())) {
+      console.log('transmitiendo el servidor para los clientes');
+      this.socket.getPeerClient$().subscribe(
+        peer => {
+          const p: PeerClient = peer;
+          console.log('entro a transmitir el cliente lo del servidor');
+          console.log(this.video);
+          console.log(peer);
+          p.peerConnection.ontrack = (event) => {
+            console.log('entro al ontrack');
+            this.video.srcObject = event.streams[0];
+            this.video.play();
+          };
+
+        }
+      );
+    }
   }
 
   start() {
@@ -82,9 +125,9 @@ export class DisplayMediaComponent implements OnInit {
 
   init() {
     if (this.videoCam && this.audio) {
-      this.initCamera({ video: {width: this.width , height: this.height}, audio: this.audio });
+      this.initCamera({ video: { width: this.width, height: this.height }, audio: this.audio });
     } else if (this.videoCam && !this.audio) {
-      this.initCamera({ video: {width: this.width , height: this.height}, audio: this.audio });
+      this.initCamera({ video: { width: this.width, height: this.height }, audio: this.audio });
     } else if (!this.videoCam && !this.audio) {
       this.stop();
     } else if (!this.videoCam && this.audio) {
@@ -119,8 +162,10 @@ export class DisplayMediaComponent implements OnInit {
       this.video.srcObject = stream;
       this.stream = stream;
       this.video.play();
+      this.stream.getTracks().forEach((track: any) => {
+        this.peerServer.addStreamVideo(stream, track);
+
+      });
     });
   }
-
-
 }
