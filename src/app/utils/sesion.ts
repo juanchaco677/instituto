@@ -4,9 +4,22 @@ export class Sesion {
   /**
    * agregar el usuario logueado
    */
-  static setUser(usuario: Usuario) {
+  static setUser(usuario: Usuario, aula?: boolean) {
     this.delete();
     sessionStorage.setItem('usuario', JSON.stringify(usuario));
+    if (aula) {
+      sessionStorage.setItem('usuarioAulaChat', JSON.stringify({
+        email: usuario.email,
+        id: usuario.id,
+        nombre: usuario.nombre,
+        tipo: usuario.tipo,
+        cedula: usuario.cedula,
+        foto: usuario.foto,
+        sex: usuario.sex,
+        rol: usuario.rol
+      }));
+
+    }
   }
   static setRolUser(rolUsuario: RolUsuario) {
     sessionStorage.setItem('rolUsuario', JSON.stringify(rolUsuario));
@@ -47,6 +60,9 @@ export class Sesion {
    */
   static user(): Usuario {
     return Sesion.getSesionStorage() as Usuario;
+  }
+  static userAulaChat(): Usuario {
+    return JSON.parse(sessionStorage.getItem('usuarioAulaChat'));
   }
 
   static rolUser(): Usuario {

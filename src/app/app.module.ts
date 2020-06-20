@@ -20,6 +20,7 @@ import { LoginGuard } from './dashboard/guard/login/login.guard';
   ],
   declarations: [
     AppComponent,
+
   ],
   providers: [LoginGuard ],
   bootstrap: [ AppComponent ],

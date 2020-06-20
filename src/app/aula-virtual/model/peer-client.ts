@@ -1,35 +1,65 @@
-import { Util } from './../../utils/util';
-import { utils } from 'protractor';
-
 export class PeerClient {
-
-  configuration = {   iceServers: [{ urls: 'stun:stun.test.com:19000' }]};
+  config = {
+    iceServers: [{
+      urls: 'stun:181.55.192.137:3478', username: 'cony',
+      password: 'juancamilo65'
+    }]
+  };
   peerConnection: RTCPeerConnection;
   answer: any;
-  constructor(){
-    this.peerConnection = new RTCPeerConnection(this.configuration);
+  receiveChannel: any;
+  dataChannel: any;
+  localDescription: any;
+  constructor() {
+    this.peerConnection = new RTCPeerConnection(this.config);
   }
 
-  async addAnswer(offer: any) {
-    console.log('clienteeeeeeeeeeeee');
-    console.log(offer);
-    this.peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
-    const answer = await this.peerConnection.createAnswer();
-    await this.peerConnection.setLocalDescription(answer);
-    console.log('respuestaaaaaaaaaaa');
-    console.log(answer);
-    this.answer = answer;
+  addStreamVideo(stream: any, track: any) {
+    this.peerConnection.addTrack(track, stream);
   }
 
+  async createAnswer(localDescription: any) {
+    await this.peerConnection.setRemoteDescription(localDescription);
+    await this.peerConnection.setLocalDescription(await this.peerConnection.createAnswer());
+    this.localDescription = this.peerConnection.localDescription;
+  }
 
-
-  getOntrack() {
-    this.peerConnection.ontrack = (event) => {
-      console.log('entro al ontrack');
-      return event.streams[0];
+  createDataChannel(nameChannel: string) {
+    this.dataChannel = this.peerConnection.createDataChannel(nameChannel);
+    this.dataChannel.onopen = (event: any) => {
+      if (this.dataChannel) {
+        if (this.dataChannel.readyState === 'open') {
+          console.log('canal abierto client');
+        } else {
+          console.log('canal cerrado client');
+        }
+      }
     };
-    return null;
+
+    this.dataChannel.onclose = (event: any) => {
+      if (this.dataChannel) {
+        if (this.dataChannel.readyState === 'open') {
+          console.log('canal abierto cerrado client');
+        } else {
+          console.log('canal cerrado cerrado client');
+        }
+      }
+    };
   }
 
+  send(data: any) {
+    this.dataChannel.send(data);
+  }
 
+  closeSendDataChannel() {
+    this.dataChannel.close();
+  }
+
+  closeReciveDataChannel() {
+    this.receiveChannel.close();
+  }
+
+  close() {
+    this.peerConnection.close();
+  }
 }

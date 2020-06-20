@@ -1,7 +1,20 @@
-<div *ngFor="let usuario of usuarios">
-  <app-display-media [width]="'100%'" [height]="'200px'" >
+<div class="row">
+  <div class="col-md-4 " *ngFor="let peerEmiRece of room.peerServerEmisorReceptor">
+    <app-video-multimedia *ngIf="peerEmiRece.emisor.id === usuario.id" [tipo]="'S'"
+      [peerServer]="peerEmiRece.peerServer" [width]="'200px'" [height]="'250px'">
+    </app-video-multimedia>
+    <!-- <app-botones [htmlVideo]="videoHtml" *ngIf="peerEmiRece.emisor.id === usuario.id"></app-botones> -->
 
+    <app-video-multimedia *ngIf="peerEmiRece.receptor.id === usuario.id" [tipo]="'C'"
+      [peerClient]="peerEmiRece.peerClient" [width]="'200px'" [height]="'250px'">
+    </app-video-multimedia>
+  </div>
 
-  </app-display-media>
-  {{usuario.nombre}}
+  <div class="col-md-4 " >
+    <app-video-multimedia #videoHtml [width]="'200px'" [height]="'250px'">
+    </app-video-multimedia>
+    <app-botones [htmlVideo]="videoHtml"></app-botones>
+
+  </div>
+
 </div>

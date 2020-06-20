@@ -1,5 +1,5 @@
-import { PeerClient } from './../model/peer-client';
-import { PeerServer } from './../model/peer-server';
+import { ProgramacionHorario } from './../../dashboard/modelo/programacion-horario';
+import { PeerServerEmisorReceptor } from './../model/peer-server-emisor-receptor';
 import { BehaviorSubject } from 'rxjs';
 import { Usuario } from 'src/app/aula-virtual/model/usuario';
 import { Room } from '../model/room';
@@ -7,20 +7,23 @@ import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 @Injectable()
 export class SocketIoClientService {
+  /**
+   * hilos de escucha socket io
+   */
   $addUsuario = this.socket.fromEvent<Usuario>('addUsuario');
-
-  $peerConection = this.socket.fromEvent<any>('peer-conection');
-  $streamingCam = this.socket.fromEvent<any>('streaming-cam');
   $currentRoom = this.socket.fromEvent<Room>('room');
-  $answer = this.socket.fromEvent<PeerClient>('answer');
-  $error = this.socket.fromEvent<any>('err');
-
-  $rooms = this.socket.fromEvent<string[]>('rooms');
   $chatRoom = this.socket.fromEvent<Usuario>('chatRoom');
+  $reciveTransmision = this.socket.fromEvent<Usuario>('reciveTransmision');
+  $createAnswer = this.socket.fromEvent<PeerServerEmisorReceptor[]>('createAnswer');
+  $sendAnswer = this.socket.fromEvent<PeerServerEmisorReceptor[]>('sendAnswer');
 
+  /**
+   * observables
+   */
   room$: BehaviorSubject<Room> = new BehaviorSubject<Room>(new Room());
-  peerServer$: BehaviorSubject<PeerServer> = new BehaviorSubject<PeerServer>(null);
-  peerClient$: BehaviorSubject<PeerClient> = new BehaviorSubject<PeerClient>(null);
+  usuarios$: BehaviorSubject<Usuario[]> = new BehaviorSubject<Usuario[]>([]);
+
+  programacion$: BehaviorSubject<ProgramacionHorario> = new BehaviorSubject<ProgramacionHorario>(null);
 
   constructor(private socket: Socket) { }
 
@@ -36,33 +39,46 @@ export class SocketIoClientService {
     this.room$.next(room);
   }
 
+  deleteRoomElementUsuario$(usuario: Usuario) {
+
+    for (const [index , element] of this.room$.getValue().usuarios.entries()) {
+      if (element.id === usuario.id) {
+        this.room$.getValue().usuarios.splice(index, 1);
+      }
+    }
+    this.room$.getValue().usuarios.push(usuario);
+  }
+
   deleteRoom$() {
     this.room$.next(null);
   }
 
-  getPeerServer$() {
-    return this.peerServer$.asObservable();
+  getUsuarios$() {
+    return this.usuarios$.asObservable();
   }
 
-  addPeerServer$(peerServer: PeerServer) {
-    this.peerServer$.next(peerServer);
+  addAllUsuarios$(usuario: Usuario[]) {
+    this.usuarios$.next(usuario);
   }
 
-  deletePeerServer$() {
-    this.peerServer$.next(null);
+  addUsuario$(usuario: Usuario) {
+    this.room$.getValue().usuarios.push(usuario);
   }
 
-
-  getPeerClient$() {
-    return this.peerClient$.asObservable();
+  deleteUsuarios$() {
+    this.usuarios$.next(null);
   }
 
-  addPeerClient$(peerClient: PeerClient) {
-    this.peerClient$.next(peerClient);
+  addProgramacion$(programacion: ProgramacionHorario){
+    this.programacion$.next(programacion);
   }
 
-  deletePeerClient$() {
-    this.peerClient$.next(null);
+  getProgramacion$(){
+    return this.programacion$.asObservable();
+  }
+
+  deleteProgramacion(){
+    this.programacion$.next(null);
   }
 
   buscarProfesor() {

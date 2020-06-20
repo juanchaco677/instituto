@@ -2,14 +2,7 @@
   <mat-sidenav-container class="example-container">
     <mat-sidenav #sidenav mode="side" class="mat-sidenav-lateral vh-100">
       <mat-tab-group>
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <mat-icon>voice_chat</mat-icon>
-          </ng-template>
-          <app-list-video></app-list-video>
-        </mat-tab>
-
-        <mat-tab>
+         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon> chat</mat-icon>
           </ng-template>
@@ -19,10 +12,9 @@
     </mat-sidenav>
     <!-- style="overflow:hidden!important;" -->
     <mat-sidenav-content class="w-100 vh-100"  style="overflow:hidden!important;" >
-      <app-video-desktop (sidenav) = "sidenav.toggle()"></app-video-desktop>
+     <app-list-video></app-list-video>
     </mat-sidenav-content>
   </mat-sidenav-container>
-
 </div>
 
 

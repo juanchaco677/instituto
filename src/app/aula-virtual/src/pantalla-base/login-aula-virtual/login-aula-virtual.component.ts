@@ -63,7 +63,7 @@ export class LoginAulaVirtualComponent implements OnInit {
         data => {
           const usuario = data['usuario'];
           usuario.foto = Util.getUrlImage(usuario);
-          Sesion.setUser(usuario);
+          Sesion.setUser(usuario , true);
           this.usuarioService.addAuthUser$(usuario);
           this.activar = false;
           this.router.navigate(['aula-virtual']);

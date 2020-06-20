@@ -1,64 +1,12 @@
-<div class="d-flex align-items-start">
-  <div class="vw-100 vh-100" style="position: relative;">
-    <div class="logo-user bg-dark vh-100 d-flex justify-content-center align-items-center">
-      <div class="contenedor-border-redondeado">
-        <h1 class="posicion-alias">{{alias}}</h1>
-      </div>
-    </div>
-    <app-display-media [width]="'100vw'" [height]="'100vh'" #display [hidden]="!startDesktop" style="position:absolute; left:0px; top:0px; z-index: 2;">
-    </app-display-media>
-    <app-desktop #deskopComponent [hidden]="startDesktop" style="position:absolute; left:0px; top:0px; z-index: 3;">
-    </app-desktop>
+<div class="row">
+  <div class="col-md-4 " *ngFor="let peerEmiRece of room.peerServerEmisorReceptor">
+    <app-video-multimedia *ngIf="peerEmiRece.emisor.id === usuario.id" [tipo]="'S'" [peerServer] = "peerEmiRece.peerServer" [width]="'200px'" [height]="'250px'">
+    </app-video-multimedia>
+    <app-video-multimedia *ngIf="peerEmiRece.receptor.id === usuario.id" [tipo]="'C'" [peerClient] = "peerEmiRece.peerClient" [width]="'200px'" [height]="'250px'">
+    </app-video-multimedia>
   </div>
-</div>
-<div class="fixed-bottom">
-  <button *ngIf="tipo === 'ES'" mat-icon-button (click)="display.consultarPeerClient()">
-    <mat-icon color="accent" >videocam</mat-icon>
-  </button>
-
-  <div *ngIf="tipo === 'PR'" class="d-flex justify-content-center contenedor-buttons">
-
-    <button mat-icon-button [routerLink]="['../../../aula-virtual']">
-      <mat-icon>arrow_back</mat-icon>
-    </button>
-
-    <button mat-icon-button (click)="display.start()">
-      <mat-icon color="accent" *ngIf="display.btnCamera">videocam</mat-icon>
-      <mat-icon color="accent" *ngIf="!display.btnCamera">videocam_off</mat-icon>
-    </button>
-    <button mat-icon-button (click)="display.sound()">
-      <mat-icon *ngIf="display.btnMicrofono">mic</mat-icon>
-      <mat-icon *ngIf="!display.btnMicrofono">mic_off</mat-icon>
-    </button>
-
-    <button mat-icon-button (click)="display.stop()">
-      <mat-icon> portable_wifi_off</mat-icon>
-    </button>
-    <button mat-icon-button (click)="openClose()">
-      <mat-icon>people</mat-icon>
-    </button>
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-      <mat-icon>screen_share</mat-icon>
-    </button>
-
-    <mat-menu  #menu="matMenu" id="panel-menu">
-      <button mat-menu-item (click)="deskopComponent.start();hidden()">
-        <mat-icon>settings_overscan</mat-icon>
-        <span>Iniciar</span>
-      </button>
-      <button mat-menu-item (click)="deskopComponent.resume()">
-        <mat-icon>play_circle_filled</mat-icon>
-        <span>Continuar</span>
-      </button>
-      <button mat-menu-item (click)="deskopComponent.pause();">
-        <mat-icon> pause_presentation</mat-icon>
-        <span>Pausar</span>
-      </button>
-      <button mat-menu-item (click)="deskopComponent.stop();hidden()">
-        <mat-icon>stop_screen_share</mat-icon>
-        <span>Cerrar transmisión</span>
-      </button>
-    </mat-menu>
+  <div class="col-md-4 ">
+    <app-video-multimedia #videoHtml [width]="'200px'" [height]="'250px'"></app-video-multimedia>
+    <app-botones [htmlVideo] ="videoHtml" ></app-botones>
   </div>
-
 </div>

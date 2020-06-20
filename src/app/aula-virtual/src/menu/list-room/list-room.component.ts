@@ -14,7 +14,6 @@ export class ListRoomComponent implements OnInit {
   tipo: string;
 
   constructor(
-    private socketService: SocketIoClientService,
     private router: Router
   ) {
 
