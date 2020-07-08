@@ -1,9 +1,13 @@
 export class PeerClient {
   config = {
-    iceServers: [{
-      urls: 'stun:181.55.192.137:3478', username: 'cony',
-      password: 'juancamilo65'
-    }]
+    iceServers: [
+      {
+        urls: 'stun:181.55.192.137:3478',
+        username: 'cony',
+        password: 'juancamilo65',
+      }
+    ],
+    sdpSemantics: 'unified-plan',
   };
   peerConnection: RTCPeerConnection;
   answer: any;
@@ -20,7 +24,9 @@ export class PeerClient {
 
   async createAnswer(localDescription: any) {
     await this.peerConnection.setRemoteDescription(localDescription);
-    await this.peerConnection.setLocalDescription(await this.peerConnection.createAnswer());
+    await this.peerConnection.setLocalDescription(
+      await this.peerConnection.createAnswer()
+    );
     this.localDescription = this.peerConnection.localDescription;
   }
 

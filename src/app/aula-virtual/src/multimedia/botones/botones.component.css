@@ -1,0 +1,9 @@
+.div-boton-true{
+  position: absolute; left: 18%; bottom:-12%; z-index:10;
+}
+
+.div-boton-false{
+  position: fixed;
+  left: 40%;
+  bottom: 0;
+}

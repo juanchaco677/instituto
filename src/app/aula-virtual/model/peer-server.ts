@@ -7,6 +7,7 @@ export class PeerServer {
         password: 'juancamilo65',
       },
     ],
+    sdpSemantics: 'unified-plan'
   };
   peerConnection: RTCPeerConnection;
   offer: any;

@@ -16,7 +16,6 @@ export class SocketIoClientService {
   $reciveTransmision = this.socket.fromEvent<Usuario>('reciveTransmision');
   $createAnswer = this.socket.fromEvent<PeerServerEmisorReceptor[]>('createAnswer');
   $sendAnswer = this.socket.fromEvent<PeerServerEmisorReceptor[]>('sendAnswer');
-
   /**
    * observables
    */
@@ -24,6 +23,8 @@ export class SocketIoClientService {
   usuarios$: BehaviorSubject<Usuario[]> = new BehaviorSubject<Usuario[]>([]);
 
   programacion$: BehaviorSubject<ProgramacionHorario> = new BehaviorSubject<ProgramacionHorario>(null);
+  listen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
+  boton$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
 
   constructor(private socket: Socket) { }
 
@@ -37,6 +38,10 @@ export class SocketIoClientService {
 
   addRoom$(room: Room) {
     this.room$.next(room);
+  }
+
+  addRoomEmisorReceptor(peerEmisorReceptor: PeerServerEmisorReceptor){
+    this.room$.getValue().peerServerEmisorReceptor.push(peerEmisorReceptor);
   }
 
   deleteRoomElementUsuario$(usuario: Usuario) {
@@ -96,4 +101,15 @@ export class SocketIoClientService {
     return usuario;
   }
 
+  addListen(data: boolean){
+    this.listen$.next(data);
+  }
+
+  getListen(){
+    return this.listen$.asObservable();
+  }
+
+  deleteListen(){
+    this.listen$.next(null);
+  }
 }

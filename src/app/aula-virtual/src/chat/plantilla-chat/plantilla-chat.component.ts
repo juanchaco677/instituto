@@ -12,6 +12,7 @@ import { Component, OnInit } from '@angular/core';
 import { IncripcionAsigEs } from 'src/app/dashboard/modelo/incripcion-asig-es';
 import { ProgramacionHorario } from 'src/app/dashboard/modelo/programacion-horario';
 import { PeerServer } from 'src/app/aula-virtual/model/peer-server';
+import { VideoBoton } from 'src/app/aula-virtual/model/video-boton';
 
 @Component({
   selector: 'app-plantilla-chat',
@@ -34,7 +35,6 @@ export class PlantillaChatComponent implements OnInit {
     private overlay: OverlayContainer
   ) {
     this.sesionUsuario = Sesion.user();
-    console.log('innovar ' + this.sesionUsuario.rol.tipo);
     this.room = new Room();
     if (!this.overlay.getContainerElement().classList.contains('theme-light')) {
       overlay.getContainerElement().classList.add('theme-light');
@@ -111,55 +111,18 @@ export class PlantillaChatComponent implements OnInit {
   }
   ngOnInit(): void {
     this.socket.$currentRoom.subscribe((data) => {
+
       for (const element of data.peerServerEmisorReceptor) {
-        console.log('ver para creeer');
-        console.log(element.peerServer);
-        console.log(element.peerClient);
-        console.log(element);
-        console.log(this.usuario);
-        if (
-          element.emisor.id === this.usuario.id &&
-          Util.empty(element.peerServer)
-        ) {
-          console.log('crear servidor');
-          element.peerServer = new PeerServer();
-          element.peerClient = new PeerClient();
-        } else {
-          if (
-            element.receptor.id === this.usuario.id &&
-            Util.empty(element.peerClient)
-          ) {
-            console.log('crear cliente');
-            element.peerClient = new PeerClient();
+        if (Util.empty(element.peerServer) && Util.empty(element.peerClient)) {
             element.peerServer = new PeerServer();
-          }
+            element.peerClient = new PeerClient();
+            element.videoBoton = new VideoBoton(true , false);
+            element.peerServer.createDataChannel('botones');
+            element.peerClient.createDataChannel('botones');
         }
       }
       this.socket.addRoom$(data);
-      // this.socket.getRoom$().subscribe((room) => {
-      //   for (const element of room.peerServerEmisorReceptor) {
-      //     console.log(element);
-      //   }
-      // });
+      this.socket.addListen(true);
     });
-
-    // this.socket.$addUsuario.subscribe((data) => {
-    //   if (
-    //     !Util.empty(this.room) &&
-    //     !Util.empty(this.room.usuarios) &&
-    //     this.room.usuarios.length > 0
-    //   ) {
-    //     for (const usuario of this.room.usuarios) {
-    //       if (usuario.id === data.id) {
-    //         this.socket.deleteRoomElementUsuario$(usuario);
-    //         this.socket.addUsuario$(data);
-    //       }
-    //     }
-    //   } else {
-    //     if (!Util.empty(this.room)) {
-    //       this.socket.addUsuario$(data);
-    //     }
-    //   }
-    // });
   }
 }

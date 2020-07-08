@@ -14,8 +14,6 @@ export class Usuario {
     public foto?: string,
     public sex?: string,
     public rol?: Rol,
-    public peerServer?: PeerServer,
-    public peerClient?: PeerClient,
     public socket?: any
   ) {
   }

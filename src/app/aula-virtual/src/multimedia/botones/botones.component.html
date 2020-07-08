@@ -1,45 +1,97 @@
-<div style="position: absolute; left: 35%; bottom:0px; z-index:10;">
-  <div class="d-flex justify-content-center contenedor-buttons">
-
-    <button mat-icon-button [routerLink]="['../../../aula-virtual']">
-      <mat-icon>arrow_back</mat-icon>
-    </button>
-
-    <button mat-icon-button (click)="start()">
-      <mat-icon color="accent" >videocam</mat-icon>
-    </button>
-    <button mat-icon-button >
-      <mat-icon>mic</mat-icon>
-    </button>
-
-    <button mat-icon-button >
-      <mat-icon> portable_wifi_off</mat-icon>
-    </button>
-    <button mat-icon-button >
-      <mat-icon>people</mat-icon>
-    </button>
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-      <mat-icon>screen_share</mat-icon>
-    </button>
-
-    <mat-menu #menu="matMenu" id="panel-menu">
-      <button mat-menu-item >
-        <mat-icon>settings_overscan</mat-icon>
-        <span>Iniciar</span>
+<div *ngIf="activo">
+  <div class="div-boton-true">
+    <div class="d-flex justify-content-center contenedor-buttons">
+      <button mat-icon-button>
+        <mat-icon color="accent" *ngIf="videoBoton.video">videocam</mat-icon>
+        <mat-icon color="accent" *ngIf="!videoBoton.video">videocam_off</mat-icon>
       </button>
-      <button mat-menu-item >
-        <mat-icon>play_circle_filled</mat-icon>
-        <span>Continuar</span>
+      <button mat-icon-button>
+        <mat-icon color="accent" *ngIf="videoBoton.audio">mic</mat-icon>
+        <mat-icon color="accent" *ngIf="!videoBoton.audio">mic_off</mat-icon>
       </button>
-      <button mat-menu-item >
-        <mat-icon> pause_presentation</mat-icon>
-        <span>Pausar</span>
-      </button>
-      <button mat-menu-item>
-        <mat-icon>stop_screen_share</mat-icon>
-        <span>Cerrar transmisión</span>
-      </button>
-    </mat-menu>
+    </div>
   </div>
+</div>
 
+<div *ngIf="!activo">
+  <div class="div-boton-false">
+    <div class="d-flex justify-content-center contenedor-buttons">
+      <button mat-icon-button [routerLink]="['../../../aula-virtual']">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+
+      <button mat-icon-button (click)="startVideo()">
+        <mat-icon color="accent">videocam</mat-icon>
+      </button>
+      <button mat-icon-button (click)="startMic()">
+        <mat-icon color="accent">mic</mat-icon>
+      </button>
+
+      <button mat-icon-button>
+        <mat-icon> portable_wifi_off</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon>people</mat-icon>
+      </button>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>screen_share</mat-icon>
+      </button>
+
+      <mat-menu #menu="matMenu" id="panel-menu">
+        <button mat-menu-item>
+          <mat-icon>settings_overscan</mat-icon>
+          <span>Iniciar</span>
+        </button>
+        <button mat-menu-item>
+          <div style="position: absolute; left: 35%; bottom:0px; z-index:10;">
+            <div class="d-flex justify-content-center contenedor-buttons">
+
+              <div>
+                <button mat-icon-button [routerLink]="['../../../aula-virtual']">
+                  <mat-icon>arrow_back</mat-icon>
+                </button>
+
+                <button mat-icon-button (click)="startVideo()">
+                  <mat-icon color="accent">videocam</mat-icon>
+                </button>
+                <button mat-icon-button>
+                  <mat-icon (click)="startMic()">mic</mat-icon>
+                </button>
+
+                <button mat-icon-button>
+                  <mat-icon> portable_wifi_off</mat-icon>
+                </button>
+                <button mat-icon-button>
+                  <mat-icon>people</mat-icon>
+                </button>
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                  <mat-icon>screen_share</mat-icon>
+                </button>
+
+                <mat-menu #menu="matMenu" id="panel-menu">
+                  <button mat-menu-item>
+                    <mat-icon>settings_overscan</mat-icon>
+                    <span>Iniciar</span>
+                  </button>
+                  <button mat-menu-item>
+                    <mat-icon>play_circle_filled</mat-icon>
+                    <span>Continuar</span>
+                  </button>
+                  <button mat-menu-item>
+                    <mat-icon> pause_presentation</mat-icon>
+                    <span>Pausar</span>
+                  </button>
+                  <button mat-menu-item>
+                    <mat-icon>stop_screen_share</mat-icon>
+                    <span>Cerrar transmisión</span>
+                  </button>
+                </mat-menu>
+              </div>
+
+            </div>
+          </div>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
 </div>

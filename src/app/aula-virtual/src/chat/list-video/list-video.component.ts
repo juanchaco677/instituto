@@ -32,40 +32,36 @@ export class ListVideoComponent implements OnInit {
     if (!Util.empty(this.socket.room$)) {
       this.socket.getRoom$().subscribe((data) => (this.room = data));
     }
+
     /**
      * recibiendo el offer en el cliente para que este cree la respuesta
      */
     this.socket.$createAnswer.subscribe(async (data) => {
-      console.log('create answer');
-      console.log(data);
+      this.socket.addListen(true);
       for (const elementIn of data) {
         for (const element of this.room.peerServerEmisorReceptor) {
           if (
-            this.usuario.id === elementIn.receptor.id &&
-            elementIn.receptor.id === element.receptor.id &&
-            elementIn.emisor.id === element.emisor.id &&
-            !Util.empty(elementIn.peerServer.localDescription)
+            (elementIn.usuario1.id === Sesion.userAulaChat().id ||
+              elementIn.usuario2.id === Sesion.userAulaChat().id) &&
+            (element.usuario1.id === Sesion.userAulaChat().id ||
+              element.usuario2.id === Sesion.userAulaChat().id) &&
+            elementIn.usuario1.id === element.usuario1.id &&
+            elementIn.usuario2.id === element.usuario2.id
           ) {
+            elementIn.peerClient = new PeerClient();
             await element.peerClient.createAnswer(
               elementIn.peerServer.localDescription
             );
-            element.peerServer = elementIn.peerServer;
-            elementIn.peerClient.localDescription = element.peerClient.localDescription;
+            elementIn.peerClient.localDescription =
+              element.peerClient.localDescription;
           }
         }
       }
-      // this.socket.getRoom$().subscribe(async (room: Room) => {
-      //   this.room = room;
-      //   for (const emiRecep of this.room.peerServerEmisorReceptor) {
-      //     if (this.usuario.id === emiRecep.receptor.id) {
-      //       await emiRecep.peerClient.createAnswer(
-      //         emiRecep.peerServer.localDescription
-      //       );
-      //     }
-      //   }
-      this.socket.emit('sendAnswer', { id: this.room.id, peerServerEmisorReceptor: data });
-      //   console.log(this.room);
-      // });
+      this.socket.addListen(true);
+      this.socket.emit('sendAnswer', {
+        id: this.room.id,
+        peerServerEmisorReceptor: data,
+      });
     });
 
     /**
@@ -73,43 +69,23 @@ export class ListVideoComponent implements OnInit {
      * esto para conectarlos
      */
     this.socket.$sendAnswer.subscribe(async (data) => {
-      console.log('send answer');
-      console.log(data);
+      this.socket.addListen(true);
       for (const elementIn of data) {
         for (const element of this.room.peerServerEmisorReceptor) {
           if (
-            this.usuario.id === elementIn.emisor.id &&
-            elementIn.emisor.id === element.emisor.id &&
-            elementIn.receptor.id === element.receptor.id &&
-            !Util.empty(elementIn.peerClient.localDescription)
+            (elementIn.usuario1.id === Sesion.userAulaChat().id ||
+              elementIn.usuario2.id === Sesion.userAulaChat().id) &&
+            (element.usuario1.id === Sesion.userAulaChat().id ||
+              element.usuario2.id === Sesion.userAulaChat().id) &&
+            elementIn.usuario1.id === element.usuario1.id &&
+            elementIn.usuario2.id === element.usuario2.id
           ) {
-            element.peerServer.addAnswer(elementIn.peerClient.localDescription);
-            element.peerClient = elementIn.peerClient;
+            await element.peerServer.addAnswer(
+              elementIn.peerClient.localDescription
+            );
           }
         }
       }
-
-      // this.socket.addRoom$(data);
-      // this.socket.getRoom$().subscribe(async (room: Room) => {
-      //   this.room = room;
-      //   for (const emiRecep of this.room.peerServerEmisorReceptor) {
-      //     if (this.usuario.id === emiRecep.emisor.id) {
-      //       emiRecep.peerServer.addAnswer(emiRecep.peerClient.localDescription);
-      //     }
-      //   }
-      //   console.log(this.room);
-      // });
     });
   }
-
-  // buscarPeerServerTransmitir(){
-  //   this.socket.getRoom$().subscribe(data =>{
-  //     for (const element of data.peerServerEmisorReceptor) {
-  //       if( this.usuario.id === element.emisor.id){
-  //         this.peerServer = element.peerServer;
-  //       }
-  //     }
-  //   });
-  //   return null;
-  // }
 }

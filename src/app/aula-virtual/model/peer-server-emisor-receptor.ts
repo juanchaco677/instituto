@@ -1,3 +1,4 @@
+import { VideoBoton } from './video-boton';
 import { PeerServer } from './peer-server';
 import { Usuario } from './usuario';
 import { PeerClient } from './peer-client';
@@ -5,10 +6,11 @@ import { PeerClient } from './peer-client';
 export class PeerServerEmisorReceptor {
 
   constructor(
-    public emisor ?: Usuario,
-    public receptor ?: Usuario,
+    public usuario1 ?: Usuario,
+    public usuario2 ?: Usuario,
     public peerServer?: PeerServer,
-    public peerClient?: PeerClient
+    public peerClient?: PeerClient,
+    public videoBoton?: VideoBoton,
   ) {
   }
 }
