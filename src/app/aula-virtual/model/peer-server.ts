@@ -7,7 +7,7 @@ export class PeerServer {
         password: 'juancamilo65',
       },
     ],
-    sdpSemantics: 'unified-plan'
+    sdpSemantics: 'unified-plan',
   };
   peerConnection: RTCPeerConnection;
   offer: any;
@@ -19,14 +19,18 @@ export class PeerServer {
   }
 
   async createOffer() {
-    await this.peerConnection.setLocalDescription(
-      await this.peerConnection.createOffer()
-    );
-    this.localDescription = this.peerConnection.localDescription;
+    try {
+      await this.peerConnection.setLocalDescription(
+        await this.peerConnection.createOffer()
+      );
+      this.localDescription = this.peerConnection.localDescription;
+    } catch (error) {}
   }
 
   async addAnswer(localDescription: any) {
-    await this.peerConnection.setRemoteDescription(localDescription);
+    try {
+      await this.peerConnection.setRemoteDescription(localDescription);
+    } catch (error) {}
   }
 
   createDataChannel(nameChannel: string) {

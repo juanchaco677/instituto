@@ -1,5 +1,5 @@
+import { Usuario } from './../../../model/usuario';
 import { VideoBoton } from './../../../model/video-boton';
-import { environment } from './../../../../../environments/environment.prod';
 import { Util } from './../../../../utils/util';
 import { SocketIoClientService } from './../../../service/socket-io-client.service';
 import { PeerClient } from './../../../model/peer-client';
@@ -29,6 +29,8 @@ export class VideoMultimediaComponent implements OnInit {
   @Input() transmiteRecive: boolean;
   @Input() peerServer: PeerServer;
   @Input() peerClient: PeerClient;
+  @Input() activo: boolean;
+  @Input() usuario: Usuario;
   videoBoton: VideoBoton = new VideoBoton(false, false);
   message: string;
   texto: string;
@@ -56,27 +58,44 @@ export class VideoMultimediaComponent implements OnInit {
         this.peerServer.peerConnection.ontrack = this.getRemoteStream.bind(
           this
         );
+        this.peerServer.peerConnection.ondatachannel = this.getOnDataChannel.bind(
+          this
+        );
       }
       if (data && !Util.empty(this.peerClient)) {
         this.peerClient.peerConnection.ontrack = this.getRemoteStream.bind(
           this
         );
+        this.peerClient.peerConnection.ondatachannel = this.getOnDataChannel.bind(
+          this
+        );
       }
     });
   }
+  getOnDataChannel(event: any) {
+    this.peerServer.receiveChannel = event.channel;
+    this.peerServer.receiveChannel.onmessage = (e: any) => {
 
+      this.videoBoton = JSON.parse(e.data);
+      this.cdr.detectChanges();
+    };
+  }
   getRemoteStream(ev: any) {
-    if (ev.streams && ev.streams.length > 0) {
-      for (const element of ev.streams) {
-        this.video.video.srcObject = element;
-        this.video.stream = element;
+    try {
+      if (ev.streams && ev.streams.length > 0) {
+        for (const element of ev.streams) {
+          this.video.video.srcObject = element;
+          this.video.stream = element;
+          this.listeAudio();
+        }
+      } else {
+        const inboundStream = new MediaStream(ev.track);
+        this.video.video.srcObject = inboundStream;
+        this.video.stream = inboundStream;
         this.listeAudio();
       }
-    } else {
-      const inboundStream = new MediaStream(ev.track);
-      this.video.video.srcObject = inboundStream;
-      this.video.stream = inboundStream;
-      this.listeAudio();
+    } catch (error) {
+
     }
   }
   /**
@@ -105,7 +124,7 @@ export class VideoMultimediaComponent implements OnInit {
           values += array[i];
         }
         const average = values / length;
-        if (average > 0.1) {
+        if (average >= 3.5) {
           this.videoBoton.latencia = true;
         } else {
           this.videoBoton.latencia = false;

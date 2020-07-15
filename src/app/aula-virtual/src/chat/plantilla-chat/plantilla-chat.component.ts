@@ -23,7 +23,6 @@ export class PlantillaChatComponent implements OnInit {
   incripcionAsigEs: IncripcionAsigEs;
   programacionHorario: ProgramacionHorario;
   data: any;
-  room: Room;
   usuario: Usuario;
   sesionUsuario: any;
   constructor(
@@ -35,7 +34,7 @@ export class PlantillaChatComponent implements OnInit {
     private overlay: OverlayContainer
   ) {
     this.sesionUsuario = Sesion.user();
-    this.room = new Room();
+
     if (!this.overlay.getContainerElement().classList.contains('theme-light')) {
       overlay.getContainerElement().classList.add('theme-light');
       document.body.classList.add('theme-light');
@@ -111,18 +110,16 @@ export class PlantillaChatComponent implements OnInit {
   }
   ngOnInit(): void {
     this.socket.$currentRoom.subscribe((data) => {
-
       for (const element of data.peerServerEmisorReceptor) {
         if (Util.empty(element.peerServer) && Util.empty(element.peerClient)) {
-            element.peerServer = new PeerServer();
-            element.peerClient = new PeerClient();
-            element.videoBoton = new VideoBoton(true , false);
-            element.peerServer.createDataChannel('botones');
-            element.peerClient.createDataChannel('botones');
+          element.peerServer = new PeerServer();
+          element.peerClient = new PeerClient();
+          element.videoBoton = new VideoBoton(true, false);
+          element.peerServer.createDataChannel('botones');
+          element.peerClient.createDataChannel('botones');
         }
       }
       this.socket.addRoom$(data);
-      this.socket.addListen(true);
     });
   }
 }

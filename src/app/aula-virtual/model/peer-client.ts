@@ -5,7 +5,7 @@ export class PeerClient {
         urls: 'stun:181.55.192.137:3478',
         username: 'cony',
         password: 'juancamilo65',
-      }
+      },
     ],
     sdpSemantics: 'unified-plan',
   };
@@ -23,11 +23,13 @@ export class PeerClient {
   }
 
   async createAnswer(localDescription: any) {
-    await this.peerConnection.setRemoteDescription(localDescription);
-    await this.peerConnection.setLocalDescription(
-      await this.peerConnection.createAnswer()
-    );
-    this.localDescription = this.peerConnection.localDescription;
+    try {
+      await this.peerConnection.setRemoteDescription(localDescription);
+      await this.peerConnection.setLocalDescription(
+        await this.peerConnection.createAnswer()
+      );
+      this.localDescription = this.peerConnection.localDescription;
+    } catch (error) {}
   }
 
   createDataChannel(nameChannel: string) {

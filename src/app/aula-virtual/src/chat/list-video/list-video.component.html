@@ -1,15 +1,15 @@
 <div class="row">
   <div class="col-md-4 " *ngFor="let peerEmiRece of room.peerServerEmisorReceptor">
-    <app-video-multimedia *ngIf="peerEmiRece.usuario1.id === usuario.id || peerEmiRece.usuario2.id === usuario.id"
-      [peerServer]="peerEmiRece.peerServer" [peerClient]="peerEmiRece.peerClient" [width]="'250px'" [height]="'200px'">
+    <app-video-multimedia [activo]="true" *ngIf="peerEmiRece.usuario1.id === usuario.id || peerEmiRece.usuario2.id === usuario.id"
+      [peerServer]="peerEmiRece.peerServer" [usuario]="peerEmiRece.usuario1.id === usuario.id ?peerEmiRece.usuario2 : peerEmiRece.usuario1 "  [peerClient]="peerEmiRece.peerClient" [width]="'250px'" [height]="'200px'">
     </app-video-multimedia>
-    <app-botones [peerServer]="peerEmiRece.peerServer" [peerClient]="peerEmiRece.peerClient"  [activo]="true"></app-botones>
+    <!-- <app-botones [peerServer]="peerEmiRece.peerServer" [peerClient]="peerEmiRece.peerClient"  [activo]="true"></app-botones> -->
   </div>
 
   <div class="col-md-4 ">
-    <app-video-multimedia #videoHtml [width]="'250px'" [height]="'200px'">
+    <app-video-multimedia [activo]="false" #videoHtml [width]="'250px'" [height]="'200px'">
     </app-video-multimedia>
-    <app-botones [htmlVideo]="videoHtml" [activo]="false"></app-botones>
+    <!-- <app-botones [htmlVideo]="videoHtml" [activo]="false"></app-botones> -->
 
   </div>
 </div>

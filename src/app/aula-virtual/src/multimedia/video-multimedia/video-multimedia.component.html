@@ -1,2 +1,4 @@
-<video  class="video bg-dark" autoplay [ngStyle]="{'width': width , 'height': height }" #videoElement></video>
-<app-botones [peerServer]="peerServer" [peerClient]="peerClient"    [activo]="true"></app-botones>
+<div class="bg-white" [ngStyle]="{'position':'relative','width': width , 'height': height }">
+  <video class="video bg-dark" autoplay [ngStyle]="{'width': width , 'height': height}" #videoElement></video>
+  <app-botones [videoBoton]="videoBoton" [htmlVideo]="this" [activo]="activo"></app-botones>
+</div>

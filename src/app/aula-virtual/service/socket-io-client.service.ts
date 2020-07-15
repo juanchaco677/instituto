@@ -10,12 +10,14 @@ export class SocketIoClientService {
   /**
    * hilos de escucha socket io
    */
-  $addUsuario = this.socket.fromEvent<Usuario>('addUsuario');
+  $addUsuario = this.socket.fromEvent<any>('addUsuario');
   $currentRoom = this.socket.fromEvent<Room>('room');
   $chatRoom = this.socket.fromEvent<Usuario>('chatRoom');
   $reciveTransmision = this.socket.fromEvent<Usuario>('reciveTransmision');
   $createAnswer = this.socket.fromEvent<PeerServerEmisorReceptor[]>('createAnswer');
   $sendAnswer = this.socket.fromEvent<PeerServerEmisorReceptor[]>('sendAnswer');
+  $refreshUsuario = this.socket.fromEvent<boolean>('refreshUsuario');
+
   /**
    * observables
    */
@@ -25,6 +27,7 @@ export class SocketIoClientService {
   programacion$: BehaviorSubject<ProgramacionHorario> = new BehaviorSubject<ProgramacionHorario>(null);
   listen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
   boton$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
+  listeAudio$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
 
   constructor(private socket: Socket) { }
 
@@ -111,5 +114,17 @@ export class SocketIoClientService {
 
   deleteListen(){
     this.listen$.next(null);
+  }
+
+  addListenAudio(data: boolean){
+    this.listeAudio$.next(data);
+  }
+
+  getListenAudio(){
+    return this.listeAudio$.asObservable();
+  }
+
+  deleteListenAudio(){
+    this.listeAudio$.next(null);
   }
 }

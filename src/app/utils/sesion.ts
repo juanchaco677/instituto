@@ -8,17 +8,23 @@ export class Sesion {
     this.delete();
     sessionStorage.setItem('usuario', JSON.stringify(usuario));
     if (aula) {
-      sessionStorage.setItem('usuarioAulaChat', JSON.stringify({
-        email: usuario.email,
-        id: usuario.id,
-        nombre: usuario.nombre,
-        tipo: usuario.tipo,
-        cedula: usuario.cedula,
-        foto: usuario.foto,
-        sex: usuario.sex,
-        rol: usuario.rol
-      }));
-
+      sessionStorage.setItem(
+        'usuarioAulaChat',
+        JSON.stringify({
+          email: usuario.email,
+          id: usuario.id,
+          nombre: usuario.nombre,
+          nombre_uno: usuario.nombre_uno,
+          nombre_dos: usuario.nombre_dos,
+          apellido_uno: usuario.apellido_uno,
+          apellido_dos: usuario.apellido_dos,
+          tipo: usuario.tipo,
+          cedula: usuario.cedula,
+          foto: usuario.foto,
+          sex: usuario.sex,
+          rol: usuario.rol,
+        })
+      );
     }
   }
   static setRolUser(rolUsuario: RolUsuario) {
@@ -34,7 +40,6 @@ export class Sesion {
     return JSON.parse(sessionStorage.getItem('email'));
   }
   static getCookie(name: string) {
-
     const ca: Array<string> = document.cookie.split(';');
     const caLen: number = ca.length;
     const cookieName = `${name}=`;

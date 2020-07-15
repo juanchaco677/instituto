@@ -55,13 +55,15 @@ export class Video {
   }
 
   async getUserMedia(config: any) {
-    const browser = navigator as any;
-    browser.getUserMedia =
-      browser.getUserMedia ||
-      browser.webkitGetUserMedia ||
-      browser.mozGetUserMedia ||
-      browser.msGetUserMedia;
-    return await browser.mediaDevices.getUserMedia(config);
+    if(this.videoCam || this.audio){
+      const browser = navigator as any;
+      browser.getUserMedia =
+        browser.getUserMedia ||
+        browser.webkitGetUserMedia ||
+        browser.mozGetUserMedia ||
+        browser.msGetUserMedia;
+      return await browser.mediaDevices.getUserMedia(config);
+    }
   }
 
   async initCamera(config: any) {
@@ -74,16 +76,17 @@ export class Video {
     const stream = await this.getUserMedia(config);
     this.stream = stream;
     this.video.srcObject = stream;
-
   }
 
   async startVideo() {
     this.videoCam = !this.videoCam;
     await this.initCamera({
-      video: this.videoCam ? {
-        width: 900,
-        height: 1200,
-      } : false,
+      video: this.videoCam
+        ? {
+            width: 900,
+            height: 1200,
+          }
+        : false,
       audio: this.audio,
     });
   }
@@ -96,17 +99,16 @@ export class Video {
       this.stream.getAudioTracks().length > 0
     ) {
       this.pauseAudioTrack();
-      console.log(this.stream);
     } else {
       await this.initCamera({
-        video: this.videoCam ? {
-          width: 900,
-          height: 1200,
-        } : false,
+        video: this.videoCam
+          ? {
+              width: 900,
+              height: 1200,
+            }
+          : false,
         audio: this.audio,
       });
-      console.log(this.stream);
     }
   }
-
 }

@@ -3,7 +3,6 @@ import { Usuario } from 'src/app/aula-virtual/model/usuario';
 import { ProgramacionHorario } from './../../../../dashboard/modelo/programacion-horario';
 import { PeerServerEmisorReceptor } from './../../../model/peer-server-emisor-receptor';
 import { Sesion } from './../../../../utils/sesion';
-import { PeerServer } from './../../../model/peer-server';
 import { Util } from './../../../../utils/util';
 import { Room } from './../../../model/room';
 import { SocketIoClientService } from 'src/app/aula-virtual/service/socket-io-client.service';
@@ -13,11 +12,8 @@ import {
   OnInit,
   Input,
   OnDestroy,
-  Output,
-  OnChanges,
   ChangeDetectorRef,
 } from '@angular/core';
-import { PeerClient } from 'src/app/aula-virtual/model/peer-client';
 
 @Component({
   selector: 'app-botones',
@@ -29,13 +25,14 @@ export class BotonesComponent implements OnInit, OnDestroy {
   room: Room;
   programacion: ProgramacionHorario;
   @Input() activo: boolean;
-  @Output() videoBoton: VideoBoton = new VideoBoton(false, false);
-  @Input() peerServer: PeerServer;
-  @Input() peerClient: PeerClient;
+  @Input() videoBoton: VideoBoton = new VideoBoton(false, false);
+  // @Input() peerServer: PeerServer;
+  // @Input() peerClient: PeerClient;
   emisorReceptor: PeerServerEmisorReceptor;
   sound: boolean;
   video: boolean;
   usuario: Usuario;
+  usuarioListen: Usuario;
   hilo = true;
   worker: Worker;
   contador = 0;
@@ -51,26 +48,32 @@ export class BotonesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.socket
-      .getProgramacion$()
-      .subscribe((data) => (this.programacion = data));
     this.socket.getRoom$().subscribe((data) => (this.room = data));
-    this.start(false);
     this.initWebWorker();
+    this.usuarioListen = this.htmlVideo.usuario;
+    this.socket.$refreshUsuario.subscribe((data) => {
+      if (data) {
+        if (this.htmlVideo.video.video || this.htmlVideo.video.audio) {
+          this.start(true);
+          this.worker.postMessage({});
+        }
+      }
+    });
+    this.start(false);
+    this.socket.getListenAudio().subscribe((data) => {
+      if (data) {
+        if (!Util.empty(this.htmlVideo) && !Util.empty(this.htmlVideo.video)) {
+          this.videoBoton.video = this.htmlVideo.video.videoCam;
+          this.videoBoton.audio = this.htmlVideo.video.audio;
+          this.cdr.detectChanges();
+        }
 
-    if (!Util.empty(this.peerServer)) {
-      this.peerServer.peerConnection.ondatachannel = this.getOnDataChannel.bind(
-        this
-      );
-    }
-    if (!Util.empty(this.peerClient)) {
-      this.peerClient.peerConnection.ondatachannel = this.getOnDataChannel.bind(
-        this
-      );
-    }
+        if (this.videoBoton.audio) {
+          this.listeAudio();
+        }
+      }
+    });
   }
-
-
 
   initWebWorker() {
     this.worker = new Worker('./thread.worker', {
@@ -102,6 +105,7 @@ export class BotonesComponent implements OnInit, OnDestroy {
       this.htmlVideo.video.stream.getAudioTracks().length > 0
     ) {
       await this.htmlVideo.video.startMic();
+      this.socket.addListenAudio(true);
     } else {
       await this.htmlVideo.video.startMic();
       this.start(true);
@@ -110,6 +114,7 @@ export class BotonesComponent implements OnInit, OnDestroy {
   }
 
   async start(addtrack: boolean) {
+    this.socket.addListenAudio(true);
     let stream = null;
     if (addtrack) {
       stream = this.htmlVideo.video.stream;
@@ -185,14 +190,45 @@ export class BotonesComponent implements OnInit, OnDestroy {
       this.contador = 0;
     }
   }
+  /**
+   * escucha de audio
+   */
+  listeAudio() {
+    if (
+      !Util.empty(this.htmlVideo) &&
+      !Util.empty(this.htmlVideo.video) &&
+      !Util.empty(this.htmlVideo.video.stream)
+    ) {
+      const context = new AudioContext(); // NEW!!
+      const analyser = context.createAnalyser();
+      const microphone = context.createMediaStreamSource(
+        this.htmlVideo.video.stream
+      );
+      const javascriptNode = context.createScriptProcessor(2048, 1, 1);
+      analyser.smoothingTimeConstant = 0.3;
+      analyser.fftSize = 1024;
 
-  getOnDataChannel(event: any) {
-    this.peerServer.receiveChannel = event.channel;
-    this.peerServer.receiveChannel.onmessage = (e: any) => {
-      this.videoBoton = JSON.parse(e.data);
-      this.cdr.detectChanges();
-      console.log('message=>');
-      console.log(this.videoBoton.audio);
-    };
+      microphone.connect(analyser);
+      analyser.connect(javascriptNode);
+      javascriptNode.connect(context.destination);
+
+      // tslint:disable-next-line: deprecation
+      javascriptNode.onaudioprocess = () => {
+        const array = new Uint8Array(analyser.frequencyBinCount);
+        analyser.getByteFrequencyData(array);
+        let values = 0;
+        const length = array.length;
+        for (let i = 0; i < length; i++) {
+          values += array[i];
+        }
+        const average = values / length;
+        if (average >= 3.5) {
+          this.videoBoton.latencia = true;
+        } else {
+          this.videoBoton.latencia = false;
+        }
+        this.cdr.detectChanges();
+      };
+    }
   }
 }
