@@ -119,6 +119,15 @@ export class PlantillaChatComponent implements OnInit {
           element.peerClient.createDataChannel('botones');
         }
       }
+      for (const element of data.peerServerEmisorReceptorDesktop) {
+        if (Util.empty(element.peerServer) && Util.empty(element.peerClient)) {
+          element.peerServer = new PeerServer();
+          element.peerClient = new PeerClient();
+          element.videoBoton = new VideoBoton(true, false);
+          element.peerServer.createDataChannel('botones');
+          element.peerClient.createDataChannel('botones');
+        }
+      }
       this.socket.addRoom$(data);
     });
   }

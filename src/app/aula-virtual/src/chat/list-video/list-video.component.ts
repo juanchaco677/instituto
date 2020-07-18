@@ -1,3 +1,4 @@
+import { DesktopMultimediaComponent } from './../../multimedia/desktop-multimedia/desktop-multimedia.component';
 import { PeerServerEmisorReceptor } from './../../../model/peer-server-emisor-receptor';
 import { Chat } from './../../../model/inscripcion-asignatura';
 import { VideoMultimediaComponent } from './../../multimedia/video-multimedia/video-multimedia.component';
@@ -21,8 +22,10 @@ export class ListVideoComponent implements OnInit {
   usuario: Usuario;
   programacion: ProgramacionHorario;
   peerServer: PeerServer;
+  @Input() visible = true;
   @Input() contador = 0;
   @ViewChild('videoHtml') videoHtml: VideoMultimediaComponent;
+  @ViewChild('desktopHtml') desktopHtml: DesktopMultimediaComponent;
   constructor(private socket: SocketIoClientService) {
     this.usuario = Sesion.userAulaChat();
   }
@@ -40,11 +43,16 @@ export class ListVideoComponent implements OnInit {
      * recibiendo el offer en el cliente para que este cree la respuesta
      */
     this.socket.$createAnswer.subscribe(async (data) => {
+      console.log('create answer');
+      console.log(data);
       this.socket.addListen(true);
+
       let usuarioOrigen = new Usuario();
       const emipRecep: PeerServerEmisorReceptor[] = [];
-      for (const elementIn of data) {
-        for (const element of this.room.peerServerEmisorReceptor) {
+      for (const elementIn of data.peerServerEmisorReceptor) {
+        for (const element of !data.camDesktop
+          ? this.room.peerServerEmisorReceptor
+          : this.room.peerServerEmisorReceptorDesktop) {
           if (
             (elementIn.usuario1.id === Sesion.userAulaChat().id ||
               elementIn.usuario2.id === Sesion.userAulaChat().id) &&
@@ -57,6 +65,7 @@ export class ListVideoComponent implements OnInit {
               elementIn.usuario1.id === Sesion.userAulaChat().id
                 ? elementIn.usuario2
                 : elementIn.usuario1;
+
             elementIn.peerClient = new PeerClient();
             await element.peerClient.createAnswer(
               elementIn.peerServer.localDescription
@@ -69,6 +78,7 @@ export class ListVideoComponent implements OnInit {
       }
       this.socket.addListen(true);
       this.socket.emit('sendAnswer', {
+        camDesktop: data.camDesktop,
         id: this.room.id,
         usuarioOrigen,
         peerServerEmisorReceptor: emipRecep,
@@ -81,8 +91,10 @@ export class ListVideoComponent implements OnInit {
      */
     this.socket.$sendAnswer.subscribe(async (data) => {
       this.socket.addListen(true);
-      for (const elementIn of data) {
-        for (const element of this.room.peerServerEmisorReceptor) {
+      for (const elementIn of data.peerServerEmisorReceptor) {
+        for (const element of !data.camDesktop
+          ? this.room.peerServerEmisorReceptor
+          : this.room.peerServerEmisorReceptorDesktop) {
           if (
             (elementIn.usuario1.id === Sesion.userAulaChat().id ||
               elementIn.usuario2.id === Sesion.userAulaChat().id) &&
@@ -124,5 +136,11 @@ export class ListVideoComponent implements OnInit {
       this.room.chat = data.chat.concat(this.room.chat);
       this.socket.addRoom$(this.room);
     });
+  }
+  emit(event: boolean) {
+    this.visible = event;
+    if (!Util.empty(this.visible) && !this.visible) {
+      this.desktopHtml.startVideo();
+    }
   }
 }

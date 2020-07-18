@@ -1,3 +1,5 @@
+import { Sesion } from 'src/app/utils/sesion';
+import { VideoDesktopComponent } from './../../chat/video-desktop/video-desktop.component';
 import { Usuario } from './../../../model/usuario';
 import { VideoBoton } from './../../../model/video-boton';
 import { Util } from './../../../../utils/util';
@@ -14,6 +16,8 @@ import {
   Input,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  EventEmitter,
+  Output
 } from '@angular/core';
 
 @Component({
@@ -23,26 +27,32 @@ import {
   styleUrls: ['./video-multimedia.component.css'],
 })
 export class VideoMultimediaComponent implements OnInit {
-  @Input() width = '300px';
-  @Input() height = '250px';
+  @Input() width: string;
+  @Input() height: string;
   @Input() tipo: string = null;
   @Input() transmiteRecive: boolean;
   @Input() peerServer: PeerServer;
   @Input() peerClient: PeerClient;
+  @Input() peerServerD: PeerServer;
+  @Input() peerClientD: PeerClient;
   @Input() activo: boolean;
   @Input() usuario: Usuario;
-  videoBoton: VideoBoton = new VideoBoton(false, false);
+  usuarioSesion: Usuario;
+  videoBoton: VideoBoton = new VideoBoton(false, false, false, false);
   message: string;
   texto: string;
   video: Video;
   @ViewChild('videoElement')
   set mainVideoEl(el: ElementRef) {
-    this.video = new Video(el.nativeElement);
+    this.video = new Video(1, el.nativeElement);
   }
+  @Output() emitClickDesktop = new EventEmitter();
   constructor(
     private socket: SocketIoClientService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) {
+    this.usuarioSesion = Sesion.userAulaChat();
+  }
 
   // tslint:disable-next-line: use-lifecycle-interface
   ngOnChanges() {
@@ -75,7 +85,6 @@ export class VideoMultimediaComponent implements OnInit {
   getOnDataChannel(event: any) {
     this.peerServer.receiveChannel = event.channel;
     this.peerServer.receiveChannel.onmessage = (e: any) => {
-
       this.videoBoton = JSON.parse(e.data);
       this.cdr.detectChanges();
     };
@@ -94,10 +103,9 @@ export class VideoMultimediaComponent implements OnInit {
         this.video.stream = inboundStream;
         this.listeAudio();
       }
-    } catch (error) {
-
-    }
+    } catch (error) {}
   }
+
   /**
    * escucha de audio
    */
@@ -132,5 +140,9 @@ export class VideoMultimediaComponent implements OnInit {
         this.cdr.detectChanges();
       };
     }
+  }
+
+  emit(event: boolean){
+    this.emitClickDesktop.emit(event);
   }
 }

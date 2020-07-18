@@ -1,15 +1,25 @@
 <div class="row">
-  <div class="col-md-4 " *ngFor="let peerEmiRece of room.peerServerEmisorReceptor">
-    <app-video-multimedia [activo]="true" *ngIf="peerEmiRece.usuario1.id === usuario.id || peerEmiRece.usuario2.id === usuario.id"
-      [peerServer]="peerEmiRece.peerServer" [usuario]="peerEmiRece.usuario1.id === usuario.id ?peerEmiRece.usuario2 : peerEmiRece.usuario1 "  [peerClient]="peerEmiRece.peerClient" [width]="'250px'" [height]="'200px'">
-    </app-video-multimedia>
-    <!-- <app-botones [peerServer]="peerEmiRece.peerServer" [peerClient]="peerEmiRece.peerClient"  [activo]="true"></app-botones> -->
+  <div class="col-12 mr-0 ml-0">
+    <app-desktop-multimedia [visible]="visible" #desktopHtml
+      [width]="(room.peerServerEmisorReceptorDesktop !== undefined? 100/room.peerServerEmisorReceptorDesktop.length:100)+'vw'"
+      [height]="'80vh'"> </app-desktop-multimedia>
+    <app-desktop-multimedia *ngFor="let peerEmiRece of room.peerServerEmisorReceptorDesktop" [visible]="true"
+      [width]="(room.peerServerEmisorReceptorDesktop !== undefined? 100/room.peerServerEmisorReceptorDesktop.length:100)+'vw'"
+      [height]="'80vh'" [peerClient]="peerEmiRece.peerClient" [peerServer]="peerEmiRece.peerServer"
+      [usuario]="peerEmiRece.usuario1.id === usuario.id ?peerEmiRece.usuario2 : peerEmiRece.usuario1 ">
+    </app-desktop-multimedia>
   </div>
 
-  <div class="col-md-4 ">
-    <app-video-multimedia [activo]="false" #videoHtml [width]="'250px'" [height]="'200px'">
+  <div class="bg-white cam col-12 mr-0 ml-0" [ngStyle]="{'width': '100vw' , 'height': (!visible ? 20 : 100)+'vh'}" >
+    <app-video-multimedia class="d-inline-flex ml-1 mt-1" [activo]="false" #videoHtml [width]="'200px'"
+      [height]="'150px'" (emitClickDesktop)="emit($event)">
     </app-video-multimedia>
-    <!-- <app-botones [htmlVideo]="videoHtml" [activo]="false"></app-botones> -->
+
+    <app-video-multimedia class="d-inline-flex ml-1 mt-1" *ngFor="let peerEmiRece of room.peerServerEmisorReceptor" [activo]="true"
+      [peerClient]="peerEmiRece.peerClient" [peerServer]="peerEmiRece.peerServer"
+      [usuario]="peerEmiRece.usuario1.id === usuario.id ?peerEmiRece.usuario2 : peerEmiRece.usuario1 " [width]="'200px'"
+      [height]="'150px'">
+    </app-video-multimedia>
 
   </div>
 </div>

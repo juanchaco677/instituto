@@ -1,4 +1,4 @@
-import { HtmlVideoBotonComponent } from './../../src/multimedia/html-video-boton/html-video-boton.component';
+import { DesktopMultimediaComponent } from './../../src/multimedia/desktop-multimedia/desktop-multimedia.component';
 import { BotonesComponent } from './../../src/multimedia/botones/botones.component';
 import { VideoMultimediaComponent } from './../../src/multimedia/video-multimedia/video-multimedia.component';
 import { ListChatComponent } from './../../src/chat/list-chat/list-chat.component';
@@ -26,7 +26,6 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { SocketIoClientService } from '../../service/socket-io-client.service';
 import { PlantillaPrincipalComponent } from '../../src/pantalla-base/plantilla-principal/plantilla-principal.component';
 import { AulaVirtualGuard } from '../../guard/aula-virtual.guard';
-import { DesktopComponent } from '../../src/multimedia/desktop/desktop.component';
 import { ListRoomComponent } from '../../src/menu/list-room/list-room.component';
 import { InscripcionAsigEsComponent } from '../../src/menu/list-room/ver/incripcion-asignatura-estudiante/inscripcion-asig-es.component';
 import { AsigProfeAsigsComponent } from '../../src/menu/list-room/ver/asig-profe-asigs/asig-profe-asigs.component';
@@ -35,7 +34,6 @@ const config: SocketIoConfig = { url: 'http://181.55.192.137:4444', options: {} 
 
 @NgModule({
   declarations: [
-    DesktopComponent,
     ListRoomComponent,
     InscripcionAsigEsComponent,
     AsigProfeAsigsComponent,
@@ -50,7 +48,7 @@ const config: SocketIoConfig = { url: 'http://181.55.192.137:4444', options: {} 
     ListChatComponent,
     VideoMultimediaComponent,
     BotonesComponent,
-    HtmlVideoBotonComponent,
+    DesktopMultimediaComponent,
   ],
   imports: [
     MaterialModule,

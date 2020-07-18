@@ -14,8 +14,8 @@ export class SocketIoClientService {
   $currentRoom = this.socket.fromEvent<Room>('room');
   $chatRoom = this.socket.fromEvent<Usuario>('chatRoom');
   $reciveTransmision = this.socket.fromEvent<Usuario>('reciveTransmision');
-  $createAnswer = this.socket.fromEvent<PeerServerEmisorReceptor[]>('createAnswer');
-  $sendAnswer = this.socket.fromEvent<PeerServerEmisorReceptor[]>('sendAnswer');
+  $createAnswer = this.socket.fromEvent<any>('createAnswer');
+  $sendAnswer = this.socket.fromEvent<any>('sendAnswer');
   $refreshUsuario = this.socket.fromEvent<boolean>('refreshUsuario');
 
   /**
@@ -127,4 +127,5 @@ export class SocketIoClientService {
   deleteListenAudio(){
     this.listeAudio$.next(null);
   }
+
 }

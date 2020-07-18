@@ -6,6 +6,7 @@ export class Room {
     public usuarios?: Usuario[],
     public chat?: [],
     public peerServerEmisorReceptor?: PeerServerEmisorReceptor[],
+    public peerServerEmisorReceptorDesktop?: PeerServerEmisorReceptor[],
   ) {
 
   }

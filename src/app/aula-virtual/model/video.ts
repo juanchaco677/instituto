@@ -7,8 +7,10 @@ export class Video {
   height = 500;
   audio = false;
   videoCam = false;
+  audioDesktop = false;
+  videoDesktop = false;
   stream: any;
-  constructor(public video: HTMLVideoElement) {}
+  constructor(public camDesktop: number, public video: HTMLVideoElement) {}
   async audioTrack() {
     this.audio = !this.audio;
     if (
@@ -46,6 +48,7 @@ export class Video {
       this.stream = null;
     }
   }
+
   pause() {
     this.video.pause();
   }
@@ -55,7 +58,7 @@ export class Video {
   }
 
   async getUserMedia(config: any) {
-    if(this.videoCam || this.audio){
+    if (this.videoCam || this.audio) {
       const browser = navigator as any;
       browser.getUserMedia =
         browser.getUserMedia ||
@@ -65,17 +68,27 @@ export class Video {
       return await browser.mediaDevices.getUserMedia(config);
     }
   }
+  async getDisplayMedia(config: any) {
+    const browser = navigator as any;
+    browser.getDisplayMedia =
+    browser.getDisplayMedia ||
+    browser.webkitGetDisplayMedia ||
+    browser.mozGetDisplayMedia ||
+    browser.msGetDisplayMedia;
+    return await browser.mediaDevices.getDisplayMedia(config);
+  }
 
   async initCamera(config: any) {
-    const browser = navigator as any;
-    browser.getUserMedia =
-      browser.getUserMedia ||
-      browser.webkitGetUserMedia ||
-      browser.mozGetUserMedia ||
-      browser.msGetUserMedia;
-    const stream = await this.getUserMedia(config);
-    this.stream = stream;
-    this.video.srcObject = stream;
+    switch (this.camDesktop) {
+      case 1:
+        this.stream = await this.getUserMedia(config);
+        this.video.srcObject = this.stream;
+        break;
+      default:
+        this.stream = await this.getDisplayMedia(config);
+        break;
+    }
+    this.video.srcObject = this.stream;
   }
 
   async startVideo() {
@@ -83,8 +96,8 @@ export class Video {
     await this.initCamera({
       video: this.videoCam
         ? {
-            width: 900,
-            height: 1200,
+            width: 960,
+            height: 1300,
           }
         : false,
       audio: this.audio,
@@ -103,8 +116,8 @@ export class Video {
       await this.initCamera({
         video: this.videoCam
           ? {
-              width: 900,
-              height: 1200,
+              width: 960,
+              height: 1300,
             }
           : false,
         audio: this.audio,

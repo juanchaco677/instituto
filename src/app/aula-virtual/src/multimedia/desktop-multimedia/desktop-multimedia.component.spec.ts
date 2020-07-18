@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DesktopComponent } from './desktop.component';
+import { DesktopMultimediaComponent } from './desktop-multimedia.component';
 
-describe('DesktopComponent', () => {
-  let component: DesktopComponent;
-  let fixture: ComponentFixture<DesktopComponent>;
+describe('DesktopMultimediaComponent', () => {
+  let component: DesktopMultimediaComponent;
+  let fixture: ComponentFixture<DesktopMultimediaComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DesktopComponent ]
+      declarations: [ DesktopMultimediaComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DesktopComponent);
+    fixture = TestBed.createComponent(DesktopMultimediaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -13,6 +13,8 @@ import {
   Input,
   OnDestroy,
   ChangeDetectorRef,
+  EventEmitter,
+  Output
 } from '@angular/core';
 
 @Component({
@@ -34,8 +36,13 @@ export class BotonesComponent implements OnInit, OnDestroy {
   usuario: Usuario;
   usuarioListen: Usuario;
   hilo = true;
+  hiloDesktop = true;
   worker: Worker;
+  workerDesktop: Worker;
   contador = 0;
+  contadorDesktop = 0;
+  @Output() emitClickDesktop = new EventEmitter();
+
   constructor(
     private socket: SocketIoClientService,
     private cdr: ChangeDetectorRef
@@ -45,6 +52,7 @@ export class BotonesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.worker.terminate();
+    this.workerDesktop.terminate();
   }
 
   ngOnInit(): void {
@@ -54,12 +62,15 @@ export class BotonesComponent implements OnInit, OnDestroy {
     this.socket.$refreshUsuario.subscribe((data) => {
       if (data) {
         if (this.htmlVideo.video.video || this.htmlVideo.video.audio) {
-          this.start(true);
+          this.start(true , false);
+          this.start(true , true);
           this.worker.postMessage({});
+          this.workerDesktop.postMessage({});
         }
       }
     });
-    this.start(false);
+    this.start(false , false);
+    this.start(false , true);
     this.socket.getListenAudio().subscribe((data) => {
       if (data) {
         if (!Util.empty(this.htmlVideo) && !Util.empty(this.htmlVideo.video)) {
@@ -79,13 +90,26 @@ export class BotonesComponent implements OnInit, OnDestroy {
     this.worker = new Worker('./thread.worker', {
       type: 'module',
     });
+    this.workerDesktop = new Worker('./thread.worker', {
+      type: 'module',
+    });
     this.worker.onmessage = ({ data }) => {
       if (data) {
-        this.sendInfoBotones();
+        this.sendInfoBotones(false);
         if (this.hilo) {
           this.worker.postMessage({});
         } else {
           this.hilo = true;
+        }
+      }
+    };
+    this.workerDesktop.onmessage = ({ data }) => {
+      if (data) {
+        this.sendInfoBotones(true);
+        if (this.hiloDesktop) {
+          this.workerDesktop.postMessage({});
+        } else {
+          this.hiloDesktop = true;
         }
       }
     };
@@ -94,8 +118,13 @@ export class BotonesComponent implements OnInit, OnDestroy {
   async startVideo() {
     this.htmlVideo.video.stop();
     await this.htmlVideo.video.startVideo();
-    this.start(true);
+    this.start(true , false);
     this.worker.postMessage({});
+    this.workerDesktop.postMessage({});
+  }
+
+  startVideoDesktop() {
+    this.emitClickDesktop.emit(false);
   }
 
   async startMic() {
@@ -108,12 +137,13 @@ export class BotonesComponent implements OnInit, OnDestroy {
       this.socket.addListenAudio(true);
     } else {
       await this.htmlVideo.video.startMic();
-      this.start(true);
+      this.start(true , false);
     }
     this.worker.postMessage({});
+    this.workerDesktop.postMessage({});
   }
 
-  async start(addtrack: boolean) {
+  async start(addtrack: boolean , camDesktop: boolean) {
     this.socket.addListenAudio(true);
     let stream = null;
     if (addtrack) {
@@ -126,7 +156,7 @@ export class BotonesComponent implements OnInit, OnDestroy {
     ) {
       this.socket.addListen(true);
       const emiRecep: PeerServerEmisorReceptor[] = [];
-      for (const element of this.room.peerServerEmisorReceptor) {
+      for (const element of (!camDesktop ? this.room.peerServerEmisorReceptor : this.room.peerServerEmisorReceptorDesktop)) {
         if (
           element.usuario1.id === this.usuario.id ||
           element.usuario2.id === this.usuario.id
@@ -139,15 +169,13 @@ export class BotonesComponent implements OnInit, OnDestroy {
 
           await element.peerServer.createOffer();
 
-          element.peerServer = element.peerServer;
-
           emiRecep.push(
             new PeerServerEmisorReceptor(
               element.usuario1,
               element.usuario2,
               element.peerServer,
               element.peerClient,
-              element.videoBoton
+              element.videoBoton,
             )
           );
           this.socket.addListen(true);
@@ -156,15 +184,16 @@ export class BotonesComponent implements OnInit, OnDestroy {
 
       this.socket.addRoom$(this.room);
       this.socket.emit('createAnswer', {
+        camDesktop, // camara
         id: this.room.id,
         peerServerEmisorReceptor: emiRecep,
       });
     }
   }
 
-  sendInfoBotones() {
+  sendInfoBotones(camDesktop: boolean) {
     const emiRecep: PeerServerEmisorReceptor[] = [];
-    for (const element of this.room.peerServerEmisorReceptor) {
+    for (const element of (!camDesktop ? this.room.peerServerEmisorReceptor : this.room.peerServerEmisorReceptorDesktop)) {
       if (
         element.usuario1.id === this.usuario.id ||
         element.usuario2.id === this.usuario.id
@@ -176,7 +205,11 @@ export class BotonesComponent implements OnInit, OnDestroy {
     }
     for (const element of emiRecep) {
       if (element.peerServer.dataChannel.readyState === 'open') {
-        this.contador++;
+        if (!camDesktop){
+          this.contador++;
+        }else{
+          this.contadorDesktop++;
+        }
         element.peerServer.send(
           JSON.stringify({
             video: this.htmlVideo.video.videoCam,
@@ -185,9 +218,13 @@ export class BotonesComponent implements OnInit, OnDestroy {
         );
       }
     }
-    if (this.contador === emiRecep.length) {
+    if (!camDesktop && this.contador === emiRecep.length) {
       this.hilo = false;
       this.contador = 0;
+    }
+    if (camDesktop && this.contadorDesktop === emiRecep.length) {
+      this.hiloDesktop = false;
+      this.contadorDesktop = 0;
     }
   }
   /**

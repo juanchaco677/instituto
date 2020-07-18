@@ -27,13 +27,13 @@
 </div>
 
 <div *ngIf="!activo">
-  {{videoBoton.audio}}
   <div class="wrapper" *ngIf="!videoBoton.video" >
     <a title="{{usuario.nombre}}" [ngClass]="{'playing': videoBoton.latencia }" class="player-controls d-flex align-items-center justify-content-center">
       <span class="pause">
       </span>
       <img *ngIf="usuario.foto.toString().indexOf('default') <= -1" [src]="usuario.foto" width="40" height="40" class="rounded-circle" />
-      <h1 *ngIf="usuario.foto.toString().indexOf('default') > -1" style="z-index:1;">{{usuario.nombre_uno.substr(0,1).toUpperCase() +''+ usuario.apellido_uno.substr(0,1).toUpperCase()}}</h1>
+
+      <h1 *ngIf="usuario.foto.toString().indexOf('default') > -1" style="z-index:1;">{{usuario.nombre_uno.substr(0,1).toUpperCase() +""+ usuario.apellido_uno.substr(0,1).toUpperCase()}}</h1>
     </a>
   </div>
   <div class="div-boton-false">
@@ -60,58 +60,9 @@
       </button>
 
       <mat-menu #menu="matMenu" id="panel-menu">
-        <button mat-menu-item>
+        <button mat-menu-item (click)="startVideoDesktop()">
           <mat-icon>settings_overscan</mat-icon>
           <span>Iniciar</span>
-        </button>
-        <button mat-menu-item>
-          <div style="position: absolute; left: 35%; bottom:0px; z-index:10;">
-            <div class="d-flex justify-content-center contenedor-buttons">
-
-              <div>
-                <button mat-icon-button [routerLink]="['../../../aula-virtual']">
-                  <mat-icon>arrow_back</mat-icon>
-                </button>
-
-                <button mat-icon-button (click)="startVideo()">
-                  <mat-icon color="accent">videocam</mat-icon>
-                </button>
-                <button mat-icon-button>
-                  <mat-icon (click)="startMic()">mic</mat-icon>
-                </button>
-
-                <button mat-icon-button>
-                  <mat-icon> portable_wifi_off</mat-icon>
-                </button>
-                <button mat-icon-button>
-                  <mat-icon>people</mat-icon>
-                </button>
-                <button mat-icon-button [matMenuTriggerFor]="menu">
-                  <mat-icon>screen_share</mat-icon>
-                </button>
-
-                <mat-menu #menu="matMenu" id="panel-menu">
-                  <button mat-menu-item>
-                    <mat-icon>settings_overscan</mat-icon>
-                    <span>Iniciar</span>
-                  </button>
-                  <button mat-menu-item>
-                    <mat-icon>play_circle_filled</mat-icon>
-                    <span>Continuar</span>
-                  </button>
-                  <button mat-menu-item>
-                    <mat-icon> pause_presentation</mat-icon>
-                    <span>Pausar</span>
-                  </button>
-                  <button mat-menu-item>
-                    <mat-icon>stop_screen_share</mat-icon>
-                    <span>Cerrar transmisión</span>
-                  </button>
-                </mat-menu>
-              </div>
-
-            </div>
-          </div>
         </button>
       </mat-menu>
     </div>

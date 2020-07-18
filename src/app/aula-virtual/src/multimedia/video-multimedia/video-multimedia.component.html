@@ -1,4 +1,4 @@
-<div class="bg-white" [ngStyle]="{'position':'relative','width': width , 'height': height }">
+<div class="bg-dark" [ngStyle]="{'position':'relative','width': width , 'height': height }">
   <video class="video bg-dark" autoplay [ngStyle]="{'width': width , 'height': height}" #videoElement></video>
-  <app-botones [videoBoton]="videoBoton" [htmlVideo]="this" [activo]="activo"></app-botones>
+  <app-botones [videoBoton]="videoBoton" [htmlVideo]="this" [activo]="activo" (emitClickDesktop)="emit($event)"></app-botones>
 </div>
