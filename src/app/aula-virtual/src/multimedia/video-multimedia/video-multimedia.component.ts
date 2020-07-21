@@ -17,7 +17,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   EventEmitter,
-  Output
+  Output,
 } from '@angular/core';
 
 @Component({
@@ -30,26 +30,20 @@ export class VideoMultimediaComponent implements OnInit {
   @Input() width: string;
   @Input() height: string;
   @Input() tipo: string = null;
-  @Input() transmiteRecive: boolean;
   @Input() peerServer: PeerServer;
   @Input() peerClient: PeerClient;
-  @Input() peerServerD: PeerServer;
-  @Input() peerClientD: PeerClient;
   @Input() activo: boolean;
   @Input() usuario: Usuario;
   usuarioSesion: Usuario;
   videoBoton: VideoBoton = new VideoBoton(false, false, false, false);
-  message: string;
-  texto: string;
   video: Video;
   @ViewChild('videoElement')
   set mainVideoEl(el: ElementRef) {
     this.video = new Video(1, el.nativeElement);
   }
-  @Output() emitClickDesktop = new EventEmitter();
   constructor(
     private socket: SocketIoClientService,
-    private cdr: ChangeDetectorRef
+    public cdr: ChangeDetectorRef
   ) {
     this.usuarioSesion = Sesion.userAulaChat();
   }
@@ -60,11 +54,24 @@ export class VideoMultimediaComponent implements OnInit {
   }
   ngOnInit(): void {
     this.listenPeer();
+
+    this.socket.getListenAudio().subscribe((data) => {
+      if (data) {
+        if (!Util.empty(data) && !Util.empty(this.video)) {
+          this.videoBoton.video = this.video.videoCam;
+          this.videoBoton.audio = this.video.audio;
+          this.cdr.detectChanges();
+          if (this.videoBoton.audio) {
+            this.listeAudio();
+          }
+        }
+      }
+    });
   }
 
   listenPeer() {
     this.socket.listen$.subscribe((data) => {
-      if (data && !Util.empty(this.peerServer)) {
+      if (!Util.empty(data) && data && !Util.empty(this.peerServer)) {
         this.peerServer.peerConnection.ontrack = this.getRemoteStream.bind(
           this
         );
@@ -72,7 +79,7 @@ export class VideoMultimediaComponent implements OnInit {
           this
         );
       }
-      if (data && !Util.empty(this.peerClient)) {
+      if (!Util.empty(data) && data && !Util.empty(this.peerClient)) {
         this.peerClient.peerConnection.ontrack = this.getRemoteStream.bind(
           this
         );
@@ -86,6 +93,8 @@ export class VideoMultimediaComponent implements OnInit {
     this.peerServer.receiveChannel = event.channel;
     this.peerServer.receiveChannel.onmessage = (e: any) => {
       this.videoBoton = JSON.parse(e.data);
+      console.log('get data channel cam');
+      console.log(this.videoBoton);
       this.cdr.detectChanges();
     };
   }
@@ -104,6 +113,12 @@ export class VideoMultimediaComponent implements OnInit {
         this.listeAudio();
       }
     } catch (error) {}
+  }
+
+  actualizarVideoBoton() {
+    this.videoBoton.audio = this.video.audio;
+    this.videoBoton.video = this.video.videoCam;
+    // this.cdr.detectChanges();
   }
 
   /**
@@ -140,9 +155,5 @@ export class VideoMultimediaComponent implements OnInit {
         this.cdr.detectChanges();
       };
     }
-  }
-
-  emit(event: boolean){
-    this.emitClickDesktop.emit(event);
   }
 }

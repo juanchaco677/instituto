@@ -1,23 +1,26 @@
 <div class="row">
-  <div class="col-12 mr-0 ml-0">
-    <app-desktop-multimedia [visible]="visible" #desktopHtml
-      [width]="(room.peerServerEmisorReceptorDesktop !== undefined? 100/room.peerServerEmisorReceptorDesktop.length:100)+'vw'"
-      [height]="'80vh'"> </app-desktop-multimedia>
-    <app-desktop-multimedia *ngFor="let peerEmiRece of room.peerServerEmisorReceptorDesktop" [visible]="true"
-      [width]="(room.peerServerEmisorReceptorDesktop !== undefined? 100/room.peerServerEmisorReceptorDesktop.length:100)+'vw'"
-      [height]="'80vh'" [peerClient]="peerEmiRece.peerClient" [peerServer]="peerEmiRece.peerServer"
-      [usuario]="peerEmiRece.usuario1.id === usuario.id ?peerEmiRece.usuario2 : peerEmiRece.usuario1 ">
-    </app-desktop-multimedia>
+  <div    [ngClass]="[redimensionar?'col-10 p-0':'']" [ngStyle]="{'height':redimensionar ?'100vh':''}" >
+    <app-desktop-multimedia [visible]="visible" #htmlVideoDesktop
+      [width]="(room.peerServerEmisorReceptorDesktop !== undefined? 100/room.peerServerEmisorReceptorDesktop.length:100)+'%'"
+      [height]="'100%'"> </app-desktop-multimedia>
+    <app-desktop-multimedia [htmlListVideo]="this" #contentDesktop (emit)="reciveEmit($event)" *ngFor="let peerEmiRece of room.peerServerEmisorReceptorDesktop" [visible]="true"
+      [width]="(room.peerServerEmisorReceptorDesktop !== undefined? 100/room.peerServerEmisorReceptorDesktop.length:100)+'%'"
+      [height]="'100%'" [peerClient]="peerEmiRece.peerClient" [peerServer]="peerEmiRece.peerServer"
+      [usuario]="peerEmiRece.usuario1.id === usuario.id ?peerEmiRece.usuario2 : peerEmiRece.usuario1" [listContentDesktop]="listContentDesktop">
+    </app-desktop-multimedia >
   </div>
 
-  <div class="bg-white cam col-12 mr-0 ml-0" [ngStyle]="{'width': '100vw' , 'height': (!visible ? 20 : 100)+'vh'}" >
-    <app-video-multimedia class="d-inline-flex ml-1 mt-1" [activo]="false" #videoHtml [width]="'200px'"
-      [height]="'150px'" (emitClickDesktop)="emit($event)">
-    </app-video-multimedia>
+  <div #contenedor class="bg-white cam" [ngClass]="[redimensionar?'col-2 p-0':'col-12']" [ngStyle]="{'height':'100vh'}">
+    <div [ngClass]="[redimensionar?'':'d-inline-flex ml-1 mt-1']">
+      <app-video-multimedia  [activo]="false" #videoHtml [width]="redimensionar?'100%':'200px'" [height]="'150px'">
+      </app-video-multimedia>
+      <app-botones #boton [videoBoton]="videoHtml.videoBoton" [htmlVideo]="videoHtml" [htmlVideoDesktop]="htmlVideoDesktop"
+        [activo]="false" [htmlListVideo]="this"></app-botones>
+    </div>
 
-    <app-video-multimedia class="d-inline-flex ml-1 mt-1" *ngFor="let peerEmiRece of room.peerServerEmisorReceptor" [activo]="true"
-      [peerClient]="peerEmiRece.peerClient" [peerServer]="peerEmiRece.peerServer"
-      [usuario]="peerEmiRece.usuario1.id === usuario.id ?peerEmiRece.usuario2 : peerEmiRece.usuario1 " [width]="'200px'"
+    <app-video-multimedia [ngClass]="[redimensionar?'col-12 ml-1 mt-1':'d-inline-flex ml-1 mt-1']" *ngFor="let peerEmiRece of room.peerServerEmisorReceptor"
+      [activo]="true" [peerClient]="peerEmiRece.peerClient" [peerServer]="peerEmiRece.peerServer"
+      [usuario]="peerEmiRece.usuario1.id === usuario.id ?peerEmiRece.usuario2 : peerEmiRece.usuario1 " [width]="redimensionar?'100%':'200px'"
       [height]="'150px'">
     </app-video-multimedia>
 

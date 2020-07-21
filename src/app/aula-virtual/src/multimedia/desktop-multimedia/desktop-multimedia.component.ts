@@ -1,7 +1,6 @@
+import { ListVideoComponent } from './../../chat/list-video/list-video.component';
 import { Room } from './../../../model/room';
-import { PeerServerEmisorReceptor } from './../../../model/peer-server-emisor-receptor';
 import { Sesion } from 'src/app/utils/sesion';
-import { VideoDesktopComponent } from './../../chat/video-desktop/video-desktop.component';
 import { Usuario } from './../../../model/usuario';
 import { VideoBoton } from './../../../model/video-boton';
 import { Util } from './../../../../utils/util';
@@ -20,6 +19,9 @@ import {
   AfterViewInit,
   OnDestroy,
   OnChanges,
+  EventEmitter,
+  Output,
+  QueryList,
 } from '@angular/core';
 
 @Component({
@@ -31,28 +33,23 @@ export class DesktopMultimediaComponent
   implements OnInit, OnDestroy, OnChanges {
   @Input() width: string;
   @Input() height: string;
-  @Input() tipo: string = null;
-  @Input() transmiteRecive: boolean;
   @Input() peerServer: PeerServer;
   @Input() peerClient: PeerClient;
   @Input() activo: boolean;
   @Input() usuario: Usuario;
+  @Input() visible: boolean;
+  @Input() listContentDesktop: QueryList<DesktopMultimediaComponent>;
+  @Input() htmlListVideo: ListVideoComponent;
   usuarioSesion: Usuario;
   videoBoton: VideoBoton = new VideoBoton(false, false, false, false);
-  message: string;
-  texto: string;
   video: Video;
-  videoDesktop: Video;
-  @Input() visible: boolean;
   room: Room;
-  worker: Worker;
-  contador = 0;
-  hilo = true;
-  aux = 0;
-  heightResize: number;
+  @Output() emit = new EventEmitter();
   @ViewChild('videoElement')
   set mainVideoEl(el: ElementRef) {
-    this.video = new Video(2, el.nativeElement);
+    if (!Util.empty(el)) {
+      this.video = new Video(2, el.nativeElement);
+    }
   }
 
   constructor(
@@ -67,7 +64,6 @@ export class DesktopMultimediaComponent
   }
   ngOnInit(): void {
     this.socket.getRoom$().subscribe((data) => (this.room = data));
-    this.initWebWorker();
     this.listenPeer();
   }
 
@@ -96,7 +92,6 @@ export class DesktopMultimediaComponent
       this.visible = false;
       if (ev.streams && ev.streams.length > 0) {
         for (const element of ev.streams) {
-
           this.video.video.srcObject = element;
           this.video.stream = element;
         }
@@ -112,108 +107,44 @@ export class DesktopMultimediaComponent
     this.peerServer.receiveChannel = event.channel;
     this.peerServer.receiveChannel.onmessage = (e: any) => {
       this.videoBoton = JSON.parse(e.data);
+      let cont = 0;
+      let contAux = 0;
+      // tslint:disable-next-line: prefer-for-of
+      for (
+        let index = 0;
+        index < this.listContentDesktop.toArray().length;
+        index++
+      ) {
+        const element: DesktopMultimediaComponent = this.listContentDesktop.toArray()[
+          index
+        ] as DesktopMultimediaComponent;
+        if (element.videoBoton.desktop) {
+          cont++;
+        }
+        if (!element.videoBoton.desktop) {
+          contAux++;
+        }
+      }
+      if (
+        this.listContentDesktop.toArray().length > 0 &&
+        cont !== 0 &&
+        this.listContentDesktop.toArray().length === cont
+      ) {
+        this.htmlListVideo.redimensionar = true;
+        this.htmlListVideo.cdr.detectChanges();
+      }
+      if (
+        this.listContentDesktop.toArray().length > 0 &&
+        contAux !== 0 &&
+        this.listContentDesktop.toArray().length === contAux
+      ) {
+        this.htmlListVideo.redimensionar = false;
+        this.htmlListVideo.cdr.detectChanges();
+      }
+      this.visible = this.videoBoton.desktop ? false : true;
       this.cdr.detectChanges();
     };
   }
 
-  async startVideo() {
-    this.video.stop();
-    await this.video.startVideo();
-    this.start(true);
-    this.worker.postMessage({});
-  }
-
-  async start(addtrack: boolean) {
-    let stream = null;
-    if (addtrack) {
-      stream = this.video.stream;
-    }
-    if (
-      !Util.empty(this.room) &&
-      !Util.empty(this.room.usuarios) &&
-      this.room.usuarios.length > 0
-    ) {
-      this.socket.addListen(true);
-      const emiRecep: PeerServerEmisorReceptor[] = [];
-      for (const element of this.room.peerServerEmisorReceptorDesktop) {
-        if (
-          element.usuario1.id === this.usuarioSesion.id ||
-          element.usuario2.id === this.usuarioSesion.id
-        ) {
-          if (addtrack && !Util.empty(stream)) {
-            for (const track of stream.getTracks()) {
-              element.peerServer.peerConnection.addTrack(track, stream);
-            }
-          }
-
-          await element.peerServer.createOffer();
-
-          emiRecep.push(
-            new PeerServerEmisorReceptor(
-              element.usuario1,
-              element.usuario2,
-              element.peerServer,
-              element.peerClient,
-              element.videoBoton
-            )
-          );
-          this.socket.addListen(true);
-        }
-      }
-
-      this.socket.addRoom$(this.room);
-      this.socket.emit('createAnswer', {
-        camDesktop: true, // desktop
-        id: this.room.id,
-        peerServerEmisorReceptor: emiRecep,
-      });
-    }
-  }
-
-  initWebWorker() {
-    this.worker = new Worker('./thread.worker', {
-      type: 'module',
-    });
-    this.worker.onmessage = ({ data }) => {
-      if (data) {
-        this.sendInfoBotones();
-        if (this.hilo) {
-          this.worker.postMessage({});
-        } else {
-          this.hilo = true;
-        }
-      }
-    };
-  }
-
-  sendInfoBotones() {
-    const emiRecep: PeerServerEmisorReceptor[] = [];
-    for (const element of this.room.peerServerEmisorReceptorDesktop) {
-      if (
-        element.usuario1.id === this.usuarioSesion.id ||
-        element.usuario2.id === this.usuarioSesion.id
-      ) {
-        element.videoBoton.desktop = this.video.videoDesktop;
-        emiRecep.push(element);
-      }
-    }
-    for (const element of emiRecep) {
-      if (element.peerServer.dataChannel.readyState === 'open') {
-        this.contador++;
-        element.peerServer.send(
-          JSON.stringify({
-            desktop: this.video.videoDesktop,
-          })
-        );
-      }
-    }
-    if (this.contador === emiRecep.length) {
-      this.hilo = false;
-      this.contador = 0;
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.worker.terminate();
-  }
+  ngOnDestroy(): void {}
 }

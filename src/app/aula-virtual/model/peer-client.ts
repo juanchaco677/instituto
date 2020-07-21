@@ -23,13 +23,13 @@ export class PeerClient {
   }
 
   async createAnswer(localDescription: any) {
-    try {
+    // try {
       await this.peerConnection.setRemoteDescription(localDescription);
       await this.peerConnection.setLocalDescription(
         await this.peerConnection.createAnswer()
       );
       this.localDescription = this.peerConnection.localDescription;
-    } catch (error) {}
+    // } catch (error) {}
   }
 
   createDataChannel(nameChannel: string) {

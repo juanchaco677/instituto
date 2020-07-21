@@ -128,6 +128,8 @@ export class PlantillaChatComponent implements OnInit {
           element.peerClient.createDataChannel('botones');
         }
       }
+      console.log('currentRoom');
+      console.log(data);
       this.socket.addRoom$(data);
     });
   }

@@ -1,41 +1,5 @@
-<div *ngIf="activo">
-  <div class="div-boton-true" *ngIf="videoBoton.video">
-    <div class="d-flex justify-content-center contenedor-buttons">
-      <button mat-icon-button>
-        <mat-icon color="accent" *ngIf="videoBoton.video">videocam</mat-icon>
-        <mat-icon color="accent" *ngIf="!videoBoton.video">videocam_off</mat-icon>
-      </button>
-      <button mat-icon-button>
-        <mat-icon color="accent" *ngIf="videoBoton.audio">mic</mat-icon>
-        <mat-icon color="accent" *ngIf="!videoBoton.audio">mic_off</mat-icon>
-      </button>
-
-    </div>
-  </div>
-  <div class="wrapper" *ngIf="!videoBoton.video" >
-    <a title="{{usuarioListen.nombre}}" [ngClass]="{'playing': videoBoton.latencia }" class="player-controls d-flex align-items-center justify-content-center">
-      <span class="pause">
-      </span>
-      <img *ngIf="usuarioListen.foto.toString().indexOf('default') <= -1" [src]="usuarioListen.foto" width="40" height="40" class="rounded-circle" />
-      <h1 *ngIf="usuarioListen.foto.toString().indexOf('default') > -1" style="z-index:1;">{{usuarioListen.nombre_uno.substr(0,1).toUpperCase() +''+ usuarioListen.apellido_uno.substr(0,1).toUpperCase()}}</h1>
-    </a>
-    <button mat-icon-button class="player-controls d-flex align-items-center justify-content-center">
-      <mat-icon color="accent" *ngIf="videoBoton.video">videocam</mat-icon>
-      <mat-icon color="accent" *ngIf="!videoBoton.video">videocam_off</mat-icon>
-    </button>
-  </div>
-</div>
-
 <div *ngIf="!activo">
-  <div class="wrapper" *ngIf="!videoBoton.video" >
-    <a title="{{usuario.nombre}}" [ngClass]="{'playing': videoBoton.latencia }" class="player-controls d-flex align-items-center justify-content-center">
-      <span class="pause">
-      </span>
-      <img *ngIf="usuario.foto.toString().indexOf('default') <= -1" [src]="usuario.foto" width="40" height="40" class="rounded-circle" />
 
-      <h1 *ngIf="usuario.foto.toString().indexOf('default') > -1" style="z-index:1;">{{usuario.nombre_uno.substr(0,1).toUpperCase() +""+ usuario.apellido_uno.substr(0,1).toUpperCase()}}</h1>
-    </a>
-  </div>
   <div class="div-boton-false">
     <div class="d-flex justify-content-center contenedor-buttons">
       <button mat-icon-button [routerLink]="['../../../aula-virtual']">
@@ -56,13 +20,17 @@
         <mat-icon>people</mat-icon>
       </button>
       <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>screen_share</mat-icon>
+        <mat-icon>settings_overscan</mat-icon>
       </button>
 
       <mat-menu #menu="matMenu" id="panel-menu">
         <button mat-menu-item (click)="startVideoDesktop()">
-          <mat-icon>settings_overscan</mat-icon>
+          <mat-icon>screen_share</mat-icon>
           <span>Iniciar</span>
+        </button>
+        <button mat-menu-item (click)="stopVideoDesktop()">
+        	<mat-icon>stop_screen_share</mat-icon>
+          <span>Parar</span>
         </button>
       </mat-menu>
     </div>

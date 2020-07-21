@@ -19,18 +19,18 @@ export class PeerServer {
   }
 
   async createOffer() {
-    try {
+    // try {
       await this.peerConnection.setLocalDescription(
         await this.peerConnection.createOffer()
       );
       this.localDescription = this.peerConnection.localDescription;
-    } catch (error) {}
+    // } catch (error) {}
   }
 
   async addAnswer(localDescription: any) {
-    try {
+    // try {
       await this.peerConnection.setRemoteDescription(localDescription);
-    } catch (error) {}
+    // } catch (error) {}
   }
 
   createDataChannel(nameChannel: string) {

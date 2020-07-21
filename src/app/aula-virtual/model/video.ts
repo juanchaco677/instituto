@@ -82,7 +82,6 @@ export class Video {
     switch (this.camDesktop) {
       case 1:
         this.stream = await this.getUserMedia(config);
-        this.video.srcObject = this.stream;
         break;
       default:
         this.stream = await this.getDisplayMedia(config);
@@ -93,13 +92,9 @@ export class Video {
 
   async startVideo() {
     this.videoCam = !this.videoCam;
+    console.log(this.videoCam);
     await this.initCamera({
-      video: this.videoCam
-        ? {
-            width: 960,
-            height: 1300,
-          }
-        : false,
+      video: this.videoCam,
       audio: this.audio,
     });
   }
@@ -114,12 +109,7 @@ export class Video {
       this.pauseAudioTrack();
     } else {
       await this.initCamera({
-        video: this.videoCam
-          ? {
-              width: 960,
-              height: 1300,
-            }
-          : false,
+        video: this.videoCam,
         audio: this.audio,
       });
     }

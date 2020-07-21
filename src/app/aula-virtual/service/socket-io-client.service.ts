@@ -1,3 +1,4 @@
+import { VideoBoton } from './../model/video-boton';
 import { ProgramacionHorario } from './../../dashboard/modelo/programacion-horario';
 import { PeerServerEmisorReceptor } from './../model/peer-server-emisor-receptor';
 import { BehaviorSubject } from 'rxjs';
@@ -28,6 +29,7 @@ export class SocketIoClientService {
   listen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
   boton$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
   listeAudio$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
+  listeVideoBoton$: BehaviorSubject<VideoBoton> = new BehaviorSubject<VideoBoton>(null);
 
   constructor(private socket: Socket) { }
 
@@ -126,6 +128,20 @@ export class SocketIoClientService {
 
   deleteListenAudio(){
     this.listeAudio$.next(null);
+  }
+
+
+
+  addListenVideoBoton(data: VideoBoton){
+    this.listeVideoBoton$.next(data);
+  }
+
+  getListenVideoBoton(){
+    return this.listeVideoBoton$.asObservable();
+  }
+
+  deleteListenVideoBoton(){
+    this.listeVideoBoton$.next(null);
   }
 
 }
