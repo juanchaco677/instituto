@@ -1,38 +1,35 @@
-<div *ngIf="!activo">
+<div class="div-boton-false">
+  <div class="d-flex justify-content-center contenedor-buttons">
+    <button mat-icon-button [routerLink]="['../../../aula-virtual']">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
 
-  <div class="div-boton-false">
-    <div class="d-flex justify-content-center contenedor-buttons">
-      <button mat-icon-button [routerLink]="['../../../aula-virtual']">
-        <mat-icon>arrow_back</mat-icon>
-      </button>
+    <button mat-icon-button (click)="startVideo()">
+      <mat-icon color="accent">videocam</mat-icon>
+    </button>
+    <button mat-icon-button (click)="startMic()">
+      <mat-icon color="accent">mic</mat-icon>
+    </button>
 
-      <button mat-icon-button (click)="startVideo()">
-        <mat-icon color="accent">videocam</mat-icon>
-      </button>
-      <button mat-icon-button (click)="startMic()">
-        <mat-icon color="accent">mic</mat-icon>
-      </button>
+    <button mat-icon-button>
+      <mat-icon> portable_wifi_off</mat-icon>
+    </button>
+    <button mat-icon-button>
+      <mat-icon>people</mat-icon>
+    </button>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>settings_overscan</mat-icon>
+    </button>
 
-      <button mat-icon-button>
-        <mat-icon> portable_wifi_off</mat-icon>
+    <mat-menu #menu="matMenu" id="panel-menu">
+      <button mat-menu-item (click)="startVideoDesktop()">
+        <mat-icon>screen_share</mat-icon>
+        <span>Iniciar</span>
       </button>
-      <button mat-icon-button>
-        <mat-icon>people</mat-icon>
+      <button mat-menu-item (click)="stopVideoDesktop()">
+        <mat-icon>stop_screen_share</mat-icon>
+        <span>Parar</span>
       </button>
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>settings_overscan</mat-icon>
-      </button>
-
-      <mat-menu #menu="matMenu" id="panel-menu">
-        <button mat-menu-item (click)="startVideoDesktop()">
-          <mat-icon>screen_share</mat-icon>
-          <span>Iniciar</span>
-        </button>
-        <button mat-menu-item (click)="stopVideoDesktop()">
-        	<mat-icon>stop_screen_share</mat-icon>
-          <span>Parar</span>
-        </button>
-      </mat-menu>
-    </div>
+    </mat-menu>
   </div>
 </div>

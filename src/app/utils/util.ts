@@ -13,6 +13,14 @@ export class Util {
 
   constructor() { }
 
+  static video = '1';
+
+  static audio = '2';
+
+  static desktop = '3';
+
+  static stopDesktop = '4';
+
   static apiUrl = 'http://192.168.0.17:8000/api/';
 
   static apiUrlImage = 'http://192.168.0.17:8000/archivos/';
@@ -28,6 +36,8 @@ export class Util {
       Authorization: 'Barer '
     })
   };
+
+
 
   static getHttpOptionsPost(token: string) {
     const httpOptionsPost = {

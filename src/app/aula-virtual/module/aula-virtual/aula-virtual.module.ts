@@ -1,6 +1,7 @@
+import { VideoMultimediaComponent } from './../../src/multimedia/video-multimedia/video-multimedia.component';
+import { BotonesService } from './../../service/botones.service';
 import { DesktopMultimediaComponent } from './../../src/multimedia/desktop-multimedia/desktop-multimedia.component';
 import { BotonesComponent } from './../../src/multimedia/botones/botones.component';
-import { VideoMultimediaComponent } from './../../src/multimedia/video-multimedia/video-multimedia.component';
 import { ListChatComponent } from './../../src/chat/list-chat/list-chat.component';
 import { LoginAulaVirtualComponent } from './../../src/pantalla-base/login-aula-virtual/login-aula-virtual.component';
 import { VideoDesktopComponent } from './../../src/chat/video-desktop/video-desktop.component';
@@ -69,6 +70,7 @@ const config: SocketIoConfig = { url: 'http://181.55.192.137:4444', options: {} 
     MenuAulaService,
     UsuarioService,
     ConfiguracionService,
+    BotonesService
   ]
 })
 export class AulaVirtualModule {

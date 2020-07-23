@@ -1,8 +1,7 @@
+import { VideoMultimediaComponent } from './../../multimedia/video-multimedia/video-multimedia.component';
 import { BotonesComponent } from './../../multimedia/botones/botones.component';
 import { DesktopMultimediaComponent } from './../../multimedia/desktop-multimedia/desktop-multimedia.component';
 import { PeerServerEmisorReceptor } from './../../../model/peer-server-emisor-receptor';
-import { Chat } from './../../../model/inscripcion-asignatura';
-import { VideoMultimediaComponent } from './../../multimedia/video-multimedia/video-multimedia.component';
 import { ProgramacionHorario } from './../../../../dashboard/modelo/programacion-horario';
 import { Usuario } from './../../../model/usuario';
 import { Sesion } from 'src/app/utils/sesion';
@@ -17,7 +16,6 @@ import {
   ElementRef,
   QueryList,
   ViewChildren,
-  ChangeDetectorRef,
 } from '@angular/core';
 import { PeerClient } from 'src/app/aula-virtual/model/peer-client';
 import { PeerServer } from 'src/app/aula-virtual/model/peer-server';
@@ -28,11 +26,12 @@ import { VideoBoton } from 'src/app/aula-virtual/model/video-boton';
   styleUrls: ['./list-video.component.css'],
 })
 export class ListVideoComponent implements OnInit {
-  room: Room = new Room();
+  room: Room;
   usuario: Usuario;
   programacion: ProgramacionHorario;
   peerServer: PeerServer;
   redimensionar = false;
+  redimensionarItem = 0;
   @Input() visible = true;
   @Input() contador = 0;
   @ViewChild('videoHtml') videoHtml: VideoMultimediaComponent;
@@ -42,14 +41,102 @@ export class ListVideoComponent implements OnInit {
   @ViewChildren('contentDesktop') listContentDesktop: QueryList<
     DesktopMultimediaComponent
   >;
-  constructor(
-    private socket: SocketIoClientService,
-    public cdr: ChangeDetectorRef
-  ) {
+  constructor(private socket: SocketIoClientService) {
+    this.room = new Room(null, [], [], [], []);
     this.usuario = Sesion.userAulaChat();
   }
 
+  ngOnInit(): void {
+    this.socket.$currentRoom.subscribe((data) => {
+      for (const element of data.peerServerEmisorReceptor) {
+        if (Util.empty(element.peerServer) && Util.empty(element.peerClient)) {
+          element.peerServer = new PeerServer();
+          element.peerClient = new PeerClient();
+          element.videoBoton = new VideoBoton(true, false);
+          element.peerServer.createDataChannel('botones');
+          element.peerClient.createDataChannel('botones');
+        }
+      }
+      for (const element of data.peerServerEmisorReceptorDesktop) {
+        if (Util.empty(element.peerServer) && Util.empty(element.peerClient)) {
+          element.peerServer = new PeerServer();
+          element.peerClient = new PeerClient();
+          element.videoBoton = new VideoBoton(true, false);
+          element.peerServer.createDataChannel('botones');
+          element.peerClient.createDataChannel('botones');
+        }
+      }
+      this.socket.addRoom$(data);
+    });
+
+    this.socket
+      .getProgramacion$()
+      .subscribe((data) => (this.programacion = data));
+
+    this.socket.getRoom$().subscribe((data) => {
+      if (!Util.empty(data)) {
+        this.room = data;
+      }
+    });
+
+    /**
+     * recibiendo el offer en el cliente para que este cree la respuesta
+     */
+    this.socket.$createAnswer.subscribe(async (data) =>
+      this.createAnswer(data)
+    );
+
+    /**
+     * recibiendo en el servidor las respuestas de los client answer
+     * esto para conectarlos
+     */
+    this.socket.$sendAnswer.subscribe(async (data) => this.addAnswer(data));
+
+    this.socket.$addUsuario.subscribe((data) => {
+      if (Util.empty(this.room.peerServerEmisorReceptor)) {
+        this.room.peerServerEmisorReceptor = [];
+      }
+      if (Util.empty(this.room.peerServerEmisorReceptorDesktop)) {
+        this.room.peerServerEmisorReceptorDesktop = [];
+      }
+      for (const element of data.peerServerEmisorReceptor) {
+        if (Util.empty(element.peerServer) && Util.empty(element.peerClient)) {
+          element.peerServer = new PeerServer();
+          element.peerClient = new PeerClient();
+          element.videoBoton = new VideoBoton(true, false);
+          element.peerServer.createDataChannel('botones');
+          element.peerClient.createDataChannel('botones');
+          this.room.peerServerEmisorReceptor.push(element);
+        }
+      }
+      for (const element of data.peerServerEmisorReceptorDesktop) {
+        if (Util.empty(element.peerServer) && Util.empty(element.peerClient)) {
+          element.peerServer = new PeerServer();
+          element.peerClient = new PeerClient();
+          element.videoBoton = new VideoBoton(true, false);
+          element.peerServer.createDataChannel('botones');
+          element.peerClient.createDataChannel('botones');
+          this.room.peerServerEmisorReceptorDesktop.push(element);
+        }
+      }
+
+      this.room.id = data.id;
+      if (Util.empty(this.room.usuarios)) {
+        this.room.usuarios = [];
+      }
+      if (Util.empty(this.room.chat)) {
+        this.room.chat = [];
+      }
+      this.room.usuarios.push(data.usuario);
+      this.room.chat = data.chat.concat(this.room.chat);
+      this.socket.addRoom$(this.room);
+      this.videoHtml.startAddUsuario(data);
+    });
+  }
+
   async createAnswer(data: any) {
+    console.log('create answer');
+    console.log(data);
     this.socket.addListen(true);
     let usuarioOrigen = new Usuario();
     const emipRecep: PeerServerEmisorReceptor[] = [];
@@ -165,72 +252,6 @@ export class ListVideoComponent implements OnInit {
       }
     }
     this.socket.addListen(true);
-  }
-
-  ngOnInit(): void {
-    this.socket
-      .getProgramacion$()
-      .subscribe((data) => (this.programacion = data));
-
-    if (!Util.empty(this.socket.room$)) {
-      this.socket.getRoom$().subscribe((data) => (this.room = data));
-    }
-
-    /**
-     * recibiendo el offer en el cliente para que este cree la respuesta
-     */
-    this.socket.$createAnswer.subscribe(async (data) =>
-      this.createAnswer(data)
-    );
-
-    /**
-     * recibiendo en el servidor las respuestas de los client answer
-     * esto para conectarlos
-     */
-    this.socket.$sendAnswer.subscribe(async (data) => this.addAnswer(data));
-
-    this.socket.$addUsuario.subscribe((data) => {
-      if (Util.empty(this.room.peerServerEmisorReceptor)) {
-        this.room.peerServerEmisorReceptor = [];
-      }
-      if (Util.empty(this.room.peerServerEmisorReceptorDesktop)) {
-        this.room.peerServerEmisorReceptorDesktop = [];
-      }
-      for (const element of data.peerServerEmisorReceptor) {
-        if (Util.empty(element.peerServer) && Util.empty(element.peerClient)) {
-          element.peerServer = new PeerServer();
-          element.peerClient = new PeerClient();
-          element.videoBoton = new VideoBoton(true, false);
-          element.peerServer.createDataChannel('botones');
-          element.peerClient.createDataChannel('botones');
-          this.room.peerServerEmisorReceptor.push(element);
-        }
-      }
-      for (const element of data.peerServerEmisorReceptorDesktop) {
-        if (Util.empty(element.peerServer) && Util.empty(element.peerClient)) {
-          element.peerServer = new PeerServer();
-          element.peerClient = new PeerClient();
-          element.videoBoton = new VideoBoton(true, false);
-          element.peerServer.createDataChannel('botones');
-          element.peerClient.createDataChannel('botones');
-          this.room.peerServerEmisorReceptorDesktop.push(element);
-        }
-      }
-      this.room.id = data.id;
-      if (Util.empty(this.room.usuarios)) {
-        this.room.usuarios = [];
-      }
-      if (Util.empty(this.room.chat)) {
-        this.room.chat = [];
-      }
-      this.room.usuarios.push(data.usuario);
-      this.room.chat = data.chat.concat(this.room.chat);
-      this.socket.addRoom$(this.room);
-      this.htmlBoton.room = this.room;
-      this.htmlBoton.start(null, null, true);
-      console.log('addUsuario');
-      console.log(this.room);
-    });
   }
 
   reciveEmit(event: boolean) {

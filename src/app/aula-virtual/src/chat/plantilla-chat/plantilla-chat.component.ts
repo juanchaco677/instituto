@@ -110,6 +110,8 @@ export class PlantillaChatComponent implements OnInit {
   }
   ngOnInit(): void {
     this.socket.$currentRoom.subscribe((data) => {
+      console.log('entro a curren room');
+      console.log(data);
       for (const element of data.peerServerEmisorReceptor) {
         if (Util.empty(element.peerServer) && Util.empty(element.peerClient)) {
           element.peerServer = new PeerServer();

@@ -10,7 +10,10 @@ export class Video {
   audioDesktop = false;
   videoDesktop = false;
   stream: any;
-  constructor(public camDesktop: number, public video: HTMLVideoElement) {}
+  constructor(public camDesktop: number, public video: HTMLVideoElement) {
+
+  }
+
   async audioTrack() {
     this.audio = !this.audio;
     if (
@@ -48,6 +51,10 @@ export class Video {
       this.stream = null;
     }
   }
+  stopBotonDisplayMedia(){
+    this.stream.onended = (e) => { console.log('onended!') };
+  }
+
 
   pause() {
     this.video.pause();
@@ -71,10 +78,10 @@ export class Video {
   async getDisplayMedia(config: any) {
     const browser = navigator as any;
     browser.getDisplayMedia =
-    browser.getDisplayMedia ||
-    browser.webkitGetDisplayMedia ||
-    browser.mozGetDisplayMedia ||
-    browser.msGetDisplayMedia;
+      browser.getDisplayMedia ||
+      browser.webkitGetDisplayMedia ||
+      browser.mozGetDisplayMedia ||
+      browser.msGetDisplayMedia;
     return await browser.mediaDevices.getDisplayMedia(config);
   }
 
@@ -92,7 +99,6 @@ export class Video {
 
   async startVideo() {
     this.videoCam = !this.videoCam;
-    console.log(this.videoCam);
     await this.initCamera({
       video: this.videoCam,
       audio: this.audio,
