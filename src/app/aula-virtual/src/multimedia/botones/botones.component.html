@@ -1,26 +1,26 @@
-<div class="div-boton-false">
+<div class="div-boton-false bg-dark">
   <div class="d-flex justify-content-center contenedor-buttons">
-    <button mat-icon-button [routerLink]="['../../../aula-virtual']">
-      <mat-icon>arrow_back</mat-icon>
+    <button class="ml-2 btn-hover" mat-icon-button [routerLink]="['../../../aula-virtual']">
+      <mat-icon class="icon-color">arrow_back</mat-icon>
     </button>
 
-    <button mat-icon-button (click)="startVideo()">
-      <mat-icon color="accent">videocam</mat-icon>
+    <button class="ml-2 btn-hover" mat-icon-button (click)="startVideo()">
+      <mat-icon class="icon-color" *ngIf="cam">videocam</mat-icon>
+      <mat-icon class="icon-color" *ngIf="!cam">videocam_off</mat-icon>
     </button>
-    <button mat-icon-button (click)="startMic()">
-      <mat-icon color="accent">mic</mat-icon>
+    <button class="ml-2 btn-hover" mat-icon-button (click)="startMic()">
+      <mat-icon class="icon-color" *ngIf="audio">mic</mat-icon>
+      <mat-icon class="icon-color" *ngIf="!audio">mic_off</mat-icon>
     </button>
-
-    <button mat-icon-button>
-      <mat-icon> portable_wifi_off</mat-icon>
+    <button class="ml-2 btn-hover" mat-icon-button (click)="sidenav()">
+      <mat-icon class="icon-color">chat</mat-icon>
     </button>
-    <button mat-icon-button>
-      <mat-icon>people</mat-icon>
+    <button class="ml-2 btn-hover" mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon class="icon-color">settings_overscan</mat-icon>
     </button>
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-      <mat-icon>settings_overscan</mat-icon>
+    <button class="ml-3 color-phone" mat-icon-button>
+      <mat-icon class="icon-color"> phone</mat-icon>
     </button>
-
     <mat-menu #menu="matMenu" id="panel-menu">
       <button mat-menu-item (click)="startVideoDesktop()">
         <mat-icon>screen_share</mat-icon>

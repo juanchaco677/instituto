@@ -4,7 +4,6 @@ import { DesktopMultimediaComponent } from './../../src/multimedia/desktop-multi
 import { BotonesComponent } from './../../src/multimedia/botones/botones.component';
 import { ListChatComponent } from './../../src/chat/list-chat/list-chat.component';
 import { LoginAulaVirtualComponent } from './../../src/pantalla-base/login-aula-virtual/login-aula-virtual.component';
-import { VideoDesktopComponent } from './../../src/chat/video-desktop/video-desktop.component';
 import { ListVideoComponent } from './../../src/chat/list-video/list-video.component';
 import { MenuChatComponent } from './../../src/chat/menu-chat/menu-chat.component';
 import { PlantillaChatComponent } from './../../src/chat/plantilla-chat/plantilla-chat.component';
@@ -44,7 +43,6 @@ const config: SocketIoConfig = { url: 'http://181.55.192.137:4444', options: {} 
     ListVideoComponent,
     PlantillaChatComponent,
     MenuChatComponent,
-    VideoDesktopComponent,
     LoginAulaVirtualComponent,
     ListChatComponent,
     VideoMultimediaComponent,

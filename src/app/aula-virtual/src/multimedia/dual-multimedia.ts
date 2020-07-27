@@ -14,17 +14,16 @@ import { Util } from 'src/app/utils/util';
 import { PeerServerEmisorReceptor } from '../../model/peer-server-emisor-receptor';
 
 export class DualMultimedia {
-  @Input() width: string;
-  @Input() height: string;
-  @Input() tipo: string = null;
-  @Input() peerServer: PeerServer;
-  @Input() peerClient: PeerClient;
-  @Input() activo: boolean;
+  @Input() htmlVideoDesktop: DesktopMultimediaComponent; // es necesario para completar el for del list video multimedia
+  @Input() width: string; // ancho del componente
+  @Input() height: string; // alto del componente
+  @Input() peerServer: PeerServer; // peer server
+  @Input() peerClient: PeerClient; // peer client
   @Input() usuario: Usuario;
-  @Input() visible: boolean;
+  @Input() visible = true; // variable para el atributo hidden el componente
   @Input() htmlListVideo: ListVideoComponent;
-  @Input() listContentDesktop: QueryList<DesktopMultimediaComponent>;
-  @Input() esComponenteItem: boolean;
+  @Input() listContentDesktop: QueryList<DesktopMultimediaComponent>; // es el for que esta en el list video multimedia
+  @Input() esComponenteItem: boolean; // variable que me dice si es un solo componenete o esta dentro de un for
   contador = 0;
   hilo = true;
   afterCont = true;
@@ -35,8 +34,6 @@ export class DualMultimedia {
   worker: Worker;
   @ViewChild('videoElement')
   set mainVideoEl(el: ElementRef) {
-    console.log('..despues o antes del contrusctor..');
-    console.log(this.camDesktop);
     this.video = new Video(this.camDesktop ? 2 : 1, el.nativeElement);
   }
   constructor(
@@ -66,6 +63,9 @@ export class DualMultimedia {
     };
   }
 
+  /**
+   * función para escuchar la informacion track o datos que viene del servidor peer o client
+   */
   listenPeer() {
     this.socket.listen$.subscribe((data) => {
       if (!Util.empty(data) && data && !Util.empty(this.peerServer)) {
@@ -86,62 +86,10 @@ export class DualMultimedia {
       }
     });
   }
-
-  getOnDataChannel(event: any) {
-    if (this.camDesktop) {
-      console.log('...... inicio channel desktop.........');
-      this.peerServer.receiveChannel = event.channel;
-      this.peerServer.receiveChannel.onmessage = (e: any) => {
-        this.videoBoton = JSON.parse(e.data);
-        let cont = 0;
-        let contAux = 0;
-        // tslint:disable-next-line: prefer-for-of
-        for (
-          let index = 0;
-          index < this.listContentDesktop.toArray().length;
-          index++
-        ) {
-          const element: DesktopMultimediaComponent = this.listContentDesktop.toArray()[
-            index
-          ] as DesktopMultimediaComponent;
-          console.log('botones en desktop data channel');
-          console.log(element);
-          if (element.videoBoton.desktop) {
-            cont++;
-          }
-          if (!element.videoBoton.desktop) {
-            contAux++;
-          }
-        }
-        if (
-          this.listContentDesktop.toArray().length > 0 &&
-          cont !== 0 &&
-          this.listContentDesktop.toArray().length === cont
-        ) {
-          this.htmlListVideo.redimensionarItem = this.htmlListVideo.redimensionarItem + 1;
-          this.htmlListVideo.redimensionar = true;
-        }
-        if (
-          this.listContentDesktop.toArray().length > 0 &&
-          contAux !== 0 &&
-          this.listContentDesktop.toArray().length === contAux
-        ) {
-          this.htmlListVideo.redimensionarItem = 0;
-          this.htmlListVideo.redimensionar = false;
-        }
-        this.visible = this.videoBoton.desktop ? false : true;
-      };
-      console.log('...FIN...');
-    } else {
-      this.peerServer.receiveChannel = event.channel;
-      this.peerServer.receiveChannel.onmessage = (e: any) => {
-        this.videoBoton = JSON.parse(e.data);
-        console.log('get data channel cam');
-        console.log(this.videoBoton);
-      };
-    }
-  }
-
+  /**
+   * función que recive los track
+   * @param ev
+   */
   getRemoteStream(ev: any) {
     try {
       if (ev.streams && ev.streams.length > 0) {
@@ -159,6 +107,9 @@ export class DualMultimedia {
     } catch (error) {}
   }
 
+  /**
+   * función que actualiza el esado de los botones
+   */
   actualizarVideoBoton() {
     if (this.camDesktop) {
       this.videoBoton.desktop = this.video.videoCam;
@@ -202,7 +153,10 @@ export class DualMultimedia {
       };
     }
   }
-
+  /**
+   * función que crea las offer de los peer antes de ser enviada para los demas clientes
+   * @param addtrack
+   */
   async startCamDesktop(addtrack: boolean) {
     let stream = null;
     if (addtrack) {
@@ -213,7 +167,6 @@ export class DualMultimedia {
       !Util.empty(this.room.usuarios) &&
       this.room.usuarios.length > 0
     ) {
-      // this.socket.addListen(true);
       const emiRecep: PeerServerEmisorReceptor[] = [];
       for (const element of this.camDesktop
         ? this.room.peerServerEmisorReceptorDesktop
@@ -247,9 +200,11 @@ export class DualMultimedia {
     }
     return null;
   }
-
-
-
+  /**
+   * función que inicializa el envío de track para los demas clientes
+   * @param addtrack
+   * @param starDual
+   */
   async start(addtrack: boolean, starDual: boolean) {
     let emiRecep: any = [];
     let emiRecepDesktop: any = [];
@@ -271,7 +226,11 @@ export class DualMultimedia {
       peerServerEmisorReceptorDesktop: emiRecepDesktop,
     });
   }
-
+  /**
+   *
+   * @param camDesktop
+   * @param data
+   */
   async startAddUsuarioFor(camDesktop: boolean, data: Room) {
     if (
       !Util.empty(this.room) &&
@@ -312,7 +271,7 @@ export class DualMultimedia {
   async startAddUsuario(data: Room) {
     let emiRecep: any = [];
     let emiRecepDesktop: any = [];
-    emiRecep = await this.startAddUsuarioFor(false , data);
+    emiRecep = await this.startAddUsuarioFor(false, data);
     emiRecepDesktop = await this.startAddUsuarioFor(true, data);
     this.socket.addRoom$(this.room);
     this.socket.addListen(true);
@@ -321,9 +280,11 @@ export class DualMultimedia {
       peerServerEmisorReceptor: emiRecep,
       peerServerEmisorReceptorDesktop: emiRecepDesktop,
     });
-
   }
 
+  /**
+   * enviar inforación referente a los botones del servidor para los cliente por el data channel
+   */
   sendInfoBotones() {
     const emiRecep: PeerServerEmisorReceptor[] = [];
     for (const element of this.camDesktop
@@ -353,15 +314,88 @@ export class DualMultimedia {
       this.contador = 0;
     }
   }
-
+  /**
+   * función que recive la informacion de los botones de los servidor por el datachanel del peer
+   * @param event
+   */
+  getOnDataChannel(event: any) {
+    if (this.camDesktop) {
+      this.peerServer.receiveChannel = event.channel;
+      this.peerServer.receiveChannel.onmessage = (e: any) => {
+        this.videoBoton = JSON.parse(e.data);
+        console.log('data channel..');
+        console.log(this.videoBoton);
+        console.log(this.listContentDesktop.toArray().length);
+        // let cont = 0;
+        // let contAux = 0;
+        // // tslint:disable-next-line: prefer-for-of
+        // for (
+        //   let index = 0;
+        //   index < this.listContentDesktop.toArray().length;
+        //   index++
+        // ) {
+        //   const element: DesktopMultimediaComponent = this.listContentDesktop.toArray()[
+        //     index
+        //   ] as DesktopMultimediaComponent;
+        //   console.log(element);
+        //   if (element.videoBoton.desktop) {
+        //     cont++;
+        //   }
+        //   if (!element.videoBoton.desktop) {
+        //     contAux++;
+        //   }
+        // }
+        // if (
+        //   this.listContentDesktop.toArray().length > 0 &&
+        //   cont !== 0 &&
+        //   this.listContentDesktop.toArray().length === cont
+        // ) {
+        //   console.log('..data channel true 1..');
+        //   this.htmlListVideo.redimensionarItem++;
+        //   this.htmlListVideo.redimensionar = true;
+        // }
+        // if (
+        //   this.listContentDesktop.toArray().length > 0 &&
+        //   contAux !== 0 &&
+        //   this.listContentDesktop.toArray().length === contAux
+        // ) {
+        //   if (this.htmlVideoDesktop.visible) {
+        //     console.log('..data channel false..');
+        //     this.htmlListVideo.redimensionarItem = 0;
+        //     this.htmlListVideo.redimensionar = false;
+        //   } else {
+        //     console.log('..data channel true 2..');
+        //     this.htmlListVideo.redimensionarItem++;
+        //     this.htmlListVideo.redimensionar = true;
+        //   }
+        // }
+        this.visible = this.videoBoton.desktop ? false : true;
+        if (this.buscarDesktopMultimedia() > 0) {
+          this.htmlListVideo.redimensionarItem++;
+          this.htmlListVideo.redimensionar = true;
+        } else {
+          this.htmlListVideo.redimensionarItem = 0;
+          this.htmlListVideo.redimensionar = false;
+        }
+      };
+    } else {
+      this.peerServer.receiveChannel = event.channel;
+      this.peerServer.receiveChannel.onmessage = (e: any) => {
+        this.videoBoton = JSON.parse(e.data);
+      };
+    }
+  }
+  /**
+   * hilo de escucha de los botones, simulación de click de botones fixed en la pantalla a traves del servicio
+   */
   listenBotones() {
     this.botones.get().subscribe(async (data) => {
       if (!Util.empty(data) && this.esComponenteItem) {
         if (this.camDesktop) {
           switch (data) {
             case Util.desktop:
-
               this.htmlListVideo.redimensionar = true;
+              this.htmlListVideo.redimensionarItem++;
               this.visible = false;
               this.video.stop();
               await this.video.startVideo();
@@ -372,7 +406,10 @@ export class DualMultimedia {
               break;
 
             case Util.stopDesktop:
-              this.htmlListVideo.redimensionar = false;
+              const num: number = this.buscarDesktopMultimedia();
+              this.htmlListVideo.redimensionar = num === 1 ? false : true;
+              this.htmlListVideo.redimensionarItem =
+                num === 1 ? 0 : this.htmlListVideo.redimensionarItem + 1;
               this.visible = true;
               this.video.videoCam = !this.video.videoCam;
               this.video.stop();
@@ -410,5 +447,35 @@ export class DualMultimedia {
         }
       }
     });
+  }
+  /**
+   * función que busca los elementos visibles y elemento principal visible dsktopComponentMultimedia
+   */
+  buscarDesktopMultimedia() {
+    let cont = 0;
+    // tslint:disable-next-line: prefer-for-of
+    for (
+      let index = 0;
+      index < this.listContentDesktop.toArray().length;
+      index++
+    ) {
+      const element: DesktopMultimediaComponent = this.listContentDesktop.toArray()[
+        index
+      ] as DesktopMultimediaComponent;
+      if (!element.visible) {
+        cont++;
+      }
+    }
+    if (!Util.empty(this.htmlVideoDesktop)) {
+      if (!this.htmlVideoDesktop.visible) {
+        cont++;
+      }
+    } else {
+      if (!this.visible) {
+        cont++;
+      }
+    }
+
+    return cont;
   }
 }

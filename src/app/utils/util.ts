@@ -1,17 +1,15 @@
-
 import { Observable, of } from 'rxjs';
-import {
-  HttpHeaders,
-} from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 import { Sesion } from './sesion';
-import { MatSnackBar, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import {
+  MatSnackBar,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 import { Usuario } from '../dashboard/modelo/usuario';
 import { Configuracion } from '../dashboard/modelo/configuracion';
 
 export class Util {
-
-
-  constructor() { }
+  constructor() {}
 
   static video = '1';
 
@@ -26,35 +24,31 @@ export class Util {
   static apiUrlImage = 'http://192.168.0.17:8000/archivos/';
 
   static httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
   static httpOptionsPost = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: 'Barer '
-    })
+      Authorization: 'Barer ',
+    }),
   };
-
-
 
   static getHttpOptionsPost(token: string) {
     const httpOptionsPost = {
       headers: new HttpHeaders({
         Accept: 'application/json',
-        Authorization: 'Bearer ' + Sesion.user().token
-      })
+        Authorization: 'Bearer ' + Sesion.user().token,
+      }),
     };
     return httpOptionsPost;
   }
 
   static getHttpOptionsGet() {
-
     return new HttpHeaders({
-      Authorization: `Bearer ${Sesion.user().token}`
+      Authorization: `Bearer ${Sesion.user().token}`,
     });
-
   }
 
   static getHttpOptionsPostProgress(token: string) {
@@ -62,12 +56,11 @@ export class Util {
       reportProgress: true,
       headers: new HttpHeaders({
         Accept: 'application/json',
-        Authorization: 'Bearer ' + token
-      })
+        Authorization: 'Bearer ' + token,
+      }),
     };
     return httpOptionsPost;
   }
-
 
   static handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
@@ -75,7 +68,12 @@ export class Util {
     };
   }
 
-  static openSnackBar(snackBar: MatSnackBar, message: string, opcion: number, position: MatSnackBarVerticalPosition) {
+  static openSnackBar(
+    snackBar: MatSnackBar,
+    message: string,
+    opcion: number,
+    position: MatSnackBarVerticalPosition
+  ) {
     let snackbar: string;
     switch (opcion) {
       case 1:
@@ -92,16 +90,28 @@ export class Util {
     snackBar.open(message, 'x', {
       duration: 114000,
       verticalPosition: position,
-      panelClass: [snackbar]
+      panelClass: [snackbar],
     });
-
   }
 
   static empty(data: any) {
-    return data === undefined || data == null || data === '' || data === ' ' || data === 0;
+    return (
+      data === undefined ||
+      data == null ||
+      data === '' ||
+      data === ' ' ||
+      data === 0
+    );
   }
   static emptyNaN(data: any) {
-    return data === undefined || isNaN(+data) || data === null || data === '' || data === ' ' || data === 0;
+    return (
+      data === undefined ||
+      isNaN(+data) ||
+      data === null ||
+      data === '' ||
+      data === ' ' ||
+      data === 0
+    );
   }
 
   static esMultiplo(numero: number, multiplo: number) {
@@ -117,11 +127,25 @@ export class Util {
         if (usuario.foto.indexOf('default') > -1) {
           return Util.apiUrlImage + 'img/' + usuario.foto;
         } else {
-          return Util.apiUrlImage + usuario.tipo + '/' + usuario.cedula + '/' + usuario.foto;
+          return (
+            Util.apiUrlImage +
+            usuario.tipo +
+            '/' +
+            usuario.cedula +
+            '/' +
+            usuario.foto
+          );
         }
       }
     }
-    return Util.apiUrlImage + usuario.tipo + '/' + usuario.cedula + '/' + usuario.foto;
+    return (
+      Util.apiUrlImage +
+      usuario.tipo +
+      '/' +
+      usuario.cedula +
+      '/' +
+      usuario.foto
+    );
   }
 
   static getUrlLogo(configuracion: Configuracion) {
@@ -129,10 +153,13 @@ export class Util {
       if (configuracion.value.indexOf(Util.apiUrlImage) > -1) {
         return configuracion.value;
       } else {
-      return Util.apiUrlImage + 'img/' + configuracion.value;
+        return Util.apiUrlImage + 'img/' + configuracion.value;
       }
     }
     return Util.apiUrlImage + 'img/default_logo.png';
   }
 
+  static esPar(numero: number) {
+    return numero % 2 === 0;
+  }
 }

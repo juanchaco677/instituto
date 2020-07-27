@@ -7,33 +7,39 @@ import {
   Component,
   OnInit,
   OnDestroy,
+  DoCheck,
+  OnChanges,
 } from '@angular/core';
 
+// tslint:disable-next-line: no-conflicting-lifecycle
 @Component({
   selector: 'app-video-multimedia',
   templateUrl: './video-multimedia.component.html',
   styleUrls: ['./video-multimedia.component.css'],
 })
-export class VideoMultimediaComponent extends DualMultimedia implements OnInit, OnDestroy {
-
+export class VideoMultimediaComponent extends DualMultimedia
+  implements OnInit, OnDestroy, OnChanges {
   constructor(
     public socket: SocketIoClientService,
     public botones: BotonesService
   ) {
     super(false, socket, botones);
   }
-
-  // tslint:disable-next-line: use-lifecycle-interface
-  ngOnChanges() {
+  ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
     this.listenPeer();
   }
+
+  // ngDoCheck(): void {
+  //   this.listenPeer();
+  // }
+
   ngOnInit(): void {
     this.socket.getRoom$().subscribe((data) => {
       if (!Util.empty(data) && !Util.empty(data.id)) {
         this.room = data;
         if (this.afterCont) {
           this.afterCont = false;
-          this.start(false , true);
+          this.start(false, true);
         }
       }
     });
@@ -59,12 +65,11 @@ export class VideoMultimediaComponent extends DualMultimedia implements OnInit, 
       }
     });
     this.initWebWorker();
-    this.start(false , true);
+    this.start(false, true);
     this.listenBotones();
   }
 
   ngOnDestroy(): void {
     this.worker.terminate();
   }
-
 }

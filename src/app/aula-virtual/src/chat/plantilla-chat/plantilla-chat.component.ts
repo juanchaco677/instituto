@@ -1,3 +1,5 @@
+import { BotonesService } from './../../../service/botones.service';
+import { MatSidenavModule, MatSidenav } from '@angular/material/sidenav';
 import { PeerClient } from 'src/app/aula-virtual/model/peer-client';
 import { Usuario } from 'src/app/aula-virtual/model/usuario';
 import { Room } from './../../../model/room';
@@ -8,7 +10,7 @@ import { ProgramacionHorarioService } from '../../../../dashboard/service/dashbo
 import { Sesion } from 'src/app/utils/sesion';
 import { Util } from '../../../../utils/util';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { IncripcionAsigEs } from 'src/app/dashboard/modelo/incripcion-asig-es';
 import { ProgramacionHorario } from 'src/app/dashboard/modelo/programacion-horario';
 import { PeerServer } from 'src/app/aula-virtual/model/peer-server';
@@ -25,13 +27,15 @@ export class PlantillaChatComponent implements OnInit {
   data: any;
   usuario: Usuario;
   sesionUsuario: any;
+  @ViewChild('sidenav') sidenav: MatSidenav;
   constructor(
     private socket: SocketIoClientService,
     private service: ListRoomService,
     private serviceProgramacion: ProgramacionHorarioService,
     private route: ActivatedRoute,
     private router: Router,
-    private overlay: OverlayContainer
+    private overlay: OverlayContainer,
+    private botones: BotonesService
   ) {
     this.sesionUsuario = Sesion.user();
 
@@ -109,30 +113,54 @@ export class PlantillaChatComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    const room = new Room(null, [], [], [], []);
     this.socket.$currentRoom.subscribe((data) => {
-      console.log('entro a curren room');
-      console.log(data);
+      room.id = data.id;
+      room.chat = data.chat;
+      room.usuarios = data.usuarios;
       for (const element of data.peerServerEmisorReceptor) {
-        if (Util.empty(element.peerServer) && Util.empty(element.peerClient)) {
+        if (
+          Util.empty(element.peerServer) &&
+          Util.empty(element.peerClient) &&
+          (element.usuario1.id === this.sesionUsuario.id ||
+            element.usuario2.id === this.sesionUsuario.id)
+        ) {
           element.peerServer = new PeerServer();
           element.peerClient = new PeerClient();
           element.videoBoton = new VideoBoton(true, false);
           element.peerServer.createDataChannel('botones');
           element.peerClient.createDataChannel('botones');
+          room.peerServerEmisorReceptor.push(element);
         }
       }
       for (const element of data.peerServerEmisorReceptorDesktop) {
-        if (Util.empty(element.peerServer) && Util.empty(element.peerClient)) {
+        if (
+          Util.empty(element.peerServer) &&
+          Util.empty(element.peerClient) &&
+          (element.usuario1.id === this.sesionUsuario.id ||
+            element.usuario2.id === this.sesionUsuario.id)
+        ) {
           element.peerServer = new PeerServer();
           element.peerClient = new PeerClient();
           element.videoBoton = new VideoBoton(true, false);
           element.peerServer.createDataChannel('botones');
           element.peerClient.createDataChannel('botones');
+          room.peerServerEmisorReceptorDesktop.push(element);
         }
       }
-      console.log('currentRoom');
-      console.log(data);
-      this.socket.addRoom$(data);
+      this.socket.addRoom$(room);
+      this.socket.addListen(true);
+    });
+    this.listenMatSidenav();
+  }
+
+  listenMatSidenav() {
+    this.botones.getSidenav().subscribe((data) => {
+      if (!Util.empty(data)) {
+        if (data) {
+          this.sidenav.toggle();
+        }
+      }
     });
   }
 }
