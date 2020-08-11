@@ -9,7 +9,7 @@ import { PeerClient } from './../../model/peer-client';
 import { PeerServer } from './../../model/peer-server';
 import { Video } from './../../model/video';
 import { SocketIoClientService } from '../../service/socket-io-client.service';
-import { ViewChild, ElementRef, Input, QueryList, Output } from '@angular/core';
+import { ViewChild, ElementRef, Input, QueryList, Output, ChangeDetectorRef } from '@angular/core';
 import { BotonesService } from '../../service/botones.service';
 import { Util } from 'src/app/utils/util';
 import { PeerServerEmisorReceptor } from '../../model/peer-server-emisor-receptor';
@@ -29,6 +29,7 @@ export class DualMultimedia {
   @Input() listVideoMultimedia: QueryList<VideoMultimediaComponent>;
   @Input() esComponenteItem: boolean; // variable que me dice si es un solo componenete o esta dentro de un for
   @Input() videoMultimedia: VideoMultimediaComponent;
+  @Input() styleFontSize: string;
   usuarioSesion: Usuario;
   videoBoton: VideoBoton;
   video: Video;
@@ -42,7 +43,8 @@ export class DualMultimedia {
   constructor(
     public camDesktop: boolean,
     public socket: SocketIoClientService,
-    public botones: BotonesService
+    public botones: BotonesService,
+    public cdr: ChangeDetectorRef
   ) {
     this.videoBoton = new VideoBoton(false, false, false, false);
     this.usuarioSesion = Sesion.userAulaChat();
@@ -112,18 +114,19 @@ export class DualMultimedia {
       this.peerServer.receiveChannel = event.channel;
       this.peerServer.receiveChannel.onmessage = (e: any) => {
         this.videoBoton = JSON.parse(e.data);
+        this.cdr.detectChanges();
       };
     } else {
       this.peerClient.receiveChannel = event.channel;
       this.peerClient.receiveChannel.onmessage = (e: any) => {
         this.videoBoton = JSON.parse(e.data);
+        this.cdr.detectChanges();
         if (this.camDesktop) {
           this.visible = this.videoBoton.desktop ? false : true;
           const cont = this.buscarDesktopMultimedia();
           this.htmlListVideo.contVisibleDesktop = cont;
           this.htmlListVideo.redimensionar = cont > 0;
         }
-
       };
     }
   }
@@ -174,13 +177,11 @@ export class DualMultimedia {
         for (const element of ev.streams) {
           this.video.video.srcObject = element;
           this.video.stream = element;
-          this.listeAudio();
         }
       } else {
         const inboundStream = new MediaStream(ev.track);
         this.video.video.srcObject = inboundStream;
         this.video.stream = inboundStream;
-        this.listeAudio();
       }
     } catch (error) {}
   }
@@ -194,6 +195,7 @@ export class DualMultimedia {
     } else {
       this.videoBoton.video = this.video.videoCam;
       this.videoBoton.audio = this.video.audio;
+      this.videoBoton.latencia = this.video.audio;
     }
   }
 
@@ -301,23 +303,21 @@ export class DualMultimedia {
               this.visible = false;
               this.htmlListVideo.redimensionar = true;
               this.htmlListVideo.contVisibleDesktop = this.buscarDesktopMultimedia();
-              console.log('CONTADOR....');
-              console.log(this.htmlListVideo.contVisibleDesktop);
               this.video.stop();
               await this.video.startVideo();
               this.actualizarVideoBoton();
               this.sendInfoBotones();
-
               await this.start(true);
               break;
 
             case Util.stopDesktop:
               this.visible = true;
-              const num: number = this.buscarDesktopMultimedia();
-              this.htmlListVideo.redimensionar = num === 1 ? false : true;
+              this.htmlListVideo.redimensionar =
+                this.buscarDesktopMultimedia() > 0;
               this.video.videoCam = !this.video.videoCam;
-              this.video.stop();
               this.actualizarVideoBoton();
+              this.sendInfoBotones();
+              this.video.stop();
               break;
           }
         } else {
@@ -339,12 +339,10 @@ export class DualMultimedia {
                 await this.video.startMic();
                 this.actualizarVideoBoton();
                 this.sendInfoBotones();
-                this.listeAudio();
               } else {
                 await this.video.startMic();
                 this.actualizarVideoBoton();
                 this.sendInfoBotones();
-                this.listeAudio();
                 await this.start(true);
               }
 

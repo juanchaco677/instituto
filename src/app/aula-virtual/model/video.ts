@@ -95,6 +95,14 @@ export class Video {
 
   async startVideo() {
     this.videoCam = !this.videoCam;
+    // if(this.videoCam){
+    //   if(!Util.empty(this.stream)){
+    //     if(!Util.empty(this.stream.getVideoTracks()) && this.stream.getVideoTracks().length > 0){
+    //       this.videoCam = false;
+    //     }
+    //   }
+
+    // }
     await this.initCamera({
       video: this.videoCam,
       audio: this.audio,

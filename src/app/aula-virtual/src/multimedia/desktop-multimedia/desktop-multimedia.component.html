@@ -1,3 +1,3 @@
-<div [hidden]="visible" class="bg-dark" [ngStyle]="{'position':'relative','width': width , 'height': height }">
-  <video  [hidden]="visible" class="video bg-dark" autoplay [ngStyle]="{'width': width , 'height': height }" #videoElement></video>
+<div [hidden]="visible" class="bg-dark" [ngStyle]="{'position':'relative','width': width , 'height': height,'object-fit': 'cover','object-position': 'center center' }">
+  <video  [hidden]="visible" class="video bg-dark" autoplay [ngStyle]="{'width': width , 'height': height,'object-fit': 'fill','object-position': 'center center' }" #videoElement></video>
 </div>

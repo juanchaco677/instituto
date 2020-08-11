@@ -1,6 +1,9 @@
- <div class="bg-dark" [ngStyle]="{'position':'relative','width': width , 'height': height }">
-  <video class="video bg-dark" autoplay [ngStyle]="{'width': width , 'height': height }" #videoElement></video>
+ <div  [ngClass]="videoBoton.video && videoBoton.audio ? 'rainbow':''" [ngStyle]="{'position':'relative','width': width , 'height': height,'object-fit': 'cover','object-position': 'center center' }">
+  <video class="video bg-dark"  autoplay [ngStyle]="{'width': width , 'height': height,'object-fit': 'fill','object-position': 'center center'  }" #videoElement></video>
   <div *ngIf="!esComponenteItem">
+    <div *ngIf="videoBoton.video" [ngClass]="{'contenedor-nombre': videoBoton.video }" [ngStyle]="{'font-size':styleFontSize}">
+      {{usuario.nombre}}
+    </div>
     <div class="plano-fondo" [ngClass]="{'bg-dark': !videoBoton.video}">
       <div class="div-boton-true" [hidden]="!videoBoton.video">
         <div class="d-flex justify-content-center contenedor-buttons">
@@ -32,7 +35,11 @@
     </div>
   </div>
   <div *ngIf="esComponenteItem">
+    <div *ngIf="videoBoton.video " [ngClass]="{'contenedor-nombre': videoBoton.video }" [ngStyle]="{'font-size':styleFontSize}">
+      {{usuarioSesion.nombre}}
+    </div>
     <div class="plano-fondo" [ngClass]="{'bg-dark': !videoBoton.video}">
+
       <div class="wrapper" [hidden]="videoBoton.video">
         <a title="{{usuarioSesion.nombre}}" [ngClass]="{'playing': videoBoton.latencia }"
           class="player-controls d-flex align-items-center justify-content-center">

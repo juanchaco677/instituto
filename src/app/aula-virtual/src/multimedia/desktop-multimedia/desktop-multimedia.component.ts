@@ -8,6 +8,7 @@ import {
   OnInit,
   OnDestroy,
   OnChanges,
+  ChangeDetectorRef,
 } from '@angular/core';
 
 @Component({
@@ -19,9 +20,10 @@ export class DesktopMultimediaComponent extends DualMultimedia
   implements OnInit, OnDestroy, OnChanges {
   constructor(
     public socket: SocketIoClientService,
-    public botones: BotonesService
+    public botones: BotonesService,
+    public cdr: ChangeDetectorRef
   ) {
-    super(true, socket, botones);
+    super(true, socket, botones, cdr);
   }
   // ngDoCheck(): void {
   //   this.listenPeer();

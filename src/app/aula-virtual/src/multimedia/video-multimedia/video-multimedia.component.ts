@@ -9,6 +9,7 @@ import {
   OnDestroy,
   OnChanges,
   Input,
+  ChangeDetectorRef,
 } from '@angular/core';
 
 // tslint:disable-next-line: no-conflicting-lifecycle
@@ -22,9 +23,11 @@ export class VideoMultimediaComponent extends DualMultimedia
 
   constructor(
     public socket: SocketIoClientService,
-    public botones: BotonesService
+    public botones: BotonesService,
+    public cdr: ChangeDetectorRef
+
   ) {
-    super(false, socket, botones);
+    super(false, socket, botones, cdr);
   }
   ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
     this.listenPeer();
@@ -42,17 +45,6 @@ export class VideoMultimediaComponent extends DualMultimedia
     });
     this.listenPeer();
 
-    this.socket.getListenAudio().subscribe((data) => {
-      if (data) {
-        if (!Util.empty(data) && !Util.empty(this.video)) {
-          this.videoBoton.video = this.video.videoCam;
-          this.videoBoton.audio = this.video.audio;
-          if (this.videoBoton.audio) {
-            this.listeAudio();
-          }
-        }
-      }
-    });
     this.socket.$refreshUsuario.subscribe((data) => {
       if (data) {
         if (this.video.video || this.video.audio) {
