@@ -19,6 +19,8 @@ export class Util {
 
   static stopDesktop = '4';
 
+  static redistribuir = ['1', '2', '3'];
+
   static apiUrl = 'http://192.168.0.17:8000/api/';
 
   static apiUrlImage = 'http://192.168.0.17:8000/archivos/';
@@ -97,7 +99,7 @@ export class Util {
   static empty(data: any) {
     return (
       data === undefined ||
-      data == null ||
+      data === null ||
       data === '' ||
       data === ' ' ||
       data === 0
@@ -161,5 +163,30 @@ export class Util {
 
   static esPar(numero: number) {
     return numero % 2 === 0;
+  }
+
+  static sortObjByValue(list: any) {
+    const sortedObj = {};
+    Object.keys(list)
+      .map((key) => [key, list[key]])
+      .sort((a, b) =>
+        a[1].prioridad > b[1].prioridad
+          ? 1
+          : a[1].prioridad < b[1].prioridad
+          ? -1
+          : 0
+      )
+      .forEach((data) => (sortedObj[data[0]] = data[1]));
+    return sortedObj;
+  }
+
+  static sortKeys(lista: any) {
+    return Object.keys(lista).sort((a, b) => {
+      return lista[a].prioridad > lista[b].prioridad
+        ? 1
+        : lista[a].prioridad < lista[b].prioridad
+        ? -1
+        : 0;
+    });
   }
 }

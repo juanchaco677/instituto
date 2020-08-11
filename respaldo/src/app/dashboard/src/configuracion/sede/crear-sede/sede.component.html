@@ -1,0 +1,39 @@
+<app-loading [activar]="activar"></app-loading>
+<div class="d-flex justify-content-center">
+  <div class="row">
+    <div class="col-md-12">
+      <form [formGroup]="crear" (ngSubmit)="onSubmit()"  novalidate>
+      <div class="row" *ngIf="errors">
+          <app-bootstrap-alerts [data]="errors.nombre"></app-bootstrap-alerts>
+          <app-bootstrap-alerts [data]="errors.localizacion"></app-bootstrap-alerts>
+      </div>
+      <mat-card class="example-card">
+
+        <mat-card-content>
+          <mat-card-title>{{properties.get('titulo-sede').value}}</mat-card-title>
+          <mat-card-subtitle>{{properties.get('label-localizacion').value}}</mat-card-subtitle>
+          <app-google-maps [localizacion]="sede.localizacion"  (emitir)="reciveLocalizacion($event)"></app-google-maps>
+          <div class="col-md-12 mt-5">
+          <mat-form-field class="form-campo">
+            <mat-label>{{properties.get('mat-form-field-sede').value}}</mat-label>
+            <input matInput [formControl]="getControls(properties.get('mat-form-field-sede').control)"
+              placeholder="nombre" [(ngModel)]="sede.nombre">
+            <mat-error
+              *ngIf="getControls(properties.get('mat-form-field-sede').control).errors!= null && getControls(properties.get('mat-form-field-sede').control).errors.required">
+              {{properties.get('mat-form-field-sede').error}} es <strong>obligatorio</strong>
+            </mat-error>
+            <mat-error
+              *ngIf="getControls(properties.get('mat-form-field-sede').control).errors!= null && getControls(properties.get('mat-form-field-sede').control).errors.pattern">
+              Solamente <strong>letras</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button type="submit" class="btn-block" mat-raised-button color="accent">Guardar</button>
+         </mat-card-actions>
+      </mat-card>
+    </form>
+    </div>
+  </div>
+</div>

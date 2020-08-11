@@ -1,8 +1,7 @@
-<div class="bg-dark" [ngStyle]="{'position':'relative','width': width , 'height': height }">
-  <video class="video bg-dark" autoplay [ngStyle]="{'width': width , 'height': height}" #videoElement></video>
-
+ <div class="bg-dark" [ngStyle]="{'position':'relative','width': width , 'height': height }">
+  <video class="video bg-dark" autoplay [ngStyle]="{'width': width , 'height': height }" #videoElement></video>
   <div *ngIf="!esComponenteItem">
-    <div class="plano-fondo" [ngClass]="{'bg-black': !videoBoton.video}">
+    <div class="plano-fondo" [ngClass]="{'bg-dark': !videoBoton.video}">
       <div class="div-boton-true" [hidden]="!videoBoton.video">
         <div class="d-flex justify-content-center contenedor-buttons">
           <button mat-icon-button>
@@ -33,7 +32,7 @@
     </div>
   </div>
   <div *ngIf="esComponenteItem">
-    <div class="plano-fondo" [ngClass]="{'bg-black': !videoBoton.video}">
+    <div class="plano-fondo" [ngClass]="{'bg-dark': !videoBoton.video}">
       <div class="wrapper" [hidden]="videoBoton.video">
         <a title="{{usuarioSesion.nombre}}" [ngClass]="{'playing': videoBoton.latencia }"
           class="player-controls d-flex align-items-center justify-content-center">

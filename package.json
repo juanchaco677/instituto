@@ -23,10 +23,13 @@
     "@angular/platform-browser-dynamic": "~9.1.2",
     "@angular/router": "~9.1.2",
     "@types/chrome": "0.0.120",
+    "@types/simple-peer": "^9.6.0",
     "ngx-material-timepicker": "^5.5.2",
     "ngx-socket-io": "^3.0.1",
     "peerjs": "^1.2.0",
+    "rtcpeerconnection": "^8.4.0",
     "rxjs": "~6.5.4",
+    "simple-peer": "^9.7.2",
     "tslib": "^1.10.0",
     "wrtc": "^0.4.5",
     "zone.js": "~0.10.2"

@@ -40,4 +40,8 @@ export class BotonesComponent implements OnInit {
   sidenav() {
     this.botones.addSidenav(true);
   }
+
+  redistribuir(opcion: string){
+    this.botones.add(Util.redistribuir[opcion]);
+  }
 }

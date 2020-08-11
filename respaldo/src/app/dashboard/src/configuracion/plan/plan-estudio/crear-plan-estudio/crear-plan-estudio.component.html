@@ -1,0 +1,133 @@
+<app-loading [activar]="activar"></app-loading>
+<div class="d-flex justify-content-center">
+  <div class="row">
+    <form [formGroup]="crear" (ngSubmit)="onSubmit()"  novalidate>
+      <mat-card class="example-card">
+
+        <mat-card-content>
+          <div class="row">
+            <div class="col-md-6 pr-1">
+              <mat-form-field appearance="legacy" class="form-campo">
+                <mat-label>{{properties.get('mat-form-field-programa').value}}</mat-label>
+                <input matInput [readonly]="true"
+                  [formControl]="getControls(properties.get('mat-form-field-programa').control)"
+                  placeholder="{{properties.get('mat-form-field-programa').placeholder}}"
+                  [(ngModel)]="planEstudio.programa.nombre">
+                <mat-icon matSuffix style="cursor:pointer" (click)="openDialogPrograma()">table_chart</mat-icon>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-programa').control).errors!= null && getControls(properties.get('mat-form-field-programa').control).errors.required">
+                  {{properties.get('mat-form-field-programa').error}} es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-programa').control).errors!= null && getControls(properties.get('mat-form-field-programa').control).errors.pattern">
+                  Solamente <strong>letras</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 pl-1">
+              <mat-form-field appearance="legacy" class="form-campo">
+                <mat-label>{{properties.get('mat-form-field-materia').value}}</mat-label>
+                <input matInput [readonly]="true"
+                  [formControl]="getControls(properties.get('mat-form-field-materia').control)"
+                  placeholder="{{properties.get('mat-form-field-materia').placeholder}}"
+                  [(ngModel)]="planEstudio.materia.nombre">
+                <mat-icon matSuffix style="cursor:pointer" (click)="openDialogMateria()">table_chart</mat-icon>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-materia').control).errors!= null && getControls(properties.get('mat-form-field-materia').control).errors.required">
+                  {{properties.get('mat-form-field-materia').error}} es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-materia').control).errors!= null && getControls(properties.get('mat-form-field-materia').control).errors.pattern">
+                  Solamente <strong>letras</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 pr-1">
+              <mat-form-field appearance="legacy" class="form-campo">
+                <mat-label>{{properties.get('mat-form-field-plan').value}}</mat-label>
+                <input matInput [readonly]="true"
+                  [formControl]="getControls(properties.get('mat-form-field-plan').control)"
+                  placeholder="{{properties.get('mat-form-field-plan').placeholder}}"
+                  [(ngModel)]="planEstudio.plan.nombre">
+                <mat-icon matSuffix style="cursor:pointer" (click)="openDialogPlan()">table_chart</mat-icon>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-plan').control).errors!= null && getControls(properties.get('mat-form-field-plan').control).errors.required">
+                  {{properties.get('mat-form-field-plan').error}} es <strong>obligatorio</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 pl-1">
+              <mat-form-field class="form-campo">
+                <mat-label>{{properties.get('mat-form-field-fecha-inicial').value}}</mat-label>
+                <input matInput type="number"
+                  [formControl]="getControls(properties.get('mat-form-field-fecha-inicial').control)"
+                  placeholder="{{properties.get('mat-form-field-fecha-inicial').placeholder}}"
+                  [(ngModel)]="planEstudio.fecha_inicial">
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-fecha-inicial').control).errors!= null && getControls(properties.get('mat-form-field-fecha-inicial').control).errors.required">
+                  {{properties.get('mat-form-field-fecha-inicial').error}} es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-fecha-inicial').control).errors!= null && getControls(properties.get('mat-form-field-fecha-inicial').control).errors.minlength">
+                  minimo 1 <strong>numeros</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-fecha-inicial').control).errors!= null && getControls(properties.get('mat-form-field-fecha-inicial').control).errors.maxlength">
+                  maximo 8 <strong>numeros</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-6 pr-1">
+              <mat-form-field class="form-campo">
+                <mat-label>{{properties.get('mat-form-field-fecha-final').value}}</mat-label>
+                <input matInput type="number"
+                  [formControl]="getControls(properties.get('mat-form-field-fecha-final').control)"
+                  placeholder="{{properties.get('mat-form-field-fecha-final').placeholder}}"
+                  [(ngModel)]="planEstudio.fecha_hasta">
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-fecha-final').control).errors!= null && getControls(properties.get('mat-form-field-fecha-final').control).errors.required">
+                  {{properties.get('mat-form-field-fecha-final').error}} es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-fecha-final').control).errors!= null && getControls(properties.get('mat-form-field-fecha-final').control).errors.minlength">
+                  Minimo 1 <strong>números</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-fecha-final').control).errors!= null && getControls(properties.get('mat-form-field-fecha-final').control).errors.maxlength">
+                  Maximo 8 <strong>números</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 pl-1">
+              <mat-form-field class="form-campo">
+                <mat-label>{{properties.get('mat-form-field-periodo').value}}</mat-label>
+                <input matInput type="number"
+                  [formControl]="getControls(properties.get('mat-form-field-periodo').control)"
+                  placeholder="{{properties.get('mat-form-field-periodo').placeholder}}"
+                  [(ngModel)]="planEstudio.periodo">
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-periodo').control).errors!= null && getControls(properties.get('mat-form-field-periodo').control).errors.required">
+                  {{properties.get('mat-form-field-periodo').error}} es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-periodo').control).errors!= null && getControls(properties.get('mat-form-field-periodo').control).errors.minlength">
+                  Minimo 1 <strong>números</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <button type="submit" class="btn-block" mat-raised-button color="accent">Guardar</button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </form>
+  </div>
+</div>

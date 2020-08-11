@@ -1,0 +1,13 @@
+<div class="contenedor-toolbar row ">
+
+  <mat-menu #appMenu="matMenu">
+    <button mat-menu-item (click)="navegacion()">Perfil</button>
+    <button mat-menu-item (click)="emitir(true)">Cerrar Sesión</button>
+  </mat-menu>
+
+  <button mat-icon-button [matMenuTriggerFor]="appMenu">
+    <a>{{ usuario.nombre }}</a> <span>&nbsp;</span>
+    <img [src]="usuario.foto" width="40" height="40" class="rounded-circle" />
+  </button>
+
+</div>

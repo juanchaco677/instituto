@@ -1,0 +1,21 @@
+<div class="col-12">
+  <form [formGroup]="formGoogle" #formulario novalidate >
+  <mat-form-field class="form-campo">
+    <mat-label>Dirección</mat-label>
+    <input matInput placeholder="Buscar ubicación más cercana" (keydown.enter)="$event.preventDefault()"
+      autocorrect="off" [formControl]="getControls('buscar')" [(ngModel)]="localizacion.direccion" autocapitalize="off" spellcheck="off" type="text" #search>
+      <mat-error
+      *ngIf="getControls('buscar').errors!= null && getControls('buscar').errors.required">
+      Buscar es <strong>obligatorio</strong>
+    </mat-error>
+    </mat-form-field>
+</form>
+
+  <agm-map [latitude]="localizacion.latitud" [longitude]="localizacion.longitud" [zoom]="zoom">
+    <agm-marker [latitude]="localizacion.latitud" [longitude]="localizacion.longitud" [markerDraggable]="true"
+      (dragEnd)="markerDragEnd($event)">
+    </agm-marker>
+  </agm-map>
+
+  <h6 class="mt-2 mb-2">Address: {{localizacion.direccion}}</h6>
+</div>

@@ -6,3 +6,33 @@
 .posicionImpar{
   left: 20%;
 }
+
+
+.col-8-redVideoM{
+  width: 100%;
+  height: 60%;
+}
+
+.col-6-redVideoM{
+  width: 100%;
+  height: 50%;
+}
+
+.col-4-redVideoM{
+  width: 100%;
+  height: 35%;
+}
+
+.col-2-redVideoM{
+  width: 100%;
+  height: 25%;
+}
+.col-2-redVideoMRedimiensionar{
+  width: 100%;
+  height: 110%;
+}
+
+.col-10-redDesktopM{
+  width: 100%;
+  height: 100%;
+}

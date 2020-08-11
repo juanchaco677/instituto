@@ -1,13 +1,13 @@
-video {
+/* video {
   image-rendering: -moz-crisp-edges;
   image-rendering: -webkit-crisp-edges;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
-}
+} */
 .div-boton-true {
   position: absolute;
-  left: 18%;
-  bottom: -12%;
+  left: 31%;
+  bottom: -5%;
   z-index: 10;
 }
 
@@ -22,8 +22,8 @@ video {
 
 .wrapper {
   position: absolute;
-  left: 35%;
-  top: 28%;
+  left: 40%;
+  top: 40%;
   z-index: 10;
 }
 .player-controls {

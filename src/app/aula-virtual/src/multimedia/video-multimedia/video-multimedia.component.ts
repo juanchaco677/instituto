@@ -7,8 +7,8 @@ import {
   Component,
   OnInit,
   OnDestroy,
-  DoCheck,
   OnChanges,
+  Input,
 } from '@angular/core';
 
 // tslint:disable-next-line: no-conflicting-lifecycle
@@ -19,6 +19,7 @@ import {
 })
 export class VideoMultimediaComponent extends DualMultimedia
   implements OnInit, OnDestroy, OnChanges {
+
   constructor(
     public socket: SocketIoClientService,
     public botones: BotonesService
@@ -37,10 +38,6 @@ export class VideoMultimediaComponent extends DualMultimedia
     this.socket.getRoom$().subscribe((data) => {
       if (!Util.empty(data) && !Util.empty(data.id)) {
         this.room = data;
-        if (this.afterCont) {
-          this.afterCont = false;
-          this.start(false, true);
-        }
       }
     });
     this.listenPeer();
@@ -59,17 +56,13 @@ export class VideoMultimediaComponent extends DualMultimedia
     this.socket.$refreshUsuario.subscribe((data) => {
       if (data) {
         if (this.video.video || this.video.audio) {
-          this.start(true, true);
-          this.worker.postMessage({});
+          // this.start(true, true);
         }
       }
     });
-    this.initWebWorker();
-    this.start(false, true);
     this.listenBotones();
   }
 
   ngOnDestroy(): void {
-    this.worker.terminate();
   }
 }

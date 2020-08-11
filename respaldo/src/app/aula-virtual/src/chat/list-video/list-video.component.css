@@ -1,0 +1,8 @@
+.posicion{
+  position:absolute;
+  top: 20%;
+}
+
+.posicionImpar{
+  left: 20%;
+}

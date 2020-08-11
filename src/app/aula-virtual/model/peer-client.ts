@@ -34,25 +34,6 @@ export class PeerClient {
 
   createDataChannel(nameChannel: string) {
     this.dataChannel = this.peerConnection.createDataChannel(nameChannel);
-    this.dataChannel.onopen = (event: any) => {
-      if (this.dataChannel) {
-        if (this.dataChannel.readyState === 'open') {
-          console.log('canal abierto client');
-        } else {
-          console.log('canal cerrado client');
-        }
-      }
-    };
-
-    this.dataChannel.onclose = (event: any) => {
-      if (this.dataChannel) {
-        if (this.dataChannel.readyState === 'open') {
-          console.log('canal abierto cerrado client');
-        } else {
-          console.log('canal cerrado cerrado client');
-        }
-      }
-    };
   }
 
   send(data: any) {

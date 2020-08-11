@@ -1,3 +1,5 @@
+import { BotonesService } from './../../../service/botones.service';
+import { async } from '@angular/core/testing';
 import { VideoMultimediaComponent } from './../../multimedia/video-multimedia/video-multimedia.component';
 import { BotonesComponent } from './../../multimedia/botones/botones.component';
 import { DesktopMultimediaComponent } from './../../multimedia/desktop-multimedia/desktop-multimedia.component';
@@ -16,6 +18,7 @@ import {
   ElementRef,
   QueryList,
   ViewChildren,
+  AfterViewInit,
 } from '@angular/core';
 import { PeerClient } from 'src/app/aula-virtual/model/peer-client';
 import { PeerServer } from 'src/app/aula-virtual/model/peer-server';
@@ -25,12 +28,12 @@ import { VideoBoton } from 'src/app/aula-virtual/model/video-boton';
   templateUrl: './list-video.component.html',
   styleUrls: ['./list-video.component.css'],
 })
-export class ListVideoComponent implements OnInit {
+export class ListVideoComponent implements OnInit,AfterViewInit {
   room: Room;
   usuario: Usuario;
   programacion: ProgramacionHorario;
   peerServer: PeerServer;
-  redimensionarItem = 0;
+  contElementDesktopVisible = 0;
   redimensionar = false;
   @Input() visible = true;
   @Input() contador = 0;
@@ -42,9 +45,18 @@ export class ListVideoComponent implements OnInit {
   @ViewChildren('contentDesktop') listContentDesktop: QueryList<
     DesktopMultimediaComponent
   >;
-  constructor(private socket: SocketIoClientService) {
+
+  @ViewChildren('listVideoMultimedia') listVideoMultimedia: QueryList<
+    VideoMultimediaComponent
+  >;
+  keysCam = [];
+  keysDesktop = [];
+  constructor(public socket: SocketIoClientService, public botonesService: BotonesService) {
     this.room = new Room(null, [], [], [], []);
     this.usuario = Sesion.userAulaChat();
+  }
+  ngAfterViewInit(): void {
+    this.redimensionar = this.buscarDesktopMultimedia() > 0;
   }
 
   ngOnInit(): void {
@@ -57,6 +69,13 @@ export class ListVideoComponent implements OnInit {
     this.socket.getRoom$().subscribe((data) => {
       if (!Util.empty(data)) {
         this.room = data;
+        if (!Util.empty(this.room.peerServerEmisorReceptor)) {
+          this.keysCam = Object.keys(this.room.peerServerEmisorReceptor);
+
+        }
+        if (!Util.empty(this.room.peerServerEmisorReceptorDesktop)) {
+          this.keysDesktop = Object.keys(this.room.peerServerEmisorReceptorDesktop);
+        }
       }
     });
     /**
@@ -75,7 +94,12 @@ export class ListVideoComponent implements OnInit {
      * hilo socket de escucha para cuando un usuario ingresa por primera vez a una sala
      */
     this.socket.$addUsuario.subscribe((data) => this.addUsuario(data));
+
+    this.botonesService.get().subscribe(data => this.listenBotones(data));
+
+
   }
+
   /**
    *
    * @param data función que agrega un usuario a la sala
@@ -84,39 +108,41 @@ export class ListVideoComponent implements OnInit {
     console.log('..current add usuario..');
     console.log(data);
     if (Util.empty(this.room.peerServerEmisorReceptor)) {
-      this.room.peerServerEmisorReceptor = [];
+      this.room.peerServerEmisorReceptor = {};
     }
     if (Util.empty(this.room.peerServerEmisorReceptorDesktop)) {
-      this.room.peerServerEmisorReceptorDesktop = [];
+      this.room.peerServerEmisorReceptorDesktop = {};
     }
-    for (const element of data.peerServerEmisorReceptor) {
+    // tslint:disable-next-line: forin
+    for (const key in data.peerServerEmisorReceptor) {
       if (
-        Util.empty(element.peerServer) &&
-        Util.empty(element.peerClient) &&
-        (element.usuario1.id === this.usuario.id ||
-          element.usuario2.id === this.usuario.id)
+        Util.empty(data.peerServerEmisorReceptor[key].peerServer) &&
+        Util.empty(data.peerServerEmisorReceptor[key].peerClient) &&
+        (data.peerServerEmisorReceptor[key].usuario1.id === this.usuario.id ||
+          data.peerServerEmisorReceptor[key].usuario2.id === this.usuario.id)
       ) {
-        element.peerServer = new PeerServer();
-        element.peerClient = new PeerClient();
-        element.videoBoton = new VideoBoton(true, false);
-        element.peerServer.createDataChannel('botones');
-        element.peerClient.createDataChannel('botones');
-        this.room.peerServerEmisorReceptor.push(element);
-      }
-    }
-    for (const element of data.peerServerEmisorReceptorDesktop) {
-      if (
-        Util.empty(element.peerServer) &&
-        Util.empty(element.peerClient) &&
-        (element.usuario1.id === this.usuario.id ||
-          element.usuario2.id === this.usuario.id)
-      ) {
-        element.peerServer = new PeerServer();
-        element.peerClient = new PeerClient();
-        element.videoBoton = new VideoBoton(true, false);
-        element.peerServer.createDataChannel('botones');
-        element.peerClient.createDataChannel('botones');
-        this.room.peerServerEmisorReceptorDesktop.push(element);
+        data.peerServerEmisorReceptor[key].peerServer = new PeerServer();
+        data.peerServerEmisorReceptor[key].peerServer.createDataChannel(
+          'informacion'
+        );
+        data.peerServerEmisorReceptor[key].peerClient = new PeerClient();
+        data.peerServerEmisorReceptor[key].peerClient.createDataChannel(
+          'informacion'
+        );
+        this.room.peerServerEmisorReceptor[key] =
+          data.peerServerEmisorReceptor[key];
+
+        data.peerServerEmisorReceptorDesktop[key].peerServer = new PeerServer();
+        data.peerServerEmisorReceptorDesktop[key].peerServer.createDataChannel(
+          'informacion'
+        );
+        data.peerServerEmisorReceptorDesktop[key].peerClient = new PeerClient();
+        data.peerServerEmisorReceptorDesktop[key].peerClient.createDataChannel(
+          'informacion'
+        );
+
+        this.room.peerServerEmisorReceptorDesktop[key] =
+          data.peerServerEmisorReceptorDesktop[key];
       }
     }
 
@@ -127,92 +153,101 @@ export class ListVideoComponent implements OnInit {
     if (Util.empty(this.room.chat)) {
       this.room.chat = [];
     }
-    this.room.usuarios.push(data.usuario);
+
+    if (!this.buscarUsuario(data)) {
+      this.room.usuarios.push(data.usuario);
+    }
     this.room.chat = data.chat.concat(this.room.chat);
     this.socket.addRoom$(this.room);
-    this.videoHtml.startAddUsuario(data);
+    this.socket.addListen(true);
   }
+
+  buscarUsuario(data: any) {
+    for (const element of this.room.usuarios) {
+      if (data.usuario.id === element.id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   /**
    * función crea las respuestas para el peer
    * @param data
    */
   async createAnswer(data: any) {
-    console.log('create answer');
+    console.log('Create Answer');
     console.log(data);
     this.socket.addListen(true);
-    let usuarioOrigen = new Usuario();
-    const emipRecep: PeerServerEmisorReceptor[] = [];
-    const emipRecepDesktop: PeerServerEmisorReceptor[] = [];
-    if (
-      !Util.empty(data.peerServerEmisorReceptor) &&
-      data.peerServerEmisorReceptor.length > 0
-    ) {
-      for (const elementIn of data.peerServerEmisorReceptor) {
-        for (const element of this.room.peerServerEmisorReceptor) {
-          if (
-            (elementIn.usuario1.id === Sesion.userAulaChat().id ||
-              elementIn.usuario2.id === Sesion.userAulaChat().id) &&
-            (element.usuario1.id === Sesion.userAulaChat().id ||
-              element.usuario2.id === Sesion.userAulaChat().id) &&
-            elementIn.usuario1.id === element.usuario1.id &&
-            elementIn.usuario2.id === element.usuario2.id
-          ) {
-            usuarioOrigen =
-              elementIn.usuario1.id === Sesion.userAulaChat().id
-                ? elementIn.usuario2
-                : elementIn.usuario1;
+    if (!Util.empty(data.data)) {
+      if (data.camDesktop) {
+        if (data.data.type === 'offer') {
+          await this.room.peerServerEmisorReceptorDesktop[
+            data.key
+          ].peerClient.createAnswer(data.data);
+          this.socket.emit('sendAnswer', {
+            data: this.room.peerServerEmisorReceptorDesktop[data.key].peerClient
+              .localDescription,
+            id: this.room.id,
+            key: data.key,
+            camDesktop: data.camDesktop,
+            usuarioOrigen:
+              this.room.peerServerEmisorReceptorDesktop[data.key].usuario1.id ===
+              this.usuario.id
+                ? this.room.peerServerEmisorReceptorDesktop[data.key].usuario1
+                : this.room.peerServerEmisorReceptorDesktop[data.key].usuario2,
+            usuarioDestino:
+              this.room.peerServerEmisorReceptorDesktop[data.key].usuario1.id ===
+              this.usuario.id
+                ? this.room.peerServerEmisorReceptorDesktop[data.key].usuario2
+                : this.room.peerServerEmisorReceptorDesktop[data.key].usuario1,
+          });
+        } else {
+          if (data.data.candidate) {
+            await this.room.peerServerEmisorReceptorDesktop[
+              data.key
+            ].peerClient.peerConnection.addIceCandidate(data.data);
+          }
+        }
+      } else {
+        if (data.data.type === 'offer') {
+          console.log(this.room);
+          console.log(data.key);
+          console.log(this.room.peerServerEmisorReceptor[data.key]);
+          await this.room.peerServerEmisorReceptor[
+            data.key
+          ].peerClient.createAnswer(data.data);
 
-            elementIn.peerClient = new PeerClient();
-            await element.peerClient.createAnswer(
-              elementIn.peerServer.localDescription
+          this.socket.emit('sendAnswer', {
+            data: this.room.peerServerEmisorReceptor[data.key].peerClient
+              .localDescription,
+            id: this.room.id,
+            key: data.key,
+            camDesktop: data.camDesktop,
+            usuarioOrigen:
+              this.room.peerServerEmisorReceptor[data.key].usuario1.id ===
+              this.usuario.id
+                ? this.room.peerServerEmisorReceptor[data.key].usuario1
+                : this.room.peerServerEmisorReceptor[data.key].usuario2,
+            usuarioDestino:
+              this.room.peerServerEmisorReceptor[data.key].usuario1.id ===
+              this.usuario.id
+                ? this.room.peerServerEmisorReceptor[data.key].usuario2
+                : this.room.peerServerEmisorReceptor[data.key].usuario1,
+          });
+        } else {
+          if (data.data.candidate) {
+            await this.room.peerServerEmisorReceptor[
+              data.key
+            ].peerClient.peerConnection.addIceCandidate(
+              new RTCIceCandidate(data.data)
             );
-            elementIn.peerClient.localDescription =
-              element.peerClient.localDescription;
-            emipRecep.push(elementIn);
           }
         }
       }
+      this.socket.addRoom$(this.room);
+      this.socket.addListen(true);
     }
-
-    if (
-      !Util.empty(data.peerServerEmisorReceptorDesktop) &&
-      data.peerServerEmisorReceptorDesktop.length > 0
-    ) {
-      for (const elementIn of data.peerServerEmisorReceptorDesktop) {
-        for (const element of this.room.peerServerEmisorReceptorDesktop) {
-          if (
-            (elementIn.usuario1.id === Sesion.userAulaChat().id ||
-              elementIn.usuario2.id === Sesion.userAulaChat().id) &&
-            (element.usuario1.id === Sesion.userAulaChat().id ||
-              element.usuario2.id === Sesion.userAulaChat().id) &&
-            elementIn.usuario1.id === element.usuario1.id &&
-            elementIn.usuario2.id === element.usuario2.id
-          ) {
-            usuarioOrigen =
-              elementIn.usuario1.id === Sesion.userAulaChat().id
-                ? elementIn.usuario2
-                : elementIn.usuario1;
-
-            elementIn.peerClient = new PeerClient();
-            await element.peerClient.createAnswer(
-              elementIn.peerServer.localDescription
-            );
-            elementIn.peerClient.localDescription =
-              element.peerClient.localDescription;
-            emipRecepDesktop.push(elementIn);
-          }
-        }
-      }
-    }
-
-    this.socket.emit('sendAnswer', {
-      id: this.room.id,
-      usuarioOrigen,
-      peerServerEmisorReceptor: emipRecep,
-      peerServerEmisorReceptorDesktop: emipRecepDesktop,
-    });
-
-    this.socket.addListen(true);
   }
 
   /**
@@ -220,54 +255,69 @@ export class ListVideoComponent implements OnInit {
    * @param data
    */
   async addAnswer(data: any) {
-    console.log('send answer');
-    console.log(data);
+    console.log('Send Answer');
     this.socket.addListen(true);
-    if (!Util.empty(data.peerServerEmisorReceptor)) {
-      for (const elementIn of data.peerServerEmisorReceptor) {
-        for (const element of this.room.peerServerEmisorReceptor) {
-          if (
-            (elementIn.usuario1.id === Sesion.userAulaChat().id ||
-              elementIn.usuario2.id === Sesion.userAulaChat().id) &&
-            (element.usuario1.id === Sesion.userAulaChat().id ||
-              element.usuario2.id === Sesion.userAulaChat().id) &&
-            elementIn.usuario1.id === element.usuario1.id &&
-            elementIn.usuario2.id === element.usuario2.id
-          ) {
-            if (!Util.empty(elementIn.peerClient.localDescription)) {
-              await element.peerServer.addAnswer(
-                elementIn.peerClient.localDescription
-              );
-            }
+    if (!Util.empty(data.data)) {
+      if (data.camDesktop) {
+        if (data.data.type === 'answer') {
+          await this.room.peerServerEmisorReceptorDesktop[
+            data.key
+          ].peerServer.addAnswer(data.data);
+        } else {
+          if (data.data.candidate) {
+            this.room.peerServerEmisorReceptorDesktop[
+              data.key
+            ].peerServer.peerConnection.addIceCandidate(
+              new RTCIceCandidate(data.data)
+            );
+          }
+        }
+      } else {
+        if (data.data.type === 'answer') {
+          await this.room.peerServerEmisorReceptor[
+            data.key
+          ].peerServer.addAnswer(data.data);
+        } else {
+          if (data.data.candidate) {
+            this.room.peerServerEmisorReceptor[
+              data.key
+            ].peerServer.peerConnection.addIceCandidate(
+              new RTCIceCandidate(data.data)
+            );
           }
         }
       }
+      this.socket.addRoom$(this.room);
+      this.socket.addListen(true);
     }
-    if (!Util.empty(data.peerServerEmisorReceptorDesktop)) {
-      for (const elementIn of data.peerServerEmisorReceptorDesktop) {
-        for (const element of this.room.peerServerEmisorReceptorDesktop) {
-          if (
-            (elementIn.usuario1.id === Sesion.userAulaChat().id ||
-              elementIn.usuario2.id === Sesion.userAulaChat().id) &&
-            (element.usuario1.id === Sesion.userAulaChat().id ||
-              element.usuario2.id === Sesion.userAulaChat().id) &&
-            elementIn.usuario1.id === element.usuario1.id &&
-            elementIn.usuario2.id === element.usuario2.id
-          ) {
-            if (!Util.empty(elementIn.peerClient.localDescription)) {
-              await element.peerServer.addAnswer(
-                elementIn.peerClient.localDescription
-              );
-            }
-          }
-        }
-      }
-    }
-    this.socket.addListen(true);
   }
-  /**
-   * función que busca cuantos desktop multimedia estan visibles
-   */
+
+  cambiarOrden(key: any) {
+    let i = 1;
+    // tslint:disable-next-line: no-shadowed-variable
+    for (const key in this.room.peerServerEmisorReceptor) {
+      // tslint:disable-next-line: forin
+     i++;
+     this.room.peerServerEmisorReceptor[key].prioridad = i;
+    }
+    this.room.peerServerEmisorReceptor[key].prioridad = 1;
+    this.keysCam = Util.sortKeys(this.room.peerServerEmisorReceptor);
+  }
+
+  listenBotones(data: any) {
+    if (!Util.empty(data)) {
+      switch (data) {
+        case Util.redistribuir[0]:
+          break;
+        case Util.redistribuir[1]:
+          break;
+
+        case Util.redistribuir[2]:
+          break;
+      }
+    }
+  }
+
   buscarDesktopMultimedia() {
     let cont = 0;
     for (const element of this.listContentDesktop.toArray()) {
@@ -281,9 +331,5 @@ export class ListVideoComponent implements OnInit {
     console.log('buscar..........');
     console.log(cont);
     return cont;
-  }
-
-  esPar(numero: number){
-    return Util.esPar(numero);
   }
 }

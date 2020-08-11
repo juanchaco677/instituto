@@ -12,8 +12,8 @@ export class PeerServer {
   peerConnection: RTCPeerConnection;
   offer: any;
   dataChannel: any;
-  receiveChannel: any;
   localDescription: any;
+  receiveChannel: any;
   constructor() {
     this.peerConnection = new RTCPeerConnection(this.config);
   }
@@ -35,38 +35,16 @@ export class PeerServer {
 
   createDataChannel(nameChannel: string) {
     this.dataChannel = this.peerConnection.createDataChannel(nameChannel);
-    this.dataChannel.onopen = (event: any) => {
-      if (this.dataChannel) {
-        if (this.dataChannel.readyState === 'open') {
-          console.log('canal abierto server');
-        } else {
-          console.log('canal cerrado server');
-        }
-      }
-    };
-
-    this.dataChannel.onclose = (event: any) => {
-      if (this.dataChannel) {
-        if (this.dataChannel.readyState === 'open') {
-          console.log('canal abierto cerrado server');
-        } else {
-          console.log('canal cerrado cerrado server');
-        }
-      }
-    };
   }
 
   send(data: any) {
     this.dataChannel.send(data);
   }
 
-  closeSendDataChannel() {
+  closeDataChannel() {
     this.dataChannel.close();
   }
 
-  closeReciveDataChannel() {
-    this.receiveChannel.close();
-  }
 
   close() {
     this.peerConnection.close();

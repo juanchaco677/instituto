@@ -1,0 +1,8 @@
+.theme-light {
+  @import './theme_light.scss';
+}
+
+.theme-dark {
+  @import './theme_default_dark.scss';
+  // @import './theme_light.scss';
+}

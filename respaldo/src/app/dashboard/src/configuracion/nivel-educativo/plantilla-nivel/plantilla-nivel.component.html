@@ -1,0 +1,18 @@
+<div class="row mb-5">
+
+  <app-plantilla-crud class="col-lg-3 col-md-6 col-sm-6" [titulo]="properties.get('r-c-nivel-educativo').titulo"
+    [subtitulo]="properties.get('r-c-nivel-educativo').subtitulo" [descripcion]="properties.get('r-c-nivel-educativo').descripcion"
+    [ruta]="properties.get('r-c-nivel-educativo').route">
+  </app-plantilla-crud>
+  <app-plantilla-crud class="col-lg-3 col-md-6 col-sm-6" [titulo]="properties.get('r-a-nivel-educativo').titulo"
+  [subtitulo]="properties.get('r-a-nivel-educativo').subtitulo" [descripcion]="properties.get('r-a-nivel-educativo').descripcion"
+  [ruta]="properties.get('r-a-nivel-educativo').route">
+</app-plantilla-crud>
+  <app-plantilla-crud class="col-lg-3 col-md-6 col-sm-6" [titulo]="properties.get('r-e-nivel-educativo').titulo"
+    [subtitulo]="properties.get('r-e-nivel-educativo').subtitulo" [descripcion]="properties.get('r-e-nivel-educativo').descripcion"
+    [ruta]="properties.get('r-e-nivel-educativo').route">
+  </app-plantilla-crud>
+
+</div>
+
+<router-outlet></router-outlet>

@@ -1,0 +1,20 @@
+<div class="row mb-5">
+
+  <app-plantilla-crud class="col-lg-3 col-md-6 col-sm-6" [titulo]="properties.get('r-c-programa').titulo"
+    [subtitulo]="properties.get('r-c-programa').subtitulo" [descripcion]="properties.get('r-c-programa').descripcion"
+    [ruta]="properties.get('r-c-programa').route">
+  </app-plantilla-crud>
+
+  <app-plantilla-crud class="col-lg-3 col-md-6 col-sm-6" [titulo]="properties.get('r-a-programa').titulo"
+    [subtitulo]="properties.get('r-a-programa').subtitulo" [descripcion]="properties.get('r-a-programa').descripcion"
+    [ruta]="properties.get('r-a-programa').route">
+  </app-plantilla-crud>
+
+  <app-plantilla-crud class="col-lg-3 col-md-6 col-sm-6" [titulo]="properties.get('r-e-programa').titulo"
+    [subtitulo]="properties.get('r-e-programa').subtitulo" [descripcion]="properties.get('r-e-programa').descripcion"
+    [ruta]="properties.get('r-e-programa').route">
+  </app-plantilla-crud>
+
+</div>
+
+<router-outlet></router-outlet>

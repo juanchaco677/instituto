@@ -1,0 +1,35 @@
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
+  <mat-toolbar color="primary" class="example-toolbar row mat-elevation-z2">
+    <mat-toolbar-row class="app-navbar-box-shodown">
+
+      <button mat-icon-button (click)="snav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <img (click)="addMenuOpcion('Noticias')"  style="cursor: pointer;" [routerLink]="['/administrator']" *ngIf="confLogo.value"
+      class="img-fluid" width="60" height="60"
+      src="{{confLogo.value}}"
+      alt="Logo" />
+      <button class="ml-1" mat-icon-button (click)="addMenuOpcion('Noticias')"  [routerLink]="['/administrator']"> {{confTitulo.value}}</button>
+
+      <app-navbar></app-navbar>
+    </mat-toolbar-row>
+    <mat-toolbar-row>
+      <h1  class="display-1"> {{menuOpcion}} </h1>
+
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
+      fixedTopGap="56" [opened]="true">
+      <div class="row app-menu-lateral">
+        <app-menu-lateral></app-menu-lateral>
+      </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="container justify-content-center align-items-center mt-5">
+
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

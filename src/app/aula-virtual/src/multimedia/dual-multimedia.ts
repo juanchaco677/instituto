@@ -1,3 +1,4 @@
+import { VideoMultimediaComponent } from './video-multimedia/video-multimedia.component';
 import { DesktopMultimediaComponent } from './desktop-multimedia/desktop-multimedia.component';
 import { Sesion } from './../../../utils/sesion';
 import { ListVideoComponent } from './../chat/list-video/list-video.component';
@@ -22,16 +23,18 @@ export class DualMultimedia {
   @Input() usuario: Usuario;
   @Input() visible = true; // variable para el atributo hidden el componente
   @Input() htmlListVideo: ListVideoComponent;
+  @Input() element: PeerServerEmisorReceptor;
+  @Input() key: string;
   @Input() listContentDesktop: QueryList<DesktopMultimediaComponent>; // es el for que esta en el list video multimedia
+  @Input() listVideoMultimedia: QueryList<VideoMultimediaComponent>;
   @Input() esComponenteItem: boolean; // variable que me dice si es un solo componenete o esta dentro de un for
-  contador = 0;
-  hilo = true;
-  afterCont = true;
+  @Input() videoMultimedia: VideoMultimediaComponent;
   usuarioSesion: Usuario;
-  @Output() videoBoton: VideoBoton;
+  videoBoton: VideoBoton;
   video: Video;
   room: Room;
-  worker: Worker;
+  channel = false;
+
   @ViewChild('videoElement')
   set mainVideoEl(el: ElementRef) {
     this.video = new Video(this.camDesktop ? 2 : 1, el.nativeElement);
@@ -45,24 +48,6 @@ export class DualMultimedia {
     this.usuarioSesion = Sesion.userAulaChat();
   }
 
-  initWebWorker() {
-    this.worker = new Worker('./thread.worker', {
-      type: 'module',
-    });
-
-    this.worker.onmessage = ({ data }) => {
-      if (!Util.empty(data) && data) {
-        this.sendInfoBotones();
-        if (this.hilo) {
-          this.worker.postMessage(true);
-        } else {
-          this.hilo = true;
-          this.worker.postMessage(false);
-        }
-      }
-    };
-  }
-
   /**
    * función para escuchar la informacion track o datos que viene del servidor peer o client
    */
@@ -72,19 +57,121 @@ export class DualMultimedia {
         this.peerServer.peerConnection.ontrack = this.getRemoteStream.bind(
           this
         );
-        this.peerServer.peerConnection.ondatachannel = this.getOnDataChannel.bind(
-          this
-        );
+
+        this.peerServer.peerConnection.onicecandidate = (event: any) =>
+          this.getIceCandidate(event, true);
+
+        this.peerServer.dataChannel.onerror = (error) => {
+          console.log('Data Channel Error:', error);
+        };
+
+        this.peerServer.dataChannel.onopen = () => {
+          this.channel = true;
+          console.log('canal abierto server');
+          const videoBoton: VideoBoton = this.camDesktop ? this.htmlVideoDesktop.videoBoton : this.videoMultimedia.videoBoton;
+          this.peerServer.send(JSON.stringify(videoBoton));
+        };
+
+        this.peerServer.dataChannel.onclose = () => {
+          this.channel = false;
+          console.log('The Data Channel is Closed');
+        };
+
+        this.peerServer.peerConnection.ondatachannel = (event: any) =>
+          this.getOnDataChannel(event, true);
+
+        // this.peerClient.dataChannel.onopen = (event: any) =>
+        //   this.getOnOpenDataChannel(event, true);
       }
       if (!Util.empty(data) && data && !Util.empty(this.peerClient)) {
         this.peerClient.peerConnection.ontrack = this.getRemoteStream.bind(
           this
         );
-        this.peerClient.peerConnection.ondatachannel = this.getOnDataChannel.bind(
-          this
-        );
+
+        this.peerClient.peerConnection.onicecandidate = (event: any) =>
+          this.getIceCandidate(event, false);
+
+        // this.peerClient.dataChannel.onopen = (event: any) =>
+        //   this.getOnOpenDataChannel(event, false);
+        this.peerClient.dataChannel.onerror = (error) => {
+          console.log('Data Channel Error:', error);
+        };
+
+        this.peerClient.dataChannel.onopen = () => {
+          console.log('canal abierto cliente');
+          this.peerClient.send(JSON.stringify(this.videoBoton));
+        };
+
+        this.peerClient.dataChannel.onclose = () => {
+          console.log('The Data Channel is Closed');
+        };
+
+        this.peerClient.peerConnection.ondatachannel = (event: any) =>
+          this.getOnDataChannel(event, false);
       }
     });
+  }
+
+  getOnDataChannel(event: any, serverClient: boolean) {
+    if (serverClient) {
+      this.peerServer.receiveChannel = event.channel;
+      this.peerServer.receiveChannel.onmessage = (e: any) => {
+        console.log('reciviendo mensaje en el servidor');
+        this.videoBoton = JSON.parse(e.data);
+      };
+    } else {
+      this.peerClient.receiveChannel = event.channel;
+      this.peerClient.receiveChannel.onmessage = (e: any) => {
+        console.log('reciviendo mensaje en el cliente');
+        console.log(JSON.parse(e.data));
+        this.videoBoton = JSON.parse(e.data);
+        console.log(this.videoBoton);
+        if (this.camDesktop) {
+          this.visible = this.videoBoton.desktop ? false : true;
+          this.htmlListVideo.redimensionar = this.buscarDesktopMultimedia() > 0;
+        }
+      };
+    }
+  }
+
+  getIceCandidate(event: any, clientServer: boolean) {
+    if (event.candidate) {
+      if (clientServer) {
+        console.log('on ice candidate server');
+        // Send the candidate to the remote peer
+        this.socket.emit('createAnswer', {
+          data: event.candidate,
+          id: this.room.id,
+          key: this.key,
+          camDesktop: this.camDesktop,
+          usuarioOrigen:
+            this.element.usuario1.id === this.usuarioSesion.id
+              ? this.element.usuario1
+              : this.element.usuario2,
+          usuarioDestino:
+            this.element.usuario1.id === this.usuarioSesion.id
+              ? this.element.usuario2
+              : this.element.usuario1,
+        });
+      } else {
+        console.log('on ice candidate client');
+        this.socket.emit('sendAnswer', {
+          data: event.candidate,
+          id: this.room.id,
+          key: this.key,
+          camDesktop: this.camDesktop,
+          usuarioOrigen:
+            this.element.usuario1.id === this.usuarioSesion.id
+              ? this.element.usuario1
+              : this.element.usuario2,
+          usuarioDestino:
+            this.element.usuario1.id === this.usuarioSesion.id
+              ? this.element.usuario2
+              : this.element.usuario1,
+        });
+      }
+      console.log(event.candidate);
+    }
   }
   /**
    * función que recive los track
@@ -93,7 +180,10 @@ export class DualMultimedia {
   getRemoteStream(ev: any) {
     try {
       if (ev.streams && ev.streams.length > 0) {
+        console.log('reciviendo stream');
         for (const element of ev.streams) {
+          console.log('entro el puto a stream');
+          console.log(element);
           this.video.video.srcObject = element;
           this.video.stream = element;
           this.listeAudio();
@@ -167,223 +257,49 @@ export class DualMultimedia {
       !Util.empty(this.room.usuarios) &&
       this.room.usuarios.length > 0
     ) {
-      const emiRecep: PeerServerEmisorReceptor[] = [];
-      for (const element of this.camDesktop
+      const emiRecep = this.camDesktop
         ? this.room.peerServerEmisorReceptorDesktop
-        : this.room.peerServerEmisorReceptor) {
+        : this.room.peerServerEmisorReceptor;
+      for (const key in emiRecep) {
         if (
-          element.usuario1.id === this.usuarioSesion.id ||
-          element.usuario2.id === this.usuarioSesion.id
+          emiRecep[key].usuario1.id === this.usuarioSesion.id ||
+          emiRecep[key].usuario2.id === this.usuarioSesion.id
         ) {
           if (addtrack && !Util.empty(stream)) {
             for (const track of stream.getTracks()) {
-              element.peerServer.peerConnection.addTrack(track, stream);
+              emiRecep[key].peerServer.peerConnection.addTrack(track, stream);
             }
           }
-
-          await element.peerServer.createOffer();
-
-          emiRecep.push(
-            new PeerServerEmisorReceptor(
-              element.usuario1,
-              element.usuario2,
-              element.peerServer,
-              element.peerClient,
-              element.videoBoton
-            )
-          );
+          await emiRecep[key].peerServer.createOffer();
+          this.socket.emit('createAnswer', {
+            data: emiRecep[key].peerServer.localDescription,
+            id: this.room.id,
+            key,
+            camDesktop: this.camDesktop,
+            usuarioOrigen:
+              emiRecep[key].usuario1.id === this.usuarioSesion.id
+                ? emiRecep[key].usuario1
+                : emiRecep[key].usuario2,
+            usuarioDestino:
+              emiRecep[key].usuario1.id === this.usuarioSesion.id
+                ? emiRecep[key].usuario2
+                : emiRecep[key].usuario1,
+          });
+          this.socket.addRoom$(this.room);
+          this.socket.addListen(true);
         }
       }
-      return new Promise((resolve) => {
-        resolve(emiRecep);
-      });
+      this.socket.addRoom$(this.room);
+      this.socket.addListen(true);
     }
-    return null;
   }
   /**
    * función que inicializa el envío de track para los demas clientes
    * @param addtrack
    * @param starDual
    */
-  async start(addtrack: boolean, starDual: boolean) {
-    let emiRecep: any = [];
-    let emiRecepDesktop: any = [];
-    if (starDual) {
-      emiRecep = await this.startCamDesktop(addtrack);
-      emiRecepDesktop = await this.startCamDesktop(addtrack);
-    } else {
-      if (this.camDesktop) {
-        emiRecepDesktop = await this.startCamDesktop(addtrack);
-      } else {
-        emiRecep = await this.startCamDesktop(addtrack);
-      }
-    }
-    this.socket.addRoom$(this.room);
-    this.socket.addListen(true);
-    this.socket.emit('createAnswer', {
-      id: this.room.id,
-      peerServerEmisorReceptor: emiRecep,
-      peerServerEmisorReceptorDesktop: emiRecepDesktop,
-    });
-  }
-  /**
-   *
-   * @param camDesktop
-   * @param data
-   */
-  async startAddUsuarioFor(camDesktop: boolean, data: Room) {
-    if (
-      !Util.empty(this.room) &&
-      !Util.empty(this.room.usuarios) &&
-      this.room.usuarios.length > 0
-    ) {
-      const emiRecep: PeerServerEmisorReceptor[] = [];
-      for (const elementIn of camDesktop
-        ? data.peerServerEmisorReceptorDesktop
-        : data.peerServerEmisorReceptor) {
-        for (const element of this.camDesktop
-          ? this.room.peerServerEmisorReceptorDesktop
-          : this.room.peerServerEmisorReceptor) {
-          if (
-            (element.usuario1.id === this.usuarioSesion.id ||
-              element.usuario2.id === this.usuarioSesion.id) &&
-            element.usuario1.id === elementIn.usuario1.id &&
-            element.usuario2.id === elementIn.usuario2.id
-          ) {
-            await element.peerServer.createOffer();
-            const peer: PeerServerEmisorReceptor = new PeerServerEmisorReceptor(
-              element.usuario1,
-              element.usuario2,
-              element.peerServer,
-              element.peerClient,
-              element.videoBoton
-            );
-          }
-        }
-      }
-      return new Promise((resolve) => {
-        resolve(emiRecep);
-      });
-    }
-    return null;
-  }
-
-  async startAddUsuario(data: Room) {
-    let emiRecep: any = [];
-    let emiRecepDesktop: any = [];
-    emiRecep = await this.startAddUsuarioFor(false, data);
-    emiRecepDesktop = await this.startAddUsuarioFor(true, data);
-    this.socket.addRoom$(this.room);
-    this.socket.addListen(true);
-    this.socket.emit('createAnswer', {
-      id: this.room.id,
-      peerServerEmisorReceptor: emiRecep,
-      peerServerEmisorReceptorDesktop: emiRecepDesktop,
-    });
-  }
-
-  /**
-   * enviar inforación referente a los botones del servidor para los cliente por el data channel
-   */
-  sendInfoBotones() {
-    const emiRecep: PeerServerEmisorReceptor[] = [];
-    for (const element of this.camDesktop
-      ? this.room.peerServerEmisorReceptorDesktop
-      : this.room.peerServerEmisorReceptor) {
-      if (
-        element.usuario1.id === this.usuarioSesion.id ||
-        element.usuario2.id === this.usuarioSesion.id
-      ) {
-        emiRecep.push(element);
-      }
-    }
-    for (const element of emiRecep) {
-      if (element.peerServer.dataChannel.readyState === 'open') {
-        this.contador++;
-        element.peerServer.send(
-          JSON.stringify({
-            video: this.video.videoCam,
-            audio: this.video.audio,
-            desktop: this.video.videoCam,
-          })
-        );
-      }
-    }
-    if (this.contador === emiRecep.length) {
-      this.hilo = false;
-      this.contador = 0;
-    }
-  }
-  /**
-   * función que recive la informacion de los botones de los servidor por el datachanel del peer
-   * @param event
-   */
-  getOnDataChannel(event: any) {
-    if (this.camDesktop) {
-      this.peerServer.receiveChannel = event.channel;
-      this.peerServer.receiveChannel.onmessage = (e: any) => {
-        this.videoBoton = JSON.parse(e.data);
-        console.log('data channel..');
-        console.log(this.videoBoton);
-        console.log(this.listContentDesktop.toArray().length);
-        // let cont = 0;
-        // let contAux = 0;
-        // // tslint:disable-next-line: prefer-for-of
-        // for (
-        //   let index = 0;
-        //   index < this.listContentDesktop.toArray().length;
-        //   index++
-        // ) {
-        //   const element: DesktopMultimediaComponent = this.listContentDesktop.toArray()[
-        //     index
-        //   ] as DesktopMultimediaComponent;
-        //   console.log(element);
-        //   if (element.videoBoton.desktop) {
-        //     cont++;
-        //   }
-        //   if (!element.videoBoton.desktop) {
-        //     contAux++;
-        //   }
-        // }
-        // if (
-        //   this.listContentDesktop.toArray().length > 0 &&
-        //   cont !== 0 &&
-        //   this.listContentDesktop.toArray().length === cont
-        // ) {
-        //   console.log('..data channel true 1..');
-        //   this.htmlListVideo.redimensionarItem++;
-        //   this.htmlListVideo.redimensionar = true;
-        // }
-        // if (
-        //   this.listContentDesktop.toArray().length > 0 &&
-        //   contAux !== 0 &&
-        //   this.listContentDesktop.toArray().length === contAux
-        // ) {
-        //   if (this.htmlVideoDesktop.visible) {
-        //     console.log('..data channel false..');
-        //     this.htmlListVideo.redimensionarItem = 0;
-        //     this.htmlListVideo.redimensionar = false;
-        //   } else {
-        //     console.log('..data channel true 2..');
-        //     this.htmlListVideo.redimensionarItem++;
-        //     this.htmlListVideo.redimensionar = true;
-        //   }
-        // }
-        this.visible = this.videoBoton.desktop ? false : true;
-        if (this.buscarDesktopMultimedia() > 0) {
-          this.htmlListVideo.redimensionarItem++;
-          this.htmlListVideo.redimensionar = true;
-        } else {
-          this.htmlListVideo.redimensionarItem = 0;
-          this.htmlListVideo.redimensionar = false;
-        }
-      };
-    } else {
-      this.peerServer.receiveChannel = event.channel;
-      this.peerServer.receiveChannel.onmessage = (e: any) => {
-        this.videoBoton = JSON.parse(e.data);
-      };
-    }
+  async start(addtrack: boolean) {
+    await this.startCamDesktop(addtrack);
   }
   /**
    * hilo de escucha de los botones, simulación de click de botones fixed en la pantalla a traves del servicio
@@ -394,26 +310,22 @@ export class DualMultimedia {
         if (this.camDesktop) {
           switch (data) {
             case Util.desktop:
+              console.log('redimensionar pues');
               this.htmlListVideo.redimensionar = true;
-              this.htmlListVideo.redimensionarItem++;
               this.visible = false;
               this.video.stop();
               await this.video.startVideo();
-              this.video.stopBotonDisplayMedia();
-              this.start(true, false);
-              this.worker.postMessage({});
               this.actualizarVideoBoton();
+              this.sendInfoBotones();
+              await this.start(true);
               break;
 
             case Util.stopDesktop:
               const num: number = this.buscarDesktopMultimedia();
               this.htmlListVideo.redimensionar = num === 1 ? false : true;
-              this.htmlListVideo.redimensionarItem =
-                num === 1 ? 0 : this.htmlListVideo.redimensionarItem + 1;
               this.visible = true;
               this.video.videoCam = !this.video.videoCam;
               this.video.stop();
-              this.worker.postMessage({});
               this.actualizarVideoBoton();
               break;
           }
@@ -422,9 +334,9 @@ export class DualMultimedia {
             case Util.video:
               this.video.stop();
               await this.video.startVideo();
-              await this.start(true, false);
-              this.worker.postMessage(true);
               this.actualizarVideoBoton();
+              this.sendInfoBotones();
+              await this.start(true);
               break;
 
             case Util.audio:
@@ -434,14 +346,17 @@ export class DualMultimedia {
                 this.video.stream.getAudioTracks().length > 0
               ) {
                 await this.video.startMic();
+                this.actualizarVideoBoton();
+                this.sendInfoBotones();
                 this.listeAudio();
               } else {
                 await this.video.startMic();
-                this.start(true, false);
+                this.actualizarVideoBoton();
+                this.sendInfoBotones();
                 this.listeAudio();
+                await this.start(true);
               }
-              this.worker.postMessage({});
-              this.actualizarVideoBoton();
+
               break;
           }
         }
@@ -459,6 +374,7 @@ export class DualMultimedia {
       index < this.listContentDesktop.toArray().length;
       index++
     ) {
+      // tslint:disable-next-line: one-variable-per-declaration
       const element: DesktopMultimediaComponent = this.listContentDesktop.toArray()[
         index
       ] as DesktopMultimediaComponent;
@@ -477,5 +393,22 @@ export class DualMultimedia {
     }
 
     return cont;
+  }
+
+  sendInfoBotones() {
+    if (
+      (!Util.empty(this.listContentDesktop) &&
+        !Util.empty(this.listContentDesktop.toArray())) ||
+      (!Util.empty(this.listVideoMultimedia) &&
+        !Util.empty(this.listVideoMultimedia.toArray()))
+    ) {
+      for (const element of this.camDesktop
+        ? this.listContentDesktop.toArray()
+        : this.listVideoMultimedia.toArray()) {
+        if (element.channel) {
+          element.peerServer.send(JSON.stringify(this.videoBoton));
+        }
+      }
+    }
   }
 }

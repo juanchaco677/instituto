@@ -1,0 +1,18 @@
+<div class="row mb-5">
+
+  <app-plantilla-crud class="col-lg-3 col-md-6 col-sm-6" [titulo]="properties.get('r-c-salon').titulo"
+    [subtitulo]="properties.get('r-c-salon').subtitulo" [descripcion]="properties.get('r-c-salon').descripcion"
+    [ruta]="properties.get('r-c-salon').route">
+  </app-plantilla-crud>
+  <app-plantilla-crud class="col-lg-3 col-md-6 col-sm-6" [titulo]="properties.get('r-a-salon').titulo"
+  [subtitulo]="properties.get('r-a-salon').subtitulo" [descripcion]="properties.get('r-a-salon').descripcion"
+  [ruta]="properties.get('r-a-salon').route">
+</app-plantilla-crud>
+  <app-plantilla-crud class="col-lg-3 col-md-6 col-sm-6" [titulo]="properties.get('r-e-salon').titulo"
+    [subtitulo]="properties.get('r-e-salon').subtitulo" [descripcion]="properties.get('r-e-salon').descripcion"
+    [ruta]="properties.get('r-e-salon').route">
+  </app-plantilla-crud>
+
+</div>
+
+<router-outlet></router-outlet>

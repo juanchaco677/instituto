@@ -18,6 +18,9 @@
     <button class="ml-2 btn-hover" mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon class="icon-color">settings_overscan</mat-icon>
     </button>
+    <button class="ml-2 btn-hover" mat-icon-button [matMenuTriggerFor]="menuDistribucion">
+      <mat-icon class="icon-color">more_vert</mat-icon>
+    </button>
     <button class="ml-3 color-phone" mat-icon-button>
       <mat-icon class="icon-color"> phone</mat-icon>
     </button>
@@ -29,6 +32,21 @@
       <button mat-menu-item (click)="stopVideoDesktop()">
         <mat-icon>stop_screen_share</mat-icon>
         <span>Parar</span>
+      </button>
+    </mat-menu>
+
+    <mat-menu #menuDistribucion="matMenu">
+      <button mat-menu-item (click)="redistribuir('1')">
+        <mat-icon>dialpad</mat-icon>
+        <span>Redial</span>
+      </button>
+      <button mat-menu-item (click)="redistribuir('2')">
+        <mat-icon>voicemail</mat-icon>
+        <span>Check voice mail</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>notifications_off</mat-icon>
+        <span>Disable alerts</span>
       </button>
     </mat-menu>
   </div>

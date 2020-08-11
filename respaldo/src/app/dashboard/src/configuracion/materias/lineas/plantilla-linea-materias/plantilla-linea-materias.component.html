@@ -1,0 +1,14 @@
+<div class="row mb-5">
+
+  <app-plantilla-crud class="col-lg-3 col-md-6 col-sm-6" [titulo]="properties.get('r-c-linea-asignatura').titulo"
+    [subtitulo]="properties.get('r-c-linea-asignatura').subtitulo" [descripcion]="properties.get('r-c-linea-asignatura').descripcion"
+    [ruta]="properties.get('r-c-linea-asignatura').route">
+  </app-plantilla-crud>
+  <app-plantilla-crud class="col-lg-3 col-md-6 col-sm-6" [titulo]="properties.get('r-e-linea-asignatura').titulo"
+    [subtitulo]="properties.get('r-e-linea-asignatura').subtitulo" [descripcion]="properties.get('r-e-linea-asignatura').descripcion"
+    [ruta]="properties.get('r-e-linea-asignatura').route">
+  </app-plantilla-crud>
+
+</div>
+
+<router-outlet></router-outlet>
