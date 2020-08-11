@@ -67,14 +67,14 @@ export class DualMultimedia {
 
         this.peerServer.dataChannel.onopen = () => {
           this.channel = true;
-          console.log('canal abierto server');
-          const videoBoton: VideoBoton = this.camDesktop ? this.htmlVideoDesktop.videoBoton : this.videoMultimedia.videoBoton;
+          const videoBoton: VideoBoton = this.camDesktop
+            ? this.htmlVideoDesktop.videoBoton
+            : this.videoMultimedia.videoBoton;
           this.peerServer.send(JSON.stringify(videoBoton));
         };
 
         this.peerServer.dataChannel.onclose = () => {
           this.channel = false;
-          console.log('The Data Channel is Closed');
         };
 
         this.peerServer.peerConnection.ondatachannel = (event: any) =>
@@ -93,18 +93,13 @@ export class DualMultimedia {
 
         // this.peerClient.dataChannel.onopen = (event: any) =>
         //   this.getOnOpenDataChannel(event, false);
-        this.peerClient.dataChannel.onerror = (error) => {
-          console.log('Data Channel Error:', error);
-        };
+        this.peerClient.dataChannel.onerror = (error) => {};
 
         this.peerClient.dataChannel.onopen = () => {
-          console.log('canal abierto cliente');
           this.peerClient.send(JSON.stringify(this.videoBoton));
         };
 
-        this.peerClient.dataChannel.onclose = () => {
-          console.log('The Data Channel is Closed');
-        };
+        this.peerClient.dataChannel.onclose = () => {};
 
         this.peerClient.peerConnection.ondatachannel = (event: any) =>
           this.getOnDataChannel(event, false);
@@ -116,20 +111,19 @@ export class DualMultimedia {
     if (serverClient) {
       this.peerServer.receiveChannel = event.channel;
       this.peerServer.receiveChannel.onmessage = (e: any) => {
-        console.log('reciviendo mensaje en el servidor');
         this.videoBoton = JSON.parse(e.data);
       };
     } else {
       this.peerClient.receiveChannel = event.channel;
       this.peerClient.receiveChannel.onmessage = (e: any) => {
-        console.log('reciviendo mensaje en el cliente');
-        console.log(JSON.parse(e.data));
         this.videoBoton = JSON.parse(e.data);
-        console.log(this.videoBoton);
         if (this.camDesktop) {
           this.visible = this.videoBoton.desktop ? false : true;
-          this.htmlListVideo.redimensionar = this.buscarDesktopMultimedia() > 0;
+          const cont = this.buscarDesktopMultimedia();
+          this.htmlListVideo.contVisibleDesktop = cont;
+          this.htmlListVideo.redimensionar = cont > 0;
         }
+
       };
     }
   }
@@ -137,7 +131,6 @@ export class DualMultimedia {
   getIceCandidate(event: any, clientServer: boolean) {
     if (event.candidate) {
       if (clientServer) {
-        console.log('on ice candidate server');
         // Send the candidate to the remote peer
         this.socket.emit('createAnswer', {
           data: event.candidate,
@@ -154,7 +147,6 @@ export class DualMultimedia {
               : this.element.usuario1,
         });
       } else {
-        console.log('on ice candidate client');
         this.socket.emit('sendAnswer', {
           data: event.candidate,
           id: this.room.id,
@@ -170,7 +162,6 @@ export class DualMultimedia {
               : this.element.usuario1,
         });
       }
-      console.log(event.candidate);
     }
   }
   /**
@@ -180,10 +171,7 @@ export class DualMultimedia {
   getRemoteStream(ev: any) {
     try {
       if (ev.streams && ev.streams.length > 0) {
-        console.log('reciviendo stream');
         for (const element of ev.streams) {
-          console.log('entro el puto a stream');
-          console.log(element);
           this.video.video.srcObject = element;
           this.video.stream = element;
           this.listeAudio();
@@ -310,20 +298,23 @@ export class DualMultimedia {
         if (this.camDesktop) {
           switch (data) {
             case Util.desktop:
-              console.log('redimensionar pues');
-              this.htmlListVideo.redimensionar = true;
               this.visible = false;
+              this.htmlListVideo.redimensionar = true;
+              this.htmlListVideo.contVisibleDesktop = this.buscarDesktopMultimedia();
+              console.log('CONTADOR....');
+              console.log(this.htmlListVideo.contVisibleDesktop);
               this.video.stop();
               await this.video.startVideo();
               this.actualizarVideoBoton();
               this.sendInfoBotones();
+
               await this.start(true);
               break;
 
             case Util.stopDesktop:
+              this.visible = true;
               const num: number = this.buscarDesktopMultimedia();
               this.htmlListVideo.redimensionar = num === 1 ? false : true;
-              this.visible = true;
               this.video.videoCam = !this.video.videoCam;
               this.video.stop();
               this.actualizarVideoBoton();

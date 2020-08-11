@@ -51,12 +51,15 @@ export class ListVideoComponent implements OnInit,AfterViewInit {
   >;
   keysCam = [];
   keysDesktop = [];
+  contVisibleDesktop = 0;
   constructor(public socket: SocketIoClientService, public botonesService: BotonesService) {
     this.room = new Room(null, [], [], [], []);
     this.usuario = Sesion.userAulaChat();
   }
   ngAfterViewInit(): void {
-    this.redimensionar = this.buscarDesktopMultimedia() > 0;
+    const cont = this.buscarDesktopMultimedia();
+    this.contVisibleDesktop = cont;
+    this.redimensionar = cont > 0;
   }
 
   ngOnInit(): void {
