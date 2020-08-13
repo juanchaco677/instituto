@@ -51,7 +51,13 @@ export class ListVideoComponent implements OnInit,AfterViewInit {
   >;
   keysCam = [];
   keysDesktop = [];
+  visibleBotones = true;
   contVisibleDesktop = 0;
+  reacomodarImgIco = [
+    { left: '32%', top: '26%', width: '64%', height: '50%' },
+    { left: '34%', top: '29%', width: '59%', height: '50%' },
+    { left: '37%', top: '30%', width: '47%', height: '45%' },
+  ];
   constructor(public socket: SocketIoClientService, public botonesService: BotonesService) {
     this.room = new Room(null, [], [], [], []);
     this.usuario = Sesion.userAulaChat();

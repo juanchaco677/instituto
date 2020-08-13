@@ -15,6 +15,7 @@ import { Util } from 'src/app/utils/util';
 import { PeerServerEmisorReceptor } from '../../model/peer-server-emisor-receptor';
 
 export class DualMultimedia {
+  @Input() styleSize: any;
   @Input() htmlVideoDesktop: DesktopMultimediaComponent; // es necesario para completar el for del list video multimedia
   @Input() width: string; // ancho del componente
   @Input() height: string; // alto del componente

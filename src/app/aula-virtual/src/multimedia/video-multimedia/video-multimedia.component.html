@@ -4,7 +4,7 @@
     <div *ngIf="videoBoton.video" [ngClass]="{'contenedor-nombre': videoBoton.video }" [ngStyle]="{'font-size':styleFontSize}">
       {{usuario.nombre}}
     </div>
-    <div class="plano-fondo" [ngClass]="{'bg-dark': !videoBoton.video}">
+    <div class="plano-fondo" [ngStyle]="{'background-color': !videoBoton.video ? '#282727':'transparent' }">
       <div class="div-boton-true" [hidden]="!videoBoton.video">
         <div class="d-flex justify-content-center contenedor-buttons">
           <button mat-icon-button>
@@ -17,7 +17,7 @@
           </button>
         </div>
       </div>
-      <div class="wrapper" [hidden]="videoBoton.video">
+      <div class="wrapper" [ngStyle]="{left: styleSize.left, top: styleSize.top ,width : styleSize.width , height : styleSize.height}" [hidden]="videoBoton.video">
         <a title="{{usuario.nombre}}" [ngClass]="{'playing': videoBoton.latencia }"
           class="player-controls d-flex align-items-center justify-content-center">
           <span class="pause">
@@ -27,10 +27,12 @@
           <h1 *ngIf="usuario.foto.toString().indexOf('default') > -1" style="z-index:1;">
             {{usuario.nombre_uno.substr(0,1).toUpperCase() +''+ usuario.apellido_uno.substr(0,1).toUpperCase()}}</h1>
         </a>
-        <button mat-icon-button class="player-controls d-flex align-items-center justify-content-center">
+
+        <button mat-icon-button class="camara-posicion" >
           <mat-icon color="accent" [hidden]="!videoBoton.video">videocam</mat-icon>
           <mat-icon color="accent" [hidden]="videoBoton.video">videocam_off</mat-icon>
         </button>
+
       </div>
     </div>
   </div>
@@ -38,9 +40,9 @@
     <div *ngIf="videoBoton.video " [ngClass]="{'contenedor-nombre': videoBoton.video }" [ngStyle]="{'font-size':styleFontSize}">
       {{usuarioSesion.nombre}}
     </div>
-    <div class="plano-fondo" [ngClass]="{'bg-dark': !videoBoton.video}">
+    <div class="plano-fondo" [ngStyle]="{'background-color': !videoBoton.video ? '#282727':'transparent' }">
 
-      <div class="wrapper" [hidden]="videoBoton.video">
+      <div class="wrapper" [ngStyle]="{left: styleSize.left, top: styleSize.top ,width : styleSize.width , height : styleSize.height}" [hidden]="videoBoton.video">
         <a title="{{usuarioSesion.nombre}}" [ngClass]="{'playing': videoBoton.latencia }"
           class="player-controls d-flex align-items-center justify-content-center">
           <span class="pause">

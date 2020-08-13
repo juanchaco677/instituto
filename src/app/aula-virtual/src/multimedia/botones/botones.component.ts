@@ -1,8 +1,6 @@
 import { Util } from './../../../../utils/util';
-import { Video } from './../../../model/video';
 import { BotonesService } from './../../../service/botones.service';
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { dashCaseToCamelCase } from '@angular/compiler/src/util';
+import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 
 @Component({
   selector: 'app-botones',
@@ -13,6 +11,10 @@ export class BotonesComponent implements OnInit {
   cam = false;
   audio = false;
   desktop = false;
+  @Input() visible = true;
+  @Input() htmlListVideo: any;
+  visibleComentario = [false, false, false, false, false , false , false];
+
   constructor(public cdr: ChangeDetectorRef, private botones: BotonesService) {}
 
   ngOnInit(): void {}
@@ -41,7 +43,7 @@ export class BotonesComponent implements OnInit {
     this.botones.addSidenav(true);
   }
 
-  redistribuir(opcion: string){
+  redistribuir(opcion: string) {
     this.botones.add(Util.redistribuir[opcion]);
   }
 }

@@ -1,3 +1,4 @@
+import { ComentarioComponent } from './../../src/comentario/comentario.component';
 import { VideoMultimediaComponent } from './../../src/multimedia/video-multimedia/video-multimedia.component';
 import { BotonesService } from './../../service/botones.service';
 import { DesktopMultimediaComponent } from './../../src/multimedia/desktop-multimedia/desktop-multimedia.component';
@@ -48,6 +49,7 @@ const config: SocketIoConfig = { url: 'http://181.55.192.137:4444', options: {} 
     VideoMultimediaComponent,
     BotonesComponent,
     DesktopMultimediaComponent,
+    ComentarioComponent,
   ],
   imports: [
     MaterialModule,
@@ -59,6 +61,7 @@ const config: SocketIoConfig = { url: 'http://181.55.192.137:4444', options: {} 
     SocketIoModule.forRoot(config),
   ],
   providers: [
+    BotonesService,
     SocketIoClientService,
     ListRoomService,
     PropertiesListRoom,
@@ -68,7 +71,7 @@ const config: SocketIoConfig = { url: 'http://181.55.192.137:4444', options: {} 
     MenuAulaService,
     UsuarioService,
     ConfiguracionService,
-    BotonesService
+
   ]
 })
 export class AulaVirtualModule {

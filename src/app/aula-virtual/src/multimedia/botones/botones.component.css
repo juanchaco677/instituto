@@ -1,17 +1,42 @@
+.posicion-comentario {
+  position: absolute;
+  left: 0px;
+  bottom: 115%;
+}
 .div-boton-false {
-  position: fixed;
-  left: 40%;
+  position: absolute;
+  left: 41%;
   bottom: 10px;
   z-index: 10;
   border-radius: 4px 4px 4px 4px;
   -moz-border-radius: 4px 4px 4px 4px;
   -webkit-border-radius: 4px 4px 4px 4px;
-  border: 0px solid #000000;
+  border: 0px solid hsl(0, 0%, 0%);
+  background-color: #393838 !important;
+  -webkit-box-shadow: 0px 0px 4px 3px rgba(51,52,74,0.34);
+  -moz-box-shadow: 0px 0px 4px 3px rgba(51,52,74,0.34);
+  box-shadow: 0px 0px 4px 3px rgba(51,52,74,0.34);
 }
 
 .icon-color {
   color: white;
 }
 .color-phone {
-  background: rgb(167, 7, 7);
+  background: #a72c37;
+  border-radius: inherit;
+}
+
+.color-phone-hover{
+  background: #a72c37;
+  opacity: 0.29;
+}
+.not-btn-hover {
+  background-color: #3b3a3b !important;
+  border-radius: inherit;
+  height: 100%;
+}
+
+.btn-hover {
+  background-color: #33344a !important;
+  opacity: 0.49;
 }

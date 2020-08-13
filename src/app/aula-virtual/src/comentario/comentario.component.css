@@ -1,0 +1,22 @@
+.comentario::before {
+  position: absolute;
+  left: var(--left);
+  top: 100%;
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #393838;
+}
+.comentario {
+  color: white;
+  position: relative;
+  background-color: #393838;
+  border-radius: 2px 2px 2px 2px;
+  -moz-border-radius: 2px 2px 2px 2px;
+  -webkit-border-radius: 2px 2px 2px 2px;
+  border: 0px solid #000000;
+  padding: 2px;
+
+}
