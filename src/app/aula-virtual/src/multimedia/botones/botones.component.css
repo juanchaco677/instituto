@@ -1,3 +1,29 @@
+.visibleCompartir {
+  position: absolute;
+  right: -130%;
+  bottom: 110%;
+  width: 150px;
+  background-color: #ffffff;
+  -webkit-box-shadow: 0px 0px 3px 2px rgba(51, 52, 74, 0.52);
+  -moz-box-shadow: 0px 0px 3px 2px rgba(51, 52, 74, 0.52);
+  box-shadow: 0px 0px 3px 2px rgba(51, 52, 74, 0.52);
+  border-radius: 2px 2px 2px 2px;
+  -moz-border-radius: 2px 2px 2px 2px;
+  -webkit-border-radius: 2px 2px 2px 2px;
+  border: 0px solid #000000;
+}
+
+.visibleCompartir::before {
+  position: absolute;
+  left: 46%;
+  top: 100%;
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #ffffff;
+}
 .posicion-comentario {
   position: absolute;
   left: 0px;
@@ -13,9 +39,9 @@
   -webkit-border-radius: 4px 4px 4px 4px;
   border: 0px solid hsl(0, 0%, 0%);
   background-color: #393838 !important;
-  -webkit-box-shadow: 0px 0px 4px 3px rgba(51,52,74,0.34);
-  -moz-box-shadow: 0px 0px 4px 3px rgba(51,52,74,0.34);
-  box-shadow: 0px 0px 4px 3px rgba(51,52,74,0.34);
+  -webkit-box-shadow: 0px 0px 4px 3px rgba(51, 52, 74, 0.34);
+  -moz-box-shadow: 0px 0px 4px 3px rgba(51, 52, 74, 0.34);
+  box-shadow: 0px 0px 4px 3px rgba(51, 52, 74, 0.34);
 }
 
 .icon-color {
@@ -26,7 +52,7 @@
   border-radius: inherit;
 }
 
-.color-phone-hover{
+.color-phone-hover {
   background: #a72c37;
   opacity: 0.29;
 }

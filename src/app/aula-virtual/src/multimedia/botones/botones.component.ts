@@ -11,6 +11,7 @@ export class BotonesComponent implements OnInit {
   cam = false;
   audio = false;
   desktop = false;
+  visibleCompartir = false;
   @Input() visible = true;
   @Input() htmlListVideo: any;
   visibleComentario = [false, false, false, false, false , false , false];

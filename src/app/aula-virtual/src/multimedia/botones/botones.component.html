@@ -1,57 +1,74 @@
 <div class="div-boton-false bg-dark" [hidden]="visible">
   <div class="d-flex justify-content-center contenedor-buttons">
-    <div  style="position:relative;"
-      (mouseover)="visibleComentario[0] = true" (mouseout)="visibleComentario[0] = false">
+    <div style="position:relative;" (mouseover)="visibleComentario[0] = true" (mouseout)="visibleComentario[0] = false">
       <app-comentario *ngIf="visibleComentario[0]" class="posicion-comentario" [comentario]="'atras'" [width]="'100%'"
         [height]="'50%'" [fontSize]="'12px'" [left]="'35%'"></app-comentario>
-      <button class="m-0 p-0 not-btn-hover" [ngClass]="{'btn-hover':visibleComentario[0]}" mat-raised-button [routerLink]="['../../../aula-virtual']">
+      <button class="m-0 p-0 not-btn-hover" [ngClass]="{'btn-hover':visibleComentario[0]}" mat-raised-button
+        [routerLink]="['../../../aula-virtual']">
         <mat-icon class="icon-color">arrow_back</mat-icon>
       </button>
     </div>
-    <div  style="position:relative;"
-      (mouseover)="visibleComentario[1] = true" (mouseout)="visibleComentario[1] = false">
+    <div style="position:relative;" (mouseover)="visibleComentario[1] = true" (mouseout)="visibleComentario[1] = false">
       <app-comentario *ngIf="visibleComentario[1]" class="posicion-comentario" [comentario]="'Encender la cámara'"
         [width]="'110px'" [height]="'50%'" [fontSize]="'12px'" [left]="'14%'"></app-comentario>
-      <button class="m-0 p-0 not-btn-hover" [ngClass]="{'btn-hover':visibleComentario[1]}" mat-raised-button (click)="startVideo()">
+      <button class="m-0 p-0 not-btn-hover" [ngClass]="{'btn-hover':visibleComentario[1]}" mat-raised-button
+        (click)="startVideo()">
         <mat-icon class="icon-color" *ngIf="cam">videocam</mat-icon>
         <mat-icon class="icon-color" *ngIf="!cam">videocam_off</mat-icon>
       </button>
     </div>
-    <div style="position:relative;"
-      (mouseover)="visibleComentario[2] = true" (mouseout)="visibleComentario[2] = false">
+    <div style="position:relative;" (mouseover)="visibleComentario[2] = true" (mouseout)="visibleComentario[2] = false">
       <app-comentario *ngIf="visibleComentario[2]" class="posicion-comentario" [comentario]="'Activar audio'"
         [width]="'80px'" [height]="'50%'" [fontSize]="'12px'" [left]="'16%'"></app-comentario>
-      <button class="m-0 p-0 not-btn-hover" [ngClass]="{'btn-hover':visibleComentario[2]}" mat-raised-button (click)="startMic()">
+      <button class="m-0 p-0 not-btn-hover" [ngClass]="{'btn-hover':visibleComentario[2]}" mat-raised-button
+        (click)="startMic()">
         <mat-icon class="icon-color" *ngIf="audio">mic</mat-icon>
         <mat-icon class="icon-color" *ngIf="!audio">mic_off</mat-icon>
       </button>
     </div>
-    <div style="position:relative;"
-      (mouseover)="visibleComentario[3] = true" (mouseout)="visibleComentario[3] = false">
-      <app-comentario *ngIf="visibleComentario[3]" class="posicion-comentario" [comentario]="'Chat'" [width]="'80px'"
-        [height]="'50%'" [fontSize]="'12px'" [left]="'16%'"></app-comentario>
-      <button class="m-0 p-0 not-btn-hover" [ngClass]="{'btn-hover':visibleComentario[3]}"  mat-raised-button (click)="sidenav()">
-        <mat-icon class="icon-color">chat</mat-icon>
+    <div style="position:relative;" (mouseover)="visibleComentario[3] = true" (mouseout)="visibleComentario[3] = false">
+      <app-comentario *ngIf="visibleComentario[3]" class="posicion-comentario" [comentario]="'Chat'" [width]="'100%'"
+        [height]="'50%'" [fontSize]="'12px'" [left]="'28%'"></app-comentario>
+      <button class="m-0 p-0 not-btn-hover" [ngClass]="{'btn-hover':visibleComentario[3]}" mat-raised-button
+        (click)="sidenav()">
+        <mat-icon class="icon-color">more_vert</mat-icon>
       </button>
     </div>
-    <div  style="position:relative;"
-      (mouseover)="visibleComentario[4] = true" (mouseout)="visibleComentario[4] = false">
+    <div style="position:relative;" (mouseover)="visibleComentario[4] = true" (mouseout)="visibleComentario[4] = false">
       <app-comentario *ngIf="visibleComentario[4]" class="posicion-comentario" [comentario]="'Compartir'"
-        [width]="'80px'" [height]="'50%'" [fontSize]="'12px'" [left]="'16%'"></app-comentario>
-      <button class="m-0 p-0 not-btn-hover" [ngClass]="{'btn-hover':visibleComentario[4]}" mat-raised-button [matMenuTriggerFor]="menu"
-        (click)="htmlListVideo.visibleBotones = false">
+        [width]="'100%'" [height]="'50%'" [fontSize]="'12px'" [left]="'25%'"></app-comentario>
+
+      <button class="m-0 p-0 not-btn-hover " [ngClass]="{'btn-hover':visibleComentario[4]}" mat-raised-button
+        (click)="htmlListVideo.visibleBotones = false; visibleCompartir = !visibleCompartir">
         <mat-icon class="icon-color">present_to_all</mat-icon>
       </button>
+      <div class="visibleCompartir" *ngIf="visibleCompartir">
+        <mat-list role="list">
+          <mat-list-item role="listitem">
+            <button class="btn btn-light w-100" mat-menu-item (click)="startVideoDesktop()">
+              <mat-icon>screen_share</mat-icon>
+              <span class="ml-1">Iniciar</span>
+            </button>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item role="listitem">
+            <button class="btn btn-light w-100" mat-menu-item (click)="stopVideoDesktop()">
+              <mat-icon>stop_screen_share</mat-icon>
+              <span class="ml-1">Parar</span>
+            </button>
+          </mat-list-item>
+        </mat-list>
+      </div>
     </div>
     <div class="hover-boton" style="position:relative;" (mouseover)="visibleComentario[5] = true"
       (mouseout)="visibleComentario[5] = false">
-      <app-comentario *ngIf="visibleComentario[5]" class="posicion-comentario" [comentario]="'Colgar'" [width]="'80px'"
+      <app-comentario *ngIf="visibleComentario[5]" class="posicion-comentario" [comentario]="'Colgar'" [width]="'100%'"
         [height]="'50%'" [fontSize]="'12px'" [left]="'16%'"></app-comentario>
       <button class="m-0 p-0 color-phone" [ngClass]="{'color-phone-hover':visibleComentario[5]}" mat-icon-button>
         <mat-icon class="icon-color"> phone</mat-icon>
       </button>
     </div>
-    <mat-menu #menu="matMenu"  id="panel-menu">
+    <!-- <mat-menu #menu="matMenu"  id="panel-menu">
       <button mat-menu-item (click)="startVideoDesktop()">
         <mat-icon>screen_share</mat-icon>
         <span>Iniciar</span>
@@ -60,6 +77,6 @@
         <mat-icon>stop_screen_share</mat-icon>
         <span>Parar</span>
       </button>
-    </mat-menu>
+    </mat-menu> -->
   </div>
 </div>
