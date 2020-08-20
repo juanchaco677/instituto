@@ -24,7 +24,7 @@ export class CrearUsuarioComponent implements OnInit {
   crear: FormGroup;
   matcher = new MyErrorStateMatcher();
   usuario: Usuario;
-  public fileUpload: FileUpload;
+  fileUpload: FileUpload;
   activar = false;
   localizacion: Localizacion;
   dataForm: FormData = new FormData();

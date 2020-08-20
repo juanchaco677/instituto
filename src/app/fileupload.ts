@@ -1,10 +1,10 @@
+import { EventEmitter } from '@angular/core';
 import { FileMultimedia } from './dashboard/modelo/filemultimedia';
 
 export class FileUpload {
-
   public file: FileMultimedia;
 
-  constructor() { }
+  constructor(private emit: EventEmitter<FileUpload>) {}
 
   load(id: string) {
     const fileUpload = document.getElementById(id) as HTMLInputElement;
@@ -17,16 +17,14 @@ export class FileUpload {
   }
 
   loadPreview() {
-    var reader = new FileReader();
+    console.log('entro el perro a qui');
+    const reader = new FileReader();
     if (this.file != null) {
-      var reader = new FileReader();
-
-    reader.readAsDataURL(this.file.data);
+      reader.readAsDataURL(this.file.data);
       reader.onload = (_event) => {
         this.file.src = reader.result;
-      }
+        this.emit.emit(this);
+      };
     }
   }
-
-
 }

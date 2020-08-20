@@ -1,3 +1,7 @@
+import { FileUploadPptService } from './../../service/file-upload-ppt.service';
+import { UploadOnefileModule } from './../../../btn-upload-one-file/upload-onefile.module';
+import { BtnUploadOneFileComponent } from './../../../btn-upload-one-file/btn-upload-one-file.component';
+import { ListFileUploadComponent } from './../../src/chat/list-file-upload/list-file-upload.component';
 import { ComentarioComponent } from './../../src/comentario/comentario.component';
 import { VideoMultimediaComponent } from './../../src/multimedia/video-multimedia/video-multimedia.component';
 import { BotonesService } from './../../service/botones.service';
@@ -6,7 +10,6 @@ import { BotonesComponent } from './../../src/multimedia/botones/botones.compone
 import { ListChatComponent } from './../../src/chat/list-chat/list-chat.component';
 import { LoginAulaVirtualComponent } from './../../src/pantalla-base/login-aula-virtual/login-aula-virtual.component';
 import { ListVideoComponent } from './../../src/chat/list-video/list-video.component';
-import { MenuChatComponent } from './../../src/chat/menu-chat/menu-chat.component';
 import { PlantillaChatComponent } from './../../src/chat/plantilla-chat/plantilla-chat.component';
 import { MenuLateralComponent } from './../../src/pantalla-base/menu-lateral/menu-lateral.component';
 import { ConfiguracionService } from './../../../dashboard/service/dashboard/configuracion.service';
@@ -43,13 +46,13 @@ const config: SocketIoConfig = { url: 'http://181.55.192.137:4444', options: {} 
     MenuLateralComponent,
     ListVideoComponent,
     PlantillaChatComponent,
-    MenuChatComponent,
     LoginAulaVirtualComponent,
     ListChatComponent,
     VideoMultimediaComponent,
     BotonesComponent,
     DesktopMultimediaComponent,
     ComentarioComponent,
+    ListFileUploadComponent,
   ],
   imports: [
     MaterialModule,
@@ -58,6 +61,7 @@ const config: SocketIoConfig = { url: 'http://181.55.192.137:4444', options: {} 
     RouteModule,
     FormsModule,
     LoadingModule,
+    UploadOnefileModule,
     SocketIoModule.forRoot(config),
   ],
   providers: [
@@ -71,6 +75,7 @@ const config: SocketIoConfig = { url: 'http://181.55.192.137:4444', options: {} 
     MenuAulaService,
     UsuarioService,
     ConfiguracionService,
+    FileUploadPptService
 
   ]
 })

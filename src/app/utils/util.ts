@@ -23,6 +23,8 @@ export class Util {
 
   static apiUrl = 'http://192.168.0.17:8000/api/';
 
+  static apiUrlNode = 'http://192.168.0.17:4444/api/';
+
   static apiUrlImage = 'http://192.168.0.17:8000/archivos/';
 
   static httpOptions = {

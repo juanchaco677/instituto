@@ -1,0 +1,25 @@
+.list-file-upload{
+  position: relative;
+  height: 100%;
+}
+.posicion-boton{
+  position:absolute;
+  top: 81.5%;
+  left: 0px;
+  height: 0px;
+
+}
+
+.body-list-pptx{
+  height: 100%;
+}
+
+
+.example-card {
+  max-width: 100%;
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}

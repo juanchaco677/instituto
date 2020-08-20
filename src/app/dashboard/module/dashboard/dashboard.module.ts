@@ -1,3 +1,4 @@
+import { UploadOnefileModule } from './../../../btn-upload-one-file/upload-onefile.module';
 import { PropertiesSalones } from './../../properties/properties-salones';
 import { PropertiesNivelEducativo } from './../../properties/properties-nivel-educativo';
 import { NivelEsucativoService } from './../../service/dashboard/nivel-esucativo.service';
@@ -142,6 +143,7 @@ import { EliminarSalonComponent } from '../../src/configuracion/salones/eliminar
     HttpClientModule,
     BrowserModule,
     LoadingModule,
+    UploadOnefileModule,
     NgxMaterialTimepickerModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBpgmyUAUnqX1-HYVZpAI-aO7cbFfjkpos',
@@ -164,7 +166,6 @@ import { EliminarSalonComponent } from '../../src/configuracion/salones/eliminar
     PlantillaConfiguracionComponent,
     LogoComponent,
     PlantillaComponent,
-    BtnUploadOneFileComponent,
     GoogleMapsComponent,
     BootstrapAlertsComponent,
     LoginComponent,

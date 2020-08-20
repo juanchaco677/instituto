@@ -1,5 +1,5 @@
 import { Util } from 'src/app/utils/util';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FileUpload } from '../fileupload';
 @Component({
   selector: 'app-btn-upload-one-file',
@@ -8,23 +8,16 @@ import { FileUpload } from '../fileupload';
 
 })
 export class BtnUploadOneFileComponent implements OnInit {
-  /** Link text */
-  text = 'Cargar Imagen';
-  /** Name used in form which will be sent in HTTP request. */
-  param = 'file';
-  /** Target URL for file uploading. */
-  target = 'https://file.io';
 
-  accept = 'image/*';
-  /** Allow you to add handler after its completion. Bubble up response text from remote. */
+  @Input() text = 'Cargar Imagen';
+  @Input() accept = 'image/*';
   // tslint:disable-next-line: no-output-native
   @Output() load = new EventEmitter<FileUpload>();
 
   public fileUpload: FileUpload;
   public src: string | ArrayBuffer | null;
   constructor() {
-    this.fileUpload = new FileUpload();
-
+    this.fileUpload = new FileUpload(this.load);
   }
 
   ngOnInit() {
@@ -32,9 +25,9 @@ export class BtnUploadOneFileComponent implements OnInit {
   }
 
   onClick() {
-    this.fileUpload = new FileUpload();
+    this.fileUpload = new FileUpload(this.load);
     this.fileUpload.load('fileUpload');
-    this.load.emit(this.fileUpload);
+    // this.load.emit(this.fileUpload);
   }
 
   cancelFile() {

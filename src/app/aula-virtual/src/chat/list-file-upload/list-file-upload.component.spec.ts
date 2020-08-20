@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MenuChatComponent } from './menu-chat.component';
+import { ListFileUploadComponent } from './list-file-upload.component';
 
-describe('MenuChatComponent', () => {
-  let component: MenuChatComponent;
-  let fixture: ComponentFixture<MenuChatComponent>;
+describe('ListFileUploadComponent', () => {
+  let component: ListFileUploadComponent;
+  let fixture: ComponentFixture<ListFileUploadComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MenuChatComponent ]
+      declarations: [ ListFileUploadComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MenuChatComponent);
+    fixture = TestBed.createComponent(ListFileUploadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
