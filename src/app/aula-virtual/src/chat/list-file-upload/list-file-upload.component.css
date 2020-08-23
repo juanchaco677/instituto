@@ -1,25 +1,33 @@
-.list-file-upload{
+.list-file-upload {
   position: relative;
   height: 100%;
 }
-.posicion-boton{
-  position:absolute;
+.posicion-boton {
+  position: fixed;
   top: 81.5%;
   left: 0px;
   height: 0px;
-
 }
 
-.body-list-pptx{
+.body-list-pptx {
   height: 100%;
 }
-
 
 .example-card {
   max-width: 100%;
 }
 
 .example-header-image {
-  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-image: url("https://material.angular.io/assets/img/examples/shiba1.jpg");
   background-size: cover;
+}
+
+::ng-deep .mat-card {
+  -webkit-box-shadow: 0px 0px 5px 1px rgba(51, 52, 74, 1)!important;
+  -moz-box-shadow: 0px 0px 5px 1px rgba(51, 52, 74, 1)!important;
+  box-shadow: 0px 0px 5px 1px rgba(51, 52, 74, 1)!important;
+}
+
+::ng-deep .mat-button{
+ background-color: #3b3a3b!important;
 }

@@ -28,7 +28,7 @@ export class PlantillaChatComponent implements OnInit {
   data: any;
   usuario: Usuario;
   sesionUsuario: any;
-  room = new Room(null, [], [], [], []);
+  room = new Room(null, [], [], {}, {}, {});
   @ViewChild('sidenav') sidenav: MatSidenav;
   constructor(
     public socket: SocketIoClientService,
@@ -115,14 +115,11 @@ export class PlantillaChatComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    const room = new Room(null, [], [], [], []);
     this.socket.$currentRoom.subscribe((data) => this.currentRoom(data));
     this.listenMatSidenav();
   }
 
   async currentRoom(data: any) {
-    console.log('CURRENT ROOM');
-    console.log(data);
     for (const key in data.peerServerEmisorReceptor) {
       if (
         data.peerServerEmisorReceptor[key].usuario1.id ===
@@ -138,6 +135,7 @@ export class PlantillaChatComponent implements OnInit {
     this.room.id = data.id;
     this.room.usuarios = data.usuarios;
     this.room.chat = data.chat;
+    this.room.ppts = data.ppts;
     this.startCamDesktop(false);
     this.startCamDesktop(true);
     this.socket.addRoom$(this.room);

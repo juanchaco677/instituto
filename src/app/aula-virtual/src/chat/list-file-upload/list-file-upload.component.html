@@ -1,12 +1,14 @@
+<app-loading [activar]="activar"></app-loading>
 <div class="list-file-upload">
   <div class="body-list-pptx">
-    <mat-card class="example-card">
-
-      <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+    <mat-card class="example-card mb-3 ml-1 mr-1" *ngFor="let item of ppts | keyvalue ">
+      <img mat-card-image
+        [src]="srcPath +'pptx/'+this.room.id+'/'+ppts[item.key].nombre+'/'+ppts[item.key].nombre+'-0.png'"
+        matTooltip="ppts[item.key].nombre">
       <mat-card-content>
-        <p>Integrantes
-        </p>
+        <p>Integrantes</p>
       </mat-card-content>
+      <mat-divider></mat-divider>
       <mat-card-actions>
         <button mat-button>Eliminar</button>
         <button mat-button>Compartir</button>
@@ -14,7 +16,7 @@
     </mat-card>
   </div>
   <div>
-    <app-btn-upload-one-file [ngClass]="{'posicion-boton':true}" (complete)="onFileComplete($event)"
+    <app-btn-upload-one-file [miniFab]="true" [ngClass]="{'posicion-boton':true}" (complete)="onFileComplete($event)"
       (load)="recive($event)" [accept]="'.ppt,.pptx'" [text]="''">
     </app-btn-upload-one-file>
   </div>

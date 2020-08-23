@@ -10,11 +10,15 @@
       </span>
     </li>
   </ul>
-  <button mat-button color="warn" (click)="onClick()">
+
+  <button *ngIf="!miniFab" mat-button color="warn" (click)="onClick()" matTooltip="text">
     <mat-icon>file_upload</mat-icon>
     {{text}}
   </button>
-
+  <button *ngIf="miniFab" mat-mini-fab color="warn" (click)="onClick()" matTooltip="text">
+    <mat-icon>file_upload</mat-icon>
+    {{text}}
+  </button>
   <input type="file" id="fileUpload" name="fileUpload" accept="{{accept}}" style="display:none;" />
 
 </div>

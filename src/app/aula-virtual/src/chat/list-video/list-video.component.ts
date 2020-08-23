@@ -28,7 +28,7 @@ import { VideoBoton } from 'src/app/aula-virtual/model/video-boton';
   templateUrl: './list-video.component.html',
   styleUrls: ['./list-video.component.css'],
 })
-export class ListVideoComponent implements OnInit,AfterViewInit {
+export class ListVideoComponent implements OnInit, AfterViewInit {
   room: Room;
   usuario: Usuario;
   programacion: ProgramacionHorario;
@@ -58,8 +58,11 @@ export class ListVideoComponent implements OnInit,AfterViewInit {
     { left: '34%', top: '29%', width: '59%', height: '50%' },
     { left: '37%', top: '30%', width: '47%', height: '45%' },
   ];
-  constructor(public socket: SocketIoClientService, public botonesService: BotonesService) {
-    this.room = new Room(null, [], [], [], []);
+  constructor(
+    public socket: SocketIoClientService,
+    public botonesService: BotonesService
+  ) {
+    this.room = new Room(null, [], [], {}, {}, {});
     this.usuario = Sesion.userAulaChat();
   }
   ngAfterViewInit(): void {
@@ -80,10 +83,11 @@ export class ListVideoComponent implements OnInit,AfterViewInit {
         this.room = data;
         if (!Util.empty(this.room.peerServerEmisorReceptor)) {
           this.keysCam = Object.keys(this.room.peerServerEmisorReceptor);
-
         }
         if (!Util.empty(this.room.peerServerEmisorReceptorDesktop)) {
-          this.keysDesktop = Object.keys(this.room.peerServerEmisorReceptorDesktop);
+          this.keysDesktop = Object.keys(
+            this.room.peerServerEmisorReceptorDesktop
+          );
         }
       }
     });
@@ -104,9 +108,7 @@ export class ListVideoComponent implements OnInit,AfterViewInit {
      */
     this.socket.$addUsuario.subscribe((data) => this.addUsuario(data));
 
-    this.botonesService.get().subscribe(data => this.listenBotones(data));
-
-
+    this.botonesService.get().subscribe((data) => this.listenBotones(data));
   }
 
   /**
@@ -114,13 +116,15 @@ export class ListVideoComponent implements OnInit,AfterViewInit {
    * @param data función que agrega un usuario a la sala
    */
   addUsuario(data: any) {
-    console.log('..current add usuario..');
-    console.log(data);
+
     if (Util.empty(this.room.peerServerEmisorReceptor)) {
       this.room.peerServerEmisorReceptor = {};
     }
     if (Util.empty(this.room.peerServerEmisorReceptorDesktop)) {
       this.room.peerServerEmisorReceptorDesktop = {};
+    }
+    if (Util.empty(this.room.ppts)) {
+      this.room.ppts = {};
     }
     // tslint:disable-next-line: forin
     for (const key in data.peerServerEmisorReceptor) {
@@ -166,6 +170,7 @@ export class ListVideoComponent implements OnInit,AfterViewInit {
     if (!this.buscarUsuario(data)) {
       this.room.usuarios.push(data.usuario);
     }
+    this.room.ppts = data.ppts;
     this.room.chat = data.chat.concat(this.room.chat);
     this.socket.addRoom$(this.room);
     this.socket.addListen(true);
@@ -201,13 +206,13 @@ export class ListVideoComponent implements OnInit,AfterViewInit {
             key: data.key,
             camDesktop: data.camDesktop,
             usuarioOrigen:
-              this.room.peerServerEmisorReceptorDesktop[data.key].usuario1.id ===
-              this.usuario.id
+              this.room.peerServerEmisorReceptorDesktop[data.key].usuario1
+                .id === this.usuario.id
                 ? this.room.peerServerEmisorReceptorDesktop[data.key].usuario1
                 : this.room.peerServerEmisorReceptorDesktop[data.key].usuario2,
             usuarioDestino:
-              this.room.peerServerEmisorReceptorDesktop[data.key].usuario1.id ===
-              this.usuario.id
+              this.room.peerServerEmisorReceptorDesktop[data.key].usuario1
+                .id === this.usuario.id
                 ? this.room.peerServerEmisorReceptorDesktop[data.key].usuario2
                 : this.room.peerServerEmisorReceptorDesktop[data.key].usuario1,
           });
@@ -306,8 +311,8 @@ export class ListVideoComponent implements OnInit,AfterViewInit {
     // tslint:disable-next-line: no-shadowed-variable
     for (const key in this.room.peerServerEmisorReceptor) {
       // tslint:disable-next-line: forin
-     i++;
-     this.room.peerServerEmisorReceptor[key].prioridad = i;
+      i++;
+      this.room.peerServerEmisorReceptor[key].prioridad = i;
     }
     this.room.peerServerEmisorReceptor[key].prioridad = 1;
     this.keysCam = Util.sortKeys(this.room.peerServerEmisorReceptor);

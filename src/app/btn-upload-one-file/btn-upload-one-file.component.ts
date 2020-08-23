@@ -8,7 +8,7 @@ import { FileUpload } from '../fileupload';
 
 })
 export class BtnUploadOneFileComponent implements OnInit {
-
+  @Input() miniFab = false;
   @Input() text = 'Cargar Imagen';
   @Input() accept = 'image/*';
   // tslint:disable-next-line: no-output-native

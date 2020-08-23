@@ -21,6 +21,7 @@ export class SocketIoClientService {
   $refreshUsuario = this.socket.fromEvent<boolean>('refreshUsuario');
   $addIceCandidate = this.socket.fromEvent<any>('addIceCandidate');
   $connectState = this.socket.fromEvent<any>('connectState');
+  $archivoPpt = this.socket.fromEvent<any>('archivoPpt');
 
   /**
    * observables
