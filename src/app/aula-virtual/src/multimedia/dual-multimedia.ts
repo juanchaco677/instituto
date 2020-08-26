@@ -99,7 +99,7 @@ export class DualMultimedia {
         this.peerClient.dataChannel.onerror = (error) => {};
 
         this.peerClient.dataChannel.onopen = () => {
-          this.peerClient.send(JSON.stringify(this.videoBoton));
+          // this.peerClient.send(JSON.stringify(this.videoBoton));
         };
 
         this.peerClient.dataChannel.onclose = () => {};

@@ -1,0 +1,18 @@
+<div class="bg-dark col-md-12 p-0 m-0"
+  [ngStyle]="{'position':'relative','width': width , 'height': height,'object-fit': 'cover','object-position': 'center center' }">
+  <img class="bg-dark"
+    [ngStyle]="{'width': '100%' , 'height': '100%','object-fit': 'fill','object-position': 'center center' }"
+    [src]="srcPath +'pptx/'+this.room.id+'/'+ppt.nombre+'/'+ppt.nombre+'-'+ppt.pagAct+'.png'" />
+</div>
+<div class="row p-0 m-0" *ngIf="visibleBtn">
+  <button mat-button matTooltip="Atras" class="color-btn-arrow" (click)="atras()">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+  </button>
+  <div class="p-1"  style="
+color: #3b3a3b;
+text-shadow: #e0e0e0 1px 1px 0;
+  ">{{ppt.pagAct + 1 }} - {{ppt.pagTot + 1}}</div>
+  <button mat-button matTooltip="Siguiente" class="color-btn-arrow" (click)="siguiente()">
+    <mat-icon>keyboard_arrow_right</mat-icon>
+  </button>
+</div>

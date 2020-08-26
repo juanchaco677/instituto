@@ -44,16 +44,16 @@
       </button>
       <div class="visibleCompartir" *ngIf="visibleCompartir">
         <mat-list role="list">
-          <mat-list-item role="listitem">
-            <button class="btn btn-light w-100" mat-menu-item (click)="startVideoDesktop()">
-              <mat-icon>screen_share</mat-icon>
+          <mat-list-item >
+            <button class="btn btn-light w-100" style="color:black!important;"  mat-menu-item (click)="startVideoDesktop()">
+              <mat-icon style="color:black!important;">screen_share</mat-icon>
               <span class="ml-1">Iniciar</span>
             </button>
           </mat-list-item>
           <mat-divider></mat-divider>
-          <mat-list-item role="listitem">
-            <button class="btn btn-light w-100" mat-menu-item (click)="stopVideoDesktop()">
-              <mat-icon>stop_screen_share</mat-icon>
+          <mat-list-item >
+            <button class="btn btn-light w-100" style="color:black!important;" mat-menu-item (click)="stopVideoDesktop()">
+              <mat-icon style="color:black!important;">stop_screen_share</mat-icon>
               <span class="ml-1">Parar</span>
             </button>
           </mat-list-item>
@@ -68,15 +68,5 @@
         <mat-icon class="icon-color"> phone</mat-icon>
       </button>
     </div>
-    <!-- <mat-menu #menu="matMenu"  id="panel-menu">
-      <button mat-menu-item (click)="startVideoDesktop()">
-        <mat-icon>screen_share</mat-icon>
-        <span>Iniciar</span>
-      </button>
-      <button mat-menu-item (click)="stopVideoDesktop()">
-        <mat-icon>stop_screen_share</mat-icon>
-        <span>Parar</span>
-      </button>
-    </mat-menu> -->
   </div>
 </div>

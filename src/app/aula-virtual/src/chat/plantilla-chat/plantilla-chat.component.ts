@@ -1,3 +1,4 @@
+import { ThemeService } from './../../../../theme.service';
 import { PeerServerEmisorReceptor } from './../../../model/peer-server-emisor-receptor';
 import { BotonesService } from './../../../service/botones.service';
 import { MatSidenavModule, MatSidenav } from '@angular/material/sidenav';
@@ -30,7 +31,9 @@ export class PlantillaChatComponent implements OnInit {
   sesionUsuario: any;
   room = new Room(null, [], [], {}, {}, {});
   @ViewChild('sidenav') sidenav: MatSidenav;
+
   constructor(
+    public themeService: ThemeService,
     public socket: SocketIoClientService,
     private service: ListRoomService,
     private serviceProgramacion: ProgramacionHorarioService,
@@ -39,6 +42,9 @@ export class PlantillaChatComponent implements OnInit {
     private overlay: OverlayContainer,
     private botones: BotonesService
   ) {
+    if (this.overlay.getContainerElement().classList.contains('theme-dark')) {
+      themeService.add$(2);
+    }
     this.sesionUsuario = Sesion.user();
 
     if (!this.overlay.getContainerElement().classList.contains('theme-light')) {
@@ -120,6 +126,8 @@ export class PlantillaChatComponent implements OnInit {
   }
 
   async currentRoom(data: any) {
+    console.log('current room');
+    console.log(data);
     for (const key in data.peerServerEmisorReceptor) {
       if (
         data.peerServerEmisorReceptor[key].usuario1.id ===
@@ -171,7 +179,7 @@ export class PlantillaChatComponent implements OnInit {
 
   listenMatSidenav() {
     this.botones.getSidenav().subscribe((data) => {
-      if (!Util.empty(data)) {
+      if (!Util.empty(data) && !Util.empty(this.sidenav)) {
         if (data) {
           this.sidenav.toggle();
         }

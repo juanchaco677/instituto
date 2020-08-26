@@ -1,7 +1,4 @@
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Util } from './../../../../utils/util';
-import { Configuracion } from './../../../../dashboard/modelo/configuracion';
-import { ConfiguracionService } from './../../../../dashboard/service/dashboard/configuracion.service';
+import { ThemeService } from './../../../../theme.service';
 import { MenuAulaService } from './../../../service/menu-aula.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Component, OnInit } from '@angular/core';
@@ -9,23 +6,20 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-plantilla-principal',
   templateUrl: './plantilla-principal.component.html',
-  styleUrls: ['./plantilla-principal.component.css']
+  styleUrls: ['./plantilla-principal.component.css'],
 })
 export class PlantillaPrincipalComponent implements OnInit {
-
   constructor(
-    private overlay: OverlayContainer,
     private menuService: MenuAulaService,
+    public themeService: ThemeService,
+    private overlay: OverlayContainer
   ) {
-    if (!this.overlay.getContainerElement().classList.contains('theme-light')) {
-      overlay.getContainerElement().classList.add('theme-light');
-      document.body.classList.add('theme-light');
+    if (this.overlay.getContainerElement().classList.contains('theme-dark')) {
+      themeService.add$(2);
     }
   }
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
   addMenuOpcion(data: string) {
     this.menuService.add$(data);
   }
-
 }

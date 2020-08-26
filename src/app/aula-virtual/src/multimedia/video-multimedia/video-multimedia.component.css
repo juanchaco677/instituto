@@ -195,4 +195,7 @@
   bottom: 5px;
   z-index: 12;
   font-size: large;
+  background-color: black;
+  opacity: 0.40;
+  padding: 2px;
 }

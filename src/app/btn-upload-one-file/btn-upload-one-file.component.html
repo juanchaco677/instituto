@@ -1,6 +1,6 @@
 <div class="col-md-12 p-0 m-0">
   <ul class="mb-5">
-    <li *ngIf="getFile()">
+    <li *ngIf="getFile() && getFile().file.progress < 100 ">
       <mat-progress-bar [value]="getFile().file.progress"></mat-progress-bar>
       <span id="file-label">
         {{getFile().file.data.name}}
@@ -11,13 +11,12 @@
     </li>
   </ul>
 
-  <button *ngIf="!miniFab" mat-button color="warn" (click)="onClick()" matTooltip="text">
+  <button *ngIf="!miniFab" mat-button color="warn" (click)="onClick()" matTooltip="{{text}}">
     <mat-icon>file_upload</mat-icon>
     {{text}}
   </button>
-  <button *ngIf="miniFab" mat-mini-fab color="warn" (click)="onClick()" matTooltip="text">
+  <button *ngIf="miniFab" mat-mini-fab color="warn" (click)="onClick()" matTooltip="{{text}}">
     <mat-icon>file_upload</mat-icon>
-    {{text}}
   </button>
   <input type="file" id="fileUpload" name="fileUpload" accept="{{accept}}" style="display:none;" />
 

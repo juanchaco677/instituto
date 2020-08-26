@@ -2,7 +2,7 @@
   <video class="video bg-dark"  autoplay [ngStyle]="{'width': width , 'height': height,'object-fit': 'fill','object-position': 'center center'  }" #videoElement></video>
   <div *ngIf="!esComponenteItem">
     <div *ngIf="videoBoton.video" [ngClass]="{'contenedor-nombre': videoBoton.video }" [ngStyle]="{'font-size':styleFontSize}">
-      {{usuario.nombre}}
+         {{ (usuario.nombre.length > 15)? (usuario.nombre | slice:0:15)+'..':(usuario.nombre) }}
     </div>
     <div class="plano-fondo" [ngStyle]="{'background-color': !videoBoton.video ? '#282727':'transparent' }">
       <div class="div-boton-true" [hidden]="!videoBoton.video">
@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="wrapper" [ngStyle]="{left: styleSize.left, top: styleSize.top ,width : styleSize.width , height : styleSize.height}" [hidden]="videoBoton.video">
-        <a title="{{usuario.nombre}}" [ngClass]="{'playing': videoBoton.latencia }"
+        <a  matTooltip="{{usuario.nombre}}" [ngClass]="{'playing': videoBoton.latencia }"
           class="player-controls d-flex align-items-center justify-content-center">
           <span class="pause">
           </span>
@@ -38,12 +38,12 @@
   </div>
   <div *ngIf="esComponenteItem">
     <div *ngIf="videoBoton.video " [ngClass]="{'contenedor-nombre': videoBoton.video }" [ngStyle]="{'font-size':styleFontSize}">
-      {{usuarioSesion.nombre}}
+      {{ (usuarioSesion.nombre.length > 15)? (usuarioSesion.nombre | slice:0:15)+'..':(usuarioSesion.nombre) }}
     </div>
     <div class="plano-fondo" [ngStyle]="{'background-color': !videoBoton.video ? '#282727':'transparent' }">
 
       <div class="wrapper" [ngStyle]="{left: styleSize.left, top: styleSize.top ,width : styleSize.width , height : styleSize.height}" [hidden]="videoBoton.video">
-        <a title="{{usuarioSesion.nombre}}" [ngClass]="{'playing': videoBoton.latencia }"
+        <a matTooltip="{{usuarioSesion.nombre}}" [ngClass]="{'playing': videoBoton.latencia }"
           class="player-controls d-flex align-items-center justify-content-center">
           <span class="pause">
           </span>

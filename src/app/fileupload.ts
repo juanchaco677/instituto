@@ -22,6 +22,7 @@ export class FileUpload {
     if (this.file != null) {
       reader.readAsDataURL(this.file.data);
       reader.onload = (_event) => {
+        console.log('ver aqui');
         this.file.src = reader.result;
         this.emit.emit(this);
       };

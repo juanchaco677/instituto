@@ -1,3 +1,4 @@
+import { PPT } from './../../../model/ppt';
 import { BotonesService } from './../../../service/botones.service';
 import { async } from '@angular/core/testing';
 import { VideoMultimediaComponent } from './../../multimedia/video-multimedia/video-multimedia.component';
@@ -35,6 +36,8 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
   peerServer: PeerServer;
   contElementDesktopVisible = 0;
   redimensionar = false;
+  redimensionarPPT = false;
+  ppt: PPT;
   @Input() visible = true;
   @Input() contador = 0;
   @ViewChild('videoHtml') videoHtml: VideoMultimediaComponent;
@@ -109,6 +112,23 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
     this.socket.$addUsuario.subscribe((data) => this.addUsuario(data));
 
     this.botonesService.get().subscribe((data) => this.listenBotones(data));
+
+    this.socket.$recivePaginationC.subscribe((data) =>
+      this.recibePaignationPPT(data)
+    );
+  }
+
+  /**
+   * reci
+   */
+  recibePaignationPPT(data: any) {
+    if (!Util.empty(data)) {
+      this.room.ppts[data.nombre] = data;
+      this.socket.addRoom$(this.room);
+      this.ppt = data;
+      this.redimensionarPPT = true;
+      this.redimensionar = true;
+    }
   }
 
   /**
@@ -116,7 +136,6 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
    * @param data función que agrega un usuario a la sala
    */
   addUsuario(data: any) {
-
     if (Util.empty(this.room.peerServerEmisorReceptor)) {
       this.room.peerServerEmisorReceptor = {};
     }

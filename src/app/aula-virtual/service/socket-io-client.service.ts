@@ -15,13 +15,13 @@ export class SocketIoClientService {
   $addUsuario = this.socket.fromEvent<any>('addUsuario');
   $currentRoom = this.socket.fromEvent<Room>('room');
   $chatRoom = this.socket.fromEvent<Usuario>('chatRoom');
-  $reciveTransmision = this.socket.fromEvent<Usuario>('reciveTransmision');
   $createAnswer = this.socket.fromEvent<any>('createAnswer');
   $sendAnswer = this.socket.fromEvent<any>('sendAnswer');
   $refreshUsuario = this.socket.fromEvent<boolean>('refreshUsuario');
   $addIceCandidate = this.socket.fromEvent<any>('addIceCandidate');
-  $connectState = this.socket.fromEvent<any>('connectState');
   $archivoPpt = this.socket.fromEvent<any>('archivoPpt');
+  $recivePaginationC = this.socket.fromEvent<any>('recibePaginationC');
+
 
   /**
    * observables
@@ -130,8 +130,6 @@ export class SocketIoClientService {
   deleteListenAudio(){
     this.listeAudio$.next(null);
   }
-
-
 
   addListenVideoBoton(data: VideoBoton){
     this.listeVideoBoton$.next(data);

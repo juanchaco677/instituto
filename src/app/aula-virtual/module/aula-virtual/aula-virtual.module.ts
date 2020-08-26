@@ -1,3 +1,6 @@
+import { DialogoIntegrantesComponent } from './../../src/chat/dialogo-integrantes/dialogo-integrantes.component';
+import { PresentacionPPTComponent } from './../../src/multimedia/presentacion-ppt/presentacion-ppt.component';
+import { ThemeService } from './../../../theme.service';
 import { FileUploadPptService } from './../../service/file-upload-ppt.service';
 import { UploadOnefileModule } from './../../../btn-upload-one-file/upload-onefile.module';
 import { BtnUploadOneFileComponent } from './../../../btn-upload-one-file/btn-upload-one-file.component';
@@ -33,8 +36,10 @@ import { AulaVirtualGuard } from '../../guard/aula-virtual.guard';
 import { ListRoomComponent } from '../../src/menu/list-room/list-room.component';
 import { InscripcionAsigEsComponent } from '../../src/menu/list-room/ver/incripcion-asignatura-estudiante/inscripcion-asig-es.component';
 import { AsigProfeAsigsComponent } from '../../src/menu/list-room/ver/asig-profe-asigs/asig-profe-asigs.component';
-const config: SocketIoConfig = { url: 'http://181.55.192.137:4444', options: {} };
-
+const config: SocketIoConfig = {
+  url: 'http://181.55.192.137:4444',
+  options: {},
+};
 
 @NgModule({
   declarations: [
@@ -53,6 +58,8 @@ const config: SocketIoConfig = { url: 'http://181.55.192.137:4444', options: {} 
     DesktopMultimediaComponent,
     ComentarioComponent,
     ListFileUploadComponent,
+    PresentacionPPTComponent,
+    DialogoIntegrantesComponent,
   ],
   imports: [
     MaterialModule,
@@ -75,10 +82,8 @@ const config: SocketIoConfig = { url: 'http://181.55.192.137:4444', options: {} 
     MenuAulaService,
     UsuarioService,
     ConfiguracionService,
-    FileUploadPptService
-
-  ]
+    FileUploadPptService,
+    ThemeService,
+  ],
 })
-export class AulaVirtualModule {
-
-}
+export class AulaVirtualModule {}

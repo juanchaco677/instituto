@@ -1,3 +1,4 @@
+import { ThemeService } from './../../../../theme.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { PropertiesLoginChat } from '../../../../dashboard/properties/properties-login-chat';
 import { Util } from '../../../../utils/util';
@@ -27,15 +28,9 @@ export class LoginAulaVirtualComponent implements OnInit {
     private usuarioService: UsuarioService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private overlay: OverlayContainer
+    private themeService: ThemeService
   ) {
-
-    if (!this.overlay.getContainerElement().classList.contains('theme-light')) {
-      console.log('entro al theme light');
-      overlay.getContainerElement().classList.add('theme-light');
-      document.body.classList.add('theme-light');
-    }
-
+    this.themeService.add$(2);
     this.usuario = new Usuario('', '');
     this.login = this.formBuilder.group({
       email: Validacion.getCampoEmail(true),

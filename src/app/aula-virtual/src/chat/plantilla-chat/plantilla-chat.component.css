@@ -34,7 +34,7 @@
 }
 
 :host ::ng-deep .mat-tab-body-wrapper  {
-  height: 93vh!important;
+  height: 95vh!important;
   overflow: hidden!important;
 }
 
@@ -43,6 +43,9 @@
   overflow: hidden!important;
 }
 
+:host ::ng-deep .mat-tab-header {
+  background-color: #3b3a3b!important;
+}
 
 :host ::ng-deep .mat-tab-group {
   background-color: #1b1a1a!important;
@@ -53,6 +56,16 @@
   color: #ffffff!important;
 }
 
+:host ::ng-deep .mat-tab-label, :host ::ng-deep .theme-light :host ::ng-deep .mat-tab-link {
+  color: rgba(0, 0, 0, 0.87);
+  background-color: #3b3a3b!important;
+}
+:host ::ng-deep .mat-icon{
+  color: #ffffff!important;
+}
+/**
+scroll
+*/
 :host ::ng-deep .mat-tab-body-content::-webkit-scrollbar {
   width: 5px;
   height: 5px;
@@ -79,4 +92,9 @@
 
 :host ::ng-deep  .mat-drawer-side {
   border-right: 2px inset #24282c!important;
+}
+
+
+:host ::ng-deep .mat-drawer-inner-container{
+  overflow: hidden!important;
 }

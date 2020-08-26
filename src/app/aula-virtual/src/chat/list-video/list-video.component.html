@@ -1,11 +1,9 @@
-<div class="row mr-0 ml-0" >
-
-
+<div class="row mr-0 ml-0">
   <div #contenedor>
-
     <div class="container-fluid  m-0 p-0" [ngStyle]="{'width':'100vw','height':'100vh'}">
       <div class="row m-0 p-0">
-        <div class="col-md-12 contenedor-color  " (mouseover)="visibleBotones = false" (mouseout)="visibleBotones = true">
+        <div class="col-md-12 contenedor-color  " (mouseover)="visibleBotones = false"
+          (mouseout)="visibleBotones = true">
           <div
             class="row m-0 p-0 text-center d-lg-flex justify-content-center align-items-center justify-content-lg-center"
             [ngStyle]="{'width':'100%','height':'100vh'}">
@@ -14,20 +12,28 @@
                 [ngClass]="redimensionar ? 'align-content-start':'align-items-center justify-content-lg-center'"
                 style="width: 100%; height: 100%;">
 
-                <app-desktop-multimedia
-                  [ngClass]="redimensionar ? (contVisibleDesktop > 1 ? (contVisibleDesktop > 4 ? (contVisibleDesktop > 9 ? 'col-md-2 col-2-redVideoM' :'col-md-4 col-4-redVideoM') :'col-md-6 col-6-redVideoM'):'col-md-12 col-12-redVideoM' ) : 'col-md-12 col-12-redVideoM'"
-                  [esComponenteItem]="true" [htmlListVideo]="this" [visible]="visible" #htmlVideoDesktop
-                  [width]="'100%'" [height]="'100%'" [listContentDesktop]="listContentDesktop"></app-desktop-multimedia>
+                <div *ngIf="!redimensionarPPT">
+                  <app-desktop-multimedia
+                    [ngClass]="redimensionar ? (contVisibleDesktop > 1 ? (contVisibleDesktop > 4 ? (contVisibleDesktop > 9 ? 'col-md-2 col-2-redVideoM' :'col-md-4 col-4-redVideoM') :'col-md-6 col-6-redVideoM'):'col-md-12 col-12-redVideoM' ) : 'col-md-12 col-12-redVideoM'"
+                    [esComponenteItem]="true" [htmlListVideo]="this" [visible]="visible" #htmlVideoDesktop
+                    [width]="'100%'" [height]="'100%'" [listContentDesktop]="listContentDesktop">
+                  </app-desktop-multimedia>
 
-                <app-desktop-multimedia
-                  [ngClass]="redimensionar ? (contVisibleDesktop > 1 ? (contVisibleDesktop > 4 ? (contVisibleDesktop > 9 ? 'col-md-2 col-2-redVideoM' :'col-md-4 col-4-redVideoM') :'col-md-6 col-6-redVideoM'):'col-md-12 col-12-redVideoM' ) : 'col-md-12 col-12-redVideoM'"
-                  [esComponenteItem]="false" [htmlListVideo]="this" #contentDesktop *ngFor="let key of keysDesktop"
-                  [key]="key" [videoMultimedia]="videoMultimedia" [element]="room.peerServerEmisorReceptorDesktop[key]"
-                  [width]="'100%'" [height]="'100%'" [peerClient]="room.peerServerEmisorReceptorDesktop[key].peerClient"
-                  [peerServer]="room.peerServerEmisorReceptorDesktop[key].peerServer"
-                  [usuario]="room.peerServerEmisorReceptorDesktop[key].usuario1.id === usuario.id ?room.peerServerEmisorReceptorDesktop[key].usuario2 : room.peerServerEmisorReceptorDesktop[key].usuario1"
-                  [htmlVideoDesktop]="htmlVideoDesktop" [listContentDesktop]="listContentDesktop">
-                </app-desktop-multimedia>
+                  <app-desktop-multimedia
+                    [ngClass]="redimensionar ? (contVisibleDesktop > 1 ? (contVisibleDesktop > 4 ? (contVisibleDesktop > 9 ? 'col-md-2 col-2-redVideoM' :'col-md-4 col-4-redVideoM') :'col-md-6 col-6-redVideoM'):'col-md-12 col-12-redVideoM' ) : 'col-md-12 col-12-redVideoM'"
+                    [esComponenteItem]="false" [htmlListVideo]="this" #contentDesktop *ngFor="let key of keysDesktop"
+                    [key]="key" [videoMultimedia]="videoMultimedia"
+                    [element]="room.peerServerEmisorReceptorDesktop[key]" [width]="'100%'" [height]="'100%'"
+                    [peerClient]="room.peerServerEmisorReceptorDesktop[key].peerClient"
+                    [peerServer]="room.peerServerEmisorReceptorDesktop[key].peerServer"
+                    [usuario]="room.peerServerEmisorReceptorDesktop[key].usuario1.id === usuario.id ?room.peerServerEmisorReceptorDesktop[key].usuario2 : room.peerServerEmisorReceptorDesktop[key].usuario1"
+                    [htmlVideoDesktop]="htmlVideoDesktop" [listContentDesktop]="listContentDesktop">
+                  </app-desktop-multimedia>
+                </div>
+
+                <app-presentacion-ppt *ngIf="redimensionarPPT" [listVideo] = "this" [ppt]="ppt" [room]="room" [width]="'60vw'" [height]="'70vh'">
+                </app-presentacion-ppt>
+
               </div>
             </div>
             <div [ngClass]="redimensionar ?'col-md-2 borde-cam vh-100' :'col-md-8 vh-100'">
@@ -55,7 +61,7 @@
                 </app-video-multimedia>
               </div>
             </div>
-            <app-botones [visible]="false" [htmlListVideo]="this" #boton></app-botones>
+            <app-botones [visible]="visibleBotones" [htmlListVideo]="this" #boton></app-botones>
           </div>
         </div>
       </div>

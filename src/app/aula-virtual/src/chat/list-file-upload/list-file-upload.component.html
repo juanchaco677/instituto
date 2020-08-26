@@ -4,20 +4,28 @@
     <mat-card class="example-card mb-3 ml-1 mr-1" *ngFor="let item of ppts | keyvalue ">
       <img mat-card-image
         [src]="srcPath +'pptx/'+this.room.id+'/'+ppts[item.key].nombre+'/'+ppts[item.key].nombre+'-0.png'"
-        matTooltip="ppts[item.key].nombre">
+        matTooltip="{{ppts[item.key].nombre}}">
       <mat-card-content>
-        <p>Integrantes</p>
+        <p>Integrantes :</p>
+        <div>
+          <mat-chip-list >
+            <mat-chip  *ngFor="let itemSub of ppts[item.key].integrantes | keyvalue" matTooltip="{{ppts[item.key].integrantes[itemSub.key].nombre}}" >
+              {{ (ppts[item.key].integrantes[itemSub.key].nombre.length > 15)? (ppts[item.key].integrantes[itemSub.key].nombre | slice:0:15)+'..':(ppts[item.key].integrantes[itemSub.key].nombre) }}
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
         <button mat-button>Eliminar</button>
-        <button mat-button>Compartir</button>
+        <button mat-button (click)="compartir(item.key)">Compartir</button>
       </mat-card-actions>
     </mat-card>
   </div>
   <div>
     <app-btn-upload-one-file [miniFab]="true" [ngClass]="{'posicion-boton':true}" (complete)="onFileComplete($event)"
-      (load)="recive($event)" [accept]="'.ppt,.pptx'" [text]="''">
+      (load)="recive($event)" [accept]="'.ppt,.pptx'" [text]="'Subir Presentación'">
     </app-btn-upload-one-file>
   </div>
 </div>

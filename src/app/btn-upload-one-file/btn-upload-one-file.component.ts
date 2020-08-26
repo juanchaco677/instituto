@@ -17,7 +17,6 @@ export class BtnUploadOneFileComponent implements OnInit {
   public fileUpload: FileUpload;
   public src: string | ArrayBuffer | null;
   constructor() {
-    this.fileUpload = new FileUpload(this.load);
   }
 
   ngOnInit() {
@@ -25,6 +24,7 @@ export class BtnUploadOneFileComponent implements OnInit {
   }
 
   onClick() {
+    console.log('entro a cargar');
     this.fileUpload = new FileUpload(this.load);
     this.fileUpload.load('fileUpload');
     // this.load.emit(this.fileUpload);
