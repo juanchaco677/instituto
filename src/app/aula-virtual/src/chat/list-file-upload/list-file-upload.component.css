@@ -13,8 +13,12 @@
   height: 100%;
 }
 
-.example-card {
+.card-presentacion {
   max-width: 100%;
+  -webkit-box-shadow: 0px 0px 7px 3px rgba(40,39,39,1)!important;
+  -moz-box-shadow: 0px 0px 7px 3px rgba(40,39,39,1)!important;
+  box-shadow: 0px 0px 7px 3px rgba(40,39,39,1)!important;
+
 }
 
 .example-header-image {
@@ -22,12 +26,3 @@
   background-size: cover;
 }
 
-::ng-deep .mat-card {
-  -webkit-box-shadow: 0px 0px 5px 1px rgba(51, 52, 74, 1)!important;
-  -moz-box-shadow: 0px 0px 5px 1px rgba(51, 52, 74, 1)!important;
-  box-shadow: 0px 0px 5px 1px rgba(51, 52, 74, 1)!important;
-}
-
-::ng-deep .mat-button{
- background-color: #3b3a3b!important;
-}

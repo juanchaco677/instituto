@@ -18,7 +18,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ListFileUploadComponent implements OnInit {
   fileUpload: FileUpload;
-  room: Room = new Room(null, [], [], {}, {}, {});
+  room: Room = new Room(null, {}, [], {}, {}, {});
   ppts = {};
   activar = false;
   srcPath: string;
@@ -58,7 +58,13 @@ export class ListFileUploadComponent implements OnInit {
     this.listVideo.ppt = this.ppts[key];
     this.listVideo.redimensionarPPT = true;
     this.listVideo.redimensionar = true;
-    this.serviceSocket.emit('recibePaginationS', this.listVideo.ppt);
+    this.serviceSocket.emit('recibePaginationS', {id: this.room.id, ppt: this.listVideo.ppt});
+  }
+
+  eliminar(key: string){
+    delete this.room.ppts[key];
+    this.serviceSocket.addRoom$(this.room);
+    this.serviceSocket.emit('eliminarPPTS', {id: this.room.id, key});
   }
 
   recive(fileUpload: any) {

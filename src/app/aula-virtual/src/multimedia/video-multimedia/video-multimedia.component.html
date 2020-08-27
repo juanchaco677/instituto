@@ -1,10 +1,10 @@
  <div  [ngClass]="videoBoton.video && videoBoton.audio ? 'rainbow':''" [ngStyle]="{'position':'relative','width': width , 'height': height,'object-fit': 'cover','object-position': 'center center' }">
-  <video class="video bg-dark"  autoplay [ngStyle]="{'width': width , 'height': height,'object-fit': 'fill','object-position': 'center center'  }" #videoElement></video>
+  <video class="video"  autoplay [ngStyle]="{'width': width , 'height': height,'object-fit': 'fill','object-position': 'center center'  }" #videoElement></video>
   <div *ngIf="!esComponenteItem">
     <div *ngIf="videoBoton.video" [ngClass]="{'contenedor-nombre': videoBoton.video }" [ngStyle]="{'font-size':styleFontSize}">
          {{ (usuario.nombre.length > 15)? (usuario.nombre | slice:0:15)+'..':(usuario.nombre) }}
     </div>
-    <div class="plano-fondo" [ngStyle]="{'background-color': !videoBoton.video ? '#282727':'transparent' }">
+    <div class="plano-fondo" >
       <div class="div-boton-true" [hidden]="!videoBoton.video">
         <div class="d-flex justify-content-center contenedor-buttons">
           <button mat-icon-button>
@@ -20,7 +20,7 @@
       <div class="wrapper" [ngStyle]="{left: styleSize.left, top: styleSize.top ,width : styleSize.width , height : styleSize.height}" [hidden]="videoBoton.video">
         <a  matTooltip="{{usuario.nombre}}" [ngClass]="{'playing': videoBoton.latencia }"
           class="player-controls d-flex align-items-center justify-content-center">
-          <span class="pause">
+          <span class="pause" [ngStyle]="{'background': 'radial-gradient(circle, '+color+' 0%, rgba(40,39,39,1) 77%)'}">
           </span>
           <img *ngIf="usuario.foto.toString().indexOf('default') <= -1" [src]="usuario.foto" width="40" height="40"
             class="rounded-circle" />
@@ -40,12 +40,14 @@
     <div *ngIf="videoBoton.video " [ngClass]="{'contenedor-nombre': videoBoton.video }" [ngStyle]="{'font-size':styleFontSize}">
       {{ (usuarioSesion.nombre.length > 15)? (usuarioSesion.nombre | slice:0:15)+'..':(usuarioSesion.nombre) }}
     </div>
-    <div class="plano-fondo" [ngStyle]="{'background-color': !videoBoton.video ? '#282727':'transparent' }">
+    <div class="plano-fondo" >
 
       <div class="wrapper" [ngStyle]="{left: styleSize.left, top: styleSize.top ,width : styleSize.width , height : styleSize.height}" [hidden]="videoBoton.video">
         <a matTooltip="{{usuarioSesion.nombre}}" [ngClass]="{'playing': videoBoton.latencia }"
-          class="player-controls d-flex align-items-center justify-content-center">
-          <span class="pause">
+          class="player-controls d-flex align-items-center justify-content-center" >
+
+          <span class="pause" [ngStyle]="
+          {'background': 'radial-gradient(circle, '+color+' 0%, rgba(40,39,39,1) 77%)'}">
           </span>
           <img *ngIf="usuarioSesion.foto.toString().indexOf('default') <= -1" [src]="usuarioSesion.foto" width="40"
             height="40" class="rounded-circle" />

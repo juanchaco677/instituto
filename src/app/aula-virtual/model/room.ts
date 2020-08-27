@@ -4,7 +4,7 @@ export class Room {
   prioridad = 2;
   constructor(
     public id?: string,
-    public usuarios?: Usuario[],
+    public usuarios?: {},
     public chat?: [],
     public ppts?: {},
     public peerServerEmisorReceptor?: {},

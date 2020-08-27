@@ -29,7 +29,7 @@ export class PlantillaChatComponent implements OnInit {
   data: any;
   usuario: Usuario;
   sesionUsuario: any;
-  room = new Room(null, [], [], {}, {}, {});
+  room = new Room(null, {}, [], {}, {}, {});
   @ViewChild('sidenav') sidenav: MatSidenav;
 
   constructor(
@@ -42,9 +42,9 @@ export class PlantillaChatComponent implements OnInit {
     private overlay: OverlayContainer,
     private botones: BotonesService
   ) {
-    if (this.overlay.getContainerElement().classList.contains('theme-dark')) {
-      themeService.add$(2);
-    }
+    // if (this.overlay.getContainerElement().classList.contains('theme-dark')) {
+    themeService.add$(3);
+    // }
     this.sesionUsuario = Sesion.user();
 
     if (!this.overlay.getContainerElement().classList.contains('theme-light')) {
@@ -158,7 +158,7 @@ export class PlantillaChatComponent implements OnInit {
     if (
       !Util.empty(this.room) &&
       !Util.empty(this.room.usuarios) &&
-      this.room.usuarios.length > 0
+      Object.keys(this.room.usuarios).length > 0
     ) {
       const elements = camDesktop
         ? this.room.peerServerEmisorReceptorDesktop

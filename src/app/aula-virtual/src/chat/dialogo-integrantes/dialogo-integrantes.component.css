@@ -1,6 +1,30 @@
 .div-buscar-integrantes{
-  height: auto;
+
 }
+
+.div-buscar-integrantes::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.div-buscar-integrantes::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+.div-buscar-integrantes::-webkit-scrollbar-thumb {
+  border: 0px none #ffffff;
+  border-radius: 50px;
+  background-color: #33344a !important;
+  opacity: 0.30;
+}
+.div-buscar-integrantes::-webkit-scrollbar-track {
+  background: #666666;
+  border: 0px none #ffffff;
+  border-radius: 50px;
+}
+.div-buscar-integrantes::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
 .example-margin {
   margin: 0 12px;
 }

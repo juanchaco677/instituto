@@ -1,7 +1,7 @@
 <app-loading [activar]="activar"></app-loading>
 <div class="list-file-upload">
   <div class="body-list-pptx">
-    <mat-card class="example-card mb-3 ml-1 mr-1" *ngFor="let item of ppts | keyvalue ">
+    <mat-card class="card-presentacion mb-3 ml-2 mr-2 mt-1" *ngFor="let item of ppts | keyvalue ">
       <img mat-card-image
         [src]="srcPath +'pptx/'+this.room.id+'/'+ppts[item.key].nombre+'/'+ppts[item.key].nombre+'-0.png'"
         matTooltip="{{ppts[item.key].nombre}}">
@@ -18,7 +18,7 @@
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
-        <button mat-button>Eliminar</button>
+        <button mat-button (click)="eliminar(item.key)">Eliminar</button>
         <button mat-button (click)="compartir(item.key)">Compartir</button>
       </mat-card-actions>
     </mat-card>

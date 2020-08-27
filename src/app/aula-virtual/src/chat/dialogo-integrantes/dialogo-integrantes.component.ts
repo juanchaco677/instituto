@@ -19,7 +19,7 @@ export class DialogoIntegrantesComponent implements OnInit {
   todos = false;
   constructor() {
     this.usuario = Sesion.userAulaChat();
-    this.integrantes[this.usuario.cedula] = this.usuario;
+    this.integrantes[this.usuario.id] = this.usuario;
   }
 
   ngOnInit(): void {}
@@ -35,13 +35,13 @@ export class DialogoIntegrantesComponent implements OnInit {
   entrada(event: any) {
     if (!Util.empty(this.nombre)) {
       this.usuarios = {};
-      for (const usuario of this.room.usuarios) {
+      for (const key in this.room.usuarios) {
         if (
-          usuario.nombre.toLowerCase().indexOf(this.nombre.toLowerCase()) !==
+          this.room.usuarios[key].nombre.toLowerCase().indexOf(this.nombre.toLowerCase()) !==
             -1 &&
-          this.usuario.id !== usuario.id
+          this.room.usuarios[key].id !== this.room.usuarios[key].id
         ) {
-          this.usuarios[usuario.cedula] = usuario;
+          this.usuarios[this.room.usuarios[key].id] = this.room.usuarios[key];
         }
       }
     } else {

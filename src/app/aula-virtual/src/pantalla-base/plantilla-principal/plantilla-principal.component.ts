@@ -14,7 +14,12 @@ export class PlantillaPrincipalComponent implements OnInit {
     public themeService: ThemeService,
     private overlay: OverlayContainer
   ) {
-    if (this.overlay.getContainerElement().classList.contains('theme-dark')) {
+    if (
+      this.overlay.getContainerElement().classList.contains('theme-dark') ||
+      this.overlay.getContainerElement().classList.contains('theme-chat')
+    ) {
+      document.body.classList.remove('theme-dark');
+      document.body.classList.remove('theme-chat');
       themeService.add$(2);
     }
   }

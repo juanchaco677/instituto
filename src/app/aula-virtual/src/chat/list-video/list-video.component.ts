@@ -1,6 +1,5 @@
 import { PPT } from './../../../model/ppt';
 import { BotonesService } from './../../../service/botones.service';
-import { async } from '@angular/core/testing';
 import { VideoMultimediaComponent } from './../../multimedia/video-multimedia/video-multimedia.component';
 import { BotonesComponent } from './../../multimedia/botones/botones.component';
 import { DesktopMultimediaComponent } from './../../multimedia/desktop-multimedia/desktop-multimedia.component';
@@ -38,6 +37,7 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
   redimensionar = false;
   redimensionarPPT = false;
   ppt: PPT;
+  color: string;
   @Input() visible = true;
   @Input() contador = 0;
   @ViewChild('videoHtml') videoHtml: VideoMultimediaComponent;
@@ -65,7 +65,7 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
     public socket: SocketIoClientService,
     public botonesService: BotonesService
   ) {
-    this.room = new Room(null, [], [], {}, {}, {});
+    this.room = new Room(null, {}, [], {}, {}, {});
     this.usuario = Sesion.userAulaChat();
   }
   ngAfterViewInit(): void {
@@ -82,7 +82,7 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
      * servicio socket para escuchar cuando se agrega la sala en la pantalla
      */
     this.socket.getRoom$().subscribe((data) => {
-      if (!Util.empty(data)) {
+      if (!Util.empty(data) && !Util.empty(data.id)) {
         this.room = data;
         if (!Util.empty(this.room.peerServerEmisorReceptor)) {
           this.keysCam = Object.keys(this.room.peerServerEmisorReceptor);
@@ -92,6 +92,12 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
             this.room.peerServerEmisorReceptorDesktop
           );
         }
+        console.log('antes de ver el color');
+        console.log(data);
+        console.log(this.room);
+        console.log(this.usuario.id);
+        console.log(this.room.usuarios[this.usuario.id]);
+        this.color = this.room.usuarios[this.usuario.id].color;
       }
     });
     /**
@@ -180,14 +186,14 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
 
     this.room.id = data.id;
     if (Util.empty(this.room.usuarios)) {
-      this.room.usuarios = [];
+      this.room.usuarios = {};
     }
     if (Util.empty(this.room.chat)) {
       this.room.chat = [];
     }
 
     if (!this.buscarUsuario(data)) {
-      this.room.usuarios.push(data.usuario);
+      this.room.usuarios [data.usuario.id] = data.usuario;
     }
     this.room.ppts = data.ppts;
     this.room.chat = data.chat.concat(this.room.chat);
@@ -196,8 +202,8 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
   }
 
   buscarUsuario(data: any) {
-    for (const element of this.room.usuarios) {
-      if (data.usuario.id === element.id) {
+    for (const key in this.room.usuarios) {
+      if (data.usuario.id === this.room.usuarios[key].id) {
         return true;
       }
     }

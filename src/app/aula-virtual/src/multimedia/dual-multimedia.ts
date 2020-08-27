@@ -9,7 +9,14 @@ import { PeerClient } from './../../model/peer-client';
 import { PeerServer } from './../../model/peer-server';
 import { Video } from './../../model/video';
 import { SocketIoClientService } from '../../service/socket-io-client.service';
-import { ViewChild, ElementRef, Input, QueryList, Output, ChangeDetectorRef } from '@angular/core';
+import {
+  ViewChild,
+  ElementRef,
+  Input,
+  QueryList,
+  Output,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { BotonesService } from '../../service/botones.service';
 import { Util } from 'src/app/utils/util';
 import { PeerServerEmisorReceptor } from '../../model/peer-server-emisor-receptor';
@@ -31,6 +38,7 @@ export class DualMultimedia {
   @Input() esComponenteItem: boolean; // variable que me dice si es un solo componenete o esta dentro de un for
   @Input() videoMultimedia: VideoMultimediaComponent;
   @Input() styleFontSize: string;
+  @Input() color: string;
   usuarioSesion: Usuario;
   videoBoton: VideoBoton;
   video: Video;
@@ -246,7 +254,7 @@ export class DualMultimedia {
     if (
       !Util.empty(this.room) &&
       !Util.empty(this.room.usuarios) &&
-      this.room.usuarios.length > 0
+      Object.keys(this.room.usuarios).length > 0
     ) {
       const emiRecep = this.camDesktop
         ? this.room.peerServerEmisorReceptorDesktop
@@ -312,13 +320,27 @@ export class DualMultimedia {
               break;
 
             case Util.stopDesktop:
-              this.visible = true;
-              this.htmlListVideo.redimensionar =
-                this.buscarDesktopMultimedia() > 0;
-              this.video.videoCam = !this.video.videoCam;
-              this.actualizarVideoBoton();
-              this.sendInfoBotones();
-              this.video.stop();
+              if (this.htmlListVideo.redimensionarPPT) {
+                if (!Util.empty(this.htmlListVideo.ppt)) {
+                  for (const key in this.htmlListVideo.ppt.integrantes) {
+                    if (
+                      this.htmlListVideo.ppt.integrantes[key].id ===
+                      this.usuarioSesion.id || this.usuarioSesion.rol.tipo === 'PR'
+                    ) {
+                      this.htmlListVideo.redimensionarPPT = false;
+                      break;
+                    }
+                  }
+                }
+              } else {
+                this.visible = true;
+                this.htmlListVideo.redimensionar =
+                  this.buscarDesktopMultimedia() > 0;
+                this.video.videoCam = !this.video.videoCam;
+                this.actualizarVideoBoton();
+                this.sendInfoBotones();
+                this.video.stop();
+              }
               break;
           }
         } else {

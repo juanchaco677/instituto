@@ -45,6 +45,7 @@
                   [styleFontSize]="redimensionar ? 'small' : (keysCam.length > 0 ? (keysCam.length > 4 ? (keysCam.length > 9 ? 'small' :'medium') :'medium'):'large' )"
                   [styleSize]="redimensionar ? reacomodarImgIco[0] : (keysCam.length > 0 ? (keysCam.length > 4 ? (keysCam.length > 9 ? reacomodarImgIco[0] :reacomodarImgIco[1]) :reacomodarImgIco[1]):reacomodarImgIco[2] )"
                   class="p-1 m-0 " [esComponenteItem]="true" #videoMultimedia [width]="'100%'" [height]="'100%'"
+                  [color]="color"
                   [listVideoMultimedia]="listVideoMultimedia">
                 </app-video-multimedia>
 
@@ -56,6 +57,7 @@
                   *ngFor="let key of keysCam" [peerClient]="room.peerServerEmisorReceptor[key].peerClient" [key]="key"
                   [peerServer]="room.peerServerEmisorReceptor[key].peerServer"
                   [element]="room.peerServerEmisorReceptor[key]"
+                  [color]="room.peerServerEmisorReceptor[key].usuario1.id === usuario.id ? room.peerServerEmisorReceptor[key].usuario2.color: room.peerServerEmisorReceptor[key].usuario1.color"
                   [usuario]="room.peerServerEmisorReceptor[key].usuario1.id === usuario.id ?room.peerServerEmisorReceptor[key].usuario2 : room.peerServerEmisorReceptor[key].usuario1"
                   [width]="'100%'" [height]="'100%'" (click)="cambiarOrden(key)">
                 </app-video-multimedia>

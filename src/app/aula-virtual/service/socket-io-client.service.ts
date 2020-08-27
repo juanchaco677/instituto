@@ -50,15 +50,6 @@ export class SocketIoClientService {
   }
 
 
-  deleteRoomElementUsuario$(usuario: Usuario) {
-
-    for (const [index , element] of this.room$.getValue().usuarios.entries()) {
-      if (element.id === usuario.id) {
-        this.room$.getValue().usuarios.splice(index, 1);
-      }
-    }
-    this.room$.getValue().usuarios.push(usuario);
-  }
 
   deleteRoom$() {
     this.room$.next(null);
@@ -73,7 +64,7 @@ export class SocketIoClientService {
   }
 
   addUsuario$(usuario: Usuario) {
-    this.room$.getValue().usuarios.push(usuario);
+    this.room$.getValue().usuarios[usuario.id] = usuario;
   }
 
   deleteUsuarios$() {
@@ -96,9 +87,9 @@ export class SocketIoClientService {
     let usuario: Usuario = null;
     this.getRoom$().subscribe(
       room => {
-        for (const user of room.usuarios) {
-          if (user.rol.tipo === 'PR') {
-            usuario = user;
+        for (const key in room.usuarios) {
+          if (room.usuarios[key].rol.tipo === 'PR') {
+            usuario = room.usuarios[key];
             return usuario;
           }
         }

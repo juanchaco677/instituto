@@ -40,6 +40,17 @@ export class AppComponent implements OnInit {
           this.overlay.getContainerElement().classList.add('theme-light');
           document.body.classList.add('theme-light');
           break;
+
+          case 3:
+            this.overlay
+            .getContainerElement()
+            .classList.remove('theme-light' || '');
+            this.overlay.getContainerElement().classList.remove('theme-dark' || '');
+            document.body.classList.remove('theme-dark');
+            document.body.classList.remove('theme-light');
+            this.overlay.getContainerElement().classList.add('theme-chat');
+            document.body.classList.add('theme-chat');
+            break;
       }
     }
   }

@@ -1,12 +1,9 @@
-.contenedor-color{
-  background-color: #1b1a1a;
-}
 .posicion{
   position: fixed;
   top: 20%;
 }
 .borde-cam{
-  border-left: 2px inset #24282c!important;
+  border-left: 1px inset #24282c!important;
 }
 .posicionImpar{
   left: 20%;

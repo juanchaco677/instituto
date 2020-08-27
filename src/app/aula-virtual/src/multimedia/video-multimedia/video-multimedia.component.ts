@@ -21,6 +21,7 @@ import {
 export class VideoMultimediaComponent extends DualMultimedia
   implements OnInit, OnDestroy, OnChanges {
 
+
   constructor(
     public socket: SocketIoClientService,
     public botones: BotonesService,
