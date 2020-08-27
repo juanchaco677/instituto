@@ -1,1 +1,21 @@
-<p>list-chat works!</p>
+<div class="row h-100 w-100 p-0 m-0" #sizeDiv style="position: relative;">
+  <mat-list>
+    <mat-list-item *ngFor="let chat of room.chat" class="mat-list-item-Word-wrap">
+      <img matListAvatar [src]="chat.usuario.foto">
+      <h6 matLine><small class="color-nombre">{{chat.usuario.nombre}}</small> </h6>
+      <h6 matLine><small class="color-hora">{{ chat.hora | date:'shortTime' }} </small></h6>
+      <div matLine>
+        <p class="text-justify"><span class="mensaje text-justify">{{chat.mensaje}}</span></p>
+      </div>
+    </mat-list-item>
+  </mat-list>
+
+  <div class="entrada-chat" [ngStyle]="{'width':sizeDiv.offsetWidth+'px'}">
+
+    <mat-form-field class="w-100">
+      <mat-label>Mensaje</mat-label>
+      <input class="w-100" matInput [(ngModel)]="mensaje" placeholder="Mensaje chat grupal..."
+        (keydown.enter)="onKeyDown()"  autocomplete="off" >
+    </mat-form-field>
+  </div>
+</div>

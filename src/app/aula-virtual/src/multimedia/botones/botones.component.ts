@@ -14,7 +14,7 @@ export class BotonesComponent implements OnInit {
   visibleCompartir = false;
   @Input() visible = true;
   @Input() htmlListVideo: any;
-  visibleComentario = [false, false, false, false, false , false , false];
+  visibleComentario = [false, false, false, false, false , false , false, false];
 
   constructor(public cdr: ChangeDetectorRef, private botones: BotonesService) {}
 

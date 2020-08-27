@@ -1,3 +1,4 @@
+import { Chat } from './inscripcion-asignatura';
 import { PeerServerEmisorReceptor } from './peer-server-emisor-receptor';
 import { Usuario } from './usuario';
 export class Room {
@@ -5,7 +6,7 @@ export class Room {
   constructor(
     public id?: string,
     public usuarios?: {},
-    public chat?: [],
+    public chat?: Chat[],
     public ppts?: {},
     public peerServerEmisorReceptor?: {},
     public peerServerEmisorReceptorDesktop?: {},

@@ -34,11 +34,12 @@
         <mat-icon class="icon-color">more_vert</mat-icon>
       </button>
     </div>
-    <div style="position:relative;" (mouseover)="visibleComentario[4] = true" (mouseout)="visibleComentario[4] = false">
-      <app-comentario *ngIf="visibleComentario[4]" class="posicion-comentario" [comentario]="'Compartir'"
+
+    <div style="position:relative;" (mouseover)="visibleComentario[5] = true" (mouseout)="visibleComentario[5] = false">
+      <app-comentario *ngIf="visibleComentario[5]" class="posicion-comentario" [comentario]="'Compartir'"
         [width]="'100%'" [height]="'50%'" [fontSize]="'12px'" [left]="'25%'"></app-comentario>
 
-      <button class="m-0 p-0 not-btn-hover " [ngClass]="{'btn-hover':visibleComentario[4]}" mat-raised-button
+      <button class="m-0 p-0 not-btn-hover " [ngClass]="{'btn-hover':visibleComentario[5]}" mat-raised-button
         (click)="htmlListVideo.visibleBotones = false; visibleCompartir = !visibleCompartir">
         <mat-icon class="icon-color">present_to_all</mat-icon>
       </button>
@@ -60,11 +61,19 @@
         </mat-list>
       </div>
     </div>
-    <div class="hover-boton" style="position:relative;" (mouseover)="visibleComentario[5] = true"
-      (mouseout)="visibleComentario[5] = false">
-      <app-comentario *ngIf="visibleComentario[5]" class="posicion-comentario" [comentario]="'Colgar'" [width]="'100%'"
+    <div style="position:relative;" (mouseover)="visibleComentario[4] = true" (mouseout)="visibleComentario[4] = false">
+      <app-comentario *ngIf="visibleComentario[4]" class="posicion-comentario" [ngStyle]="{'width':'300px'}" [comentario]="'Pedir la palabra'" [width]="'fit-content'"
+        [height]="'50%'" [fontSize]="'12px'" [left]="'28%'"></app-comentario>
+      <button class="m-0 p-0 not-btn-hover" [ngClass]="{'btn-hover':visibleComentario[4]}" mat-raised-button
+        (click)="sidenav()">
+        <mat-icon class="icon-color">pan_tool</mat-icon>
+      </button>
+    </div>
+    <div class="hover-boton" style="position:relative;" (mouseover)="visibleComentario[6] = true"
+      (mouseout)="visibleComentario[6] = false">
+      <app-comentario *ngIf="visibleComentario[6]" class="posicion-comentario" [comentario]="'Colgar'" [width]="'100%'"
         [height]="'50%'" [fontSize]="'12px'" [left]="'16%'"></app-comentario>
-      <button class="m-0 p-0 color-phone" [ngClass]="{'color-phone-hover':visibleComentario[5]}" mat-icon-button>
+      <button class="m-0 p-0 color-phone" [ngClass]="{'color-phone-hover':visibleComentario[6]}" mat-icon-button>
         <mat-icon class="icon-color"> phone</mat-icon>
       </button>
     </div>

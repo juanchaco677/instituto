@@ -11,7 +11,6 @@
 }
 .mat-sidenav-lateral {
   width: 20% !important;
-  background: #fff !important;
 }
 
 .contenedor-buttons .mat-icon {
@@ -42,26 +41,6 @@
   overflow: hidden!important;
 }
 
-:host ::ng-deep .mat-tab-header {
-  /* background-color: #3b3a3b!important; */
-}
-
-:host ::ng-deep .mat-tab-group {
-  /* background-color: #1b1a1a!important; */
-}
-
-:host ::ng-deep .mat-card {
-  /* background-color: rgb(40, 39, 39)!important; */
-  /* color: #ffffff!important; */
-}
-
-:host ::ng-deep .mat-tab-label, :host ::ng-deep .theme-light :host ::ng-deep .mat-tab-link {
-  color: rgba(0, 0, 0, 0.87);
-  /* background-color: #3b3a3b!important; */
-}
-:host ::ng-deep .mat-icon{
-  /* color: #ffffff!important; */
-}
 /**
 scroll
 */

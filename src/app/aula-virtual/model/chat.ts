@@ -3,7 +3,7 @@ export class Chat {
   constructor(
     public usuario?: Usuario,
     public mensaje?: string,
-    public mano?: boolean
+    public hora?: Date
   ) {
 
   }

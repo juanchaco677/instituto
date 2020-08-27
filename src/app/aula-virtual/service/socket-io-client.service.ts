@@ -21,6 +21,8 @@ export class SocketIoClientService {
   $addIceCandidate = this.socket.fromEvent<any>('addIceCandidate');
   $archivoPpt = this.socket.fromEvent<any>('archivoPpt');
   $recivePaginationC = this.socket.fromEvent<any>('recibePaginationC');
+  $chatMessageC = this.socket.fromEvent<any>('chatMessageC');
+
 
 
   /**

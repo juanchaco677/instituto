@@ -1,5 +1,5 @@
-<div class="col-md-12 p-0 m-0">
-  <ul class="mb-5">
+<div class="col-md-12 p-0 m-0" style="width: fit-content;">
+  <ul class="mb-5 w-100">
     <li *ngIf="getFile() && getFile().file.progress < 100 ">
       <mat-progress-bar [value]="getFile().file.progress"></mat-progress-bar>
       <span id="file-label">

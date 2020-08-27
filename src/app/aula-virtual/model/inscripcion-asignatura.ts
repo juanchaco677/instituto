@@ -1,9 +1,9 @@
 import { Usuario } from './usuario';
 export class Chat {
   constructor(
-    public estudiante?: Usuario,
+    public usuario?: Usuario,
     public mensaje?: string,
-    public mano?: boolean
+    public hora?: Date
   ) {
 
   }

@@ -1,0 +1,24 @@
+.entrada-chat{
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+}
+.mensaje{
+  font-size: 11px;
+  color: #a3a2a0;
+}
+.color-nombre{
+  font-weight: bold;
+  color: #7071b3;
+}
+.color-hora{
+
+  color: #ceccc8;
+}
+.mat-list-item.mat-list-item-Word-wrap {
+  height: initial !important;
+}
+.mat-list-item-Word-wrap .mat-line {
+  word-wrap: break-Word !important;
+  white-space: pre-wrap !important;
+}
