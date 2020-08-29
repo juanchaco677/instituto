@@ -92,11 +92,6 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
             this.room.peerServerEmisorReceptorDesktop
           );
         }
-        console.log('antes de ver el color');
-        console.log(data);
-        console.log(this.room);
-        console.log(this.usuario.id);
-        console.log(this.room.usuarios[this.usuario.id]);
         this.color = this.room.usuarios[this.usuario.id].color;
       }
     });
@@ -197,6 +192,8 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
     }
     this.room.ppts = data.ppts;
     this.room.chat = data.chat.concat(this.room.chat);
+    console.log('add room');
+    console.log(this.room);
     this.socket.addRoom$(this.room);
     this.socket.addListen(true);
   }
@@ -215,8 +212,6 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
    * @param data
    */
   async createAnswer(data: any) {
-    console.log('Create Answer');
-    console.log(data);
     this.socket.addListen(true);
     if (!Util.empty(data.data)) {
       if (data.camDesktop) {
@@ -250,9 +245,6 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
         }
       } else {
         if (data.data.type === 'offer') {
-          console.log(this.room);
-          console.log(data.key);
-          console.log(this.room.peerServerEmisorReceptor[data.key]);
           await this.room.peerServerEmisorReceptor[
             data.key
           ].peerClient.createAnswer(data.data);
@@ -294,7 +286,6 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
    * @param data
    */
   async addAnswer(data: any) {
-    console.log('Send Answer');
     this.socket.addListen(true);
     if (!Util.empty(data.data)) {
       if (data.camDesktop) {
@@ -367,8 +358,6 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
     if (!this.htmlVideoDesktop.visible) {
       cont++;
     }
-    console.log('buscar..........');
-    console.log(cont);
     return cont;
   }
 }

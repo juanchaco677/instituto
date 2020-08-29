@@ -37,8 +37,6 @@ export class ListFileUploadComponent implements OnInit {
       if (!Util.empty(data)) {
         this.room = data;
         this.ppts = this.room.ppts;
-        console.log('ver lo que se recive el room');
-        console.log(this.ppts);
       }
     });
     this.serviceSocket.$archivoPpt.subscribe((data) => this.recivePPT(data));
@@ -47,8 +45,6 @@ export class ListFileUploadComponent implements OnInit {
   recivePPT(data: any) {
     this.room.ppts[data.nombre] = data;
     this.ppts[data.nombre] = this.room.ppts[data.nombre];
-    console.log('ver lo que se recive');
-    console.log(this.ppts);
   }
   onFileComplete(data: any) {
     console.log(data); // We just print out data bubbled up from event emitter.

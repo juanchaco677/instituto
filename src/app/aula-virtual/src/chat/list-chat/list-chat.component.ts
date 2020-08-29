@@ -30,8 +30,6 @@ export class ListChatComponent implements OnInit {
 
   listenChat(data: any) {
     if (!Util.empty(data)) {
-      console.log('ver chat');
-      console.log(this.room.chat);
       this.room.chat.unshift(data.chat);
     }
   }

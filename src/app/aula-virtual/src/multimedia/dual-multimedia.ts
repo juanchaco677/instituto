@@ -1,10 +1,10 @@
+import { Usuario } from 'src/app/aula-virtual/model/usuario';
 import { VideoMultimediaComponent } from './video-multimedia/video-multimedia.component';
 import { DesktopMultimediaComponent } from './desktop-multimedia/desktop-multimedia.component';
 import { Sesion } from './../../../utils/sesion';
 import { ListVideoComponent } from './../chat/list-video/list-video.component';
 import { Room } from './../../model/room';
 import { VideoBoton } from './../../model/video-boton';
-import { Usuario } from './../../../dashboard/modelo/usuario';
 import { PeerClient } from './../../model/peer-client';
 import { PeerServer } from './../../model/peer-server';
 import { Video } from './../../model/video';
@@ -57,6 +57,7 @@ export class DualMultimedia {
   ) {
     this.videoBoton = new VideoBoton(false, false, false, false);
     this.usuarioSesion = Sesion.userAulaChat();
+    this.usuarioSesion.boton = new VideoBoton(false, false, false, false, false);
   }
 
   /**
@@ -130,6 +131,8 @@ export class DualMultimedia {
       this.peerClient.receiveChannel.onmessage = (e: any) => {
         this.videoBoton = JSON.parse(e.data);
         this.cdr.detectChanges();
+        console.log('reciviendo data channel......');
+        console.log(this.videoBoton);
         if (this.camDesktop) {
           this.visible = this.videoBoton.desktop ? false : true;
           const cont = this.buscarDesktopMultimedia();
@@ -325,7 +328,8 @@ export class DualMultimedia {
                   for (const key in this.htmlListVideo.ppt.integrantes) {
                     if (
                       this.htmlListVideo.ppt.integrantes[key].id ===
-                      this.usuarioSesion.id || this.usuarioSesion.rol.tipo === 'PR'
+                        this.usuarioSesion.id ||
+                      this.usuarioSesion.rol.tipo === 'PR'
                     ) {
                       this.htmlListVideo.redimensionarPPT = false;
                       break;
@@ -351,6 +355,12 @@ export class DualMultimedia {
               this.actualizarVideoBoton();
               this.sendInfoBotones();
               await this.start(true);
+              this.usuarioSesion.boton.video = this.video.videoCam;
+              this.room.usuarios[this.usuarioSesion.id].boton = this.usuarioSesion.boton;
+              this.socket.emit('recibirBotonesS', {
+                id: this.room.id,
+                usuario: this.room.usuarios[this.usuarioSesion.id],
+              });
               break;
 
             case Util.audio:
@@ -368,7 +378,23 @@ export class DualMultimedia {
                 this.sendInfoBotones();
                 await this.start(true);
               }
+              this.usuarioSesion.boton.audio = this.video.audio;
+              this.room.usuarios[this.usuarioSesion.id].boton = this.usuarioSesion.boton;
+              console.log('antes de enviar............................');
+              console.log(this.room.usuarios[this.usuarioSesion.id]);
+              this.socket.emit('recibirBotonesS', {
+                id: this.room.id,
+                usuario: this.room.usuarios[this.usuarioSesion.id],
+              });
+              break;
 
+            case Util.mano:
+              this.usuarioSesion.boton.mano = !this.usuarioSesion.boton.mano;
+              this.room.usuarios[this.usuarioSesion.id].boton = this.usuarioSesion.boton;
+              this.socket.emit('recibirBotonesS', {
+                id: this.room.id,
+                usuario: this.room.usuarios[this.usuarioSesion.id],
+              });
               break;
           }
         }

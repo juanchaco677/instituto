@@ -22,6 +22,8 @@ export class SocketIoClientService {
   $archivoPpt = this.socket.fromEvent<any>('archivoPpt');
   $recivePaginationC = this.socket.fromEvent<any>('recibePaginationC');
   $chatMessageC = this.socket.fromEvent<any>('chatMessageC');
+  $enviarBotonesC = this.socket.fromEvent<any>('enviarBotonesC');
+  $enviarControlesS = this.socket.fromEvent<any>('enviarControlesS');
 
 
 

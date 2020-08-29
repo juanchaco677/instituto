@@ -1,3 +1,4 @@
+import { ParticipantesComponent } from './../../src/chat/participantes/participantes.component';
 import { DialogoIntegrantesComponent } from './../../src/chat/dialogo-integrantes/dialogo-integrantes.component';
 import { PresentacionPPTComponent } from './../../src/multimedia/presentacion-ppt/presentacion-ppt.component';
 import { ThemeService } from './../../../theme.service';
@@ -60,6 +61,7 @@ const config: SocketIoConfig = {
     ListFileUploadComponent,
     PresentacionPPTComponent,
     DialogoIntegrantesComponent,
+    ParticipantesComponent
   ],
   imports: [
     MaterialModule,

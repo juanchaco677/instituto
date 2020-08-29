@@ -1,6 +1,11 @@
+import { Video } from './../../../model/video';
+import { Sesion } from 'src/app/utils/sesion';
+import { Usuario } from './../../../model/usuario';
+import { Room } from './../../../model/room';
+import { SocketIoClientService } from 'src/app/aula-virtual/service/socket-io-client.service';
 import { Util } from './../../../../utils/util';
 import { BotonesService } from './../../../service/botones.service';
-import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-botones',
@@ -11,14 +16,40 @@ export class BotonesComponent implements OnInit {
   cam = false;
   audio = false;
   desktop = false;
+  hand = false;
   visibleCompartir = false;
   @Input() visible = true;
   @Input() htmlListVideo: any;
-  visibleComentario = [false, false, false, false, false , false , false, false];
+  visibleComentario = [false, false, false, false, false, false, false, false];
+  room = new Room(null, {}, [], {}, {}, {});
+  usuario: Usuario;
+  constructor(
+    private botones: BotonesService,
+    private socket: SocketIoClientService
+  ) {
+    this.usuario = Sesion.userAulaChat();
+  }
 
-  constructor(public cdr: ChangeDetectorRef, private botones: BotonesService) {}
+  ngOnInit(): void {
+    this.socket.getRoom$().subscribe((data) => {
+      if (!Util.empty(data) && !Util.empty(data.id)) {
+        this.room = data;
+        if (
+          !Util.empty(this.room.usuarios[this.usuario.id].boton) &&
+          !Util.empty(this.room.usuarios[this.usuario.id].boton.mano)
+        ) {
+          const boton = this.room.usuarios[this.usuario.id].boton;
+          this.hand = boton.mano;
+          this.cam = boton.video;
+          this.audio = boton.audio;
+        }
+      }
+    });
 
-  ngOnInit(): void {}
+    this.socket.$enviarControlesS.subscribe((data) =>
+      this.listenControles(data)
+    );
+  }
 
   startVideo() {
     this.cam = !this.cam;
@@ -46,5 +77,31 @@ export class BotonesComponent implements OnInit {
 
   redistribuir(opcion: string) {
     this.botones.add(Util.redistribuir[opcion]);
+  }
+
+  starHand() {
+    this.hand = !this.hand;
+    this.botones.add(Util.mano);
+  }
+
+  listenControles(data: any) {
+    if (!Util.empty(data)) {
+      console.log('apagando.........');
+      console.log(data);
+      switch (data.opcion) {
+        case 1:
+          this.cam = true;
+          this.startVideo();
+          break;
+        case 2:
+          this.audio = true;
+          this.startMic();
+          break;
+
+        case 3:
+          this.starHand();
+          break;
+      }
+    }
   }
 }

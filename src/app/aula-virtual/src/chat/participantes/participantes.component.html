@@ -1,0 +1,21 @@
+<div class="row h-100 w-100 p-0 m-0" style="position: relative;">
+  <mat-list>
+    <div *ngFor="let item of room.usuarios | keyvalue">
+      <mat-list-item *ngIf="room.usuarios[item.key].id !== usuario.id" class="mat-list-item-Word-wrap">
+
+        <img matListAvatar [src]="room.usuarios[item.key].foto">
+        <h6 matLine><small class="color-nombre" style="font-size: 12px;">{{room.usuarios[item.key].nombre}}</small>
+        </h6>
+        {{room.usuarios[item.key].mano }}
+        <mat-icon (click)="opcion(item.key,1)"
+          [ngStyle]="{'color': room.usuarios[item.key].boton.video ? '#34e634' :'#fff'}" class="icon">videocam
+        </mat-icon>
+        <mat-icon (click)="opcion(item.key,2)"
+          [ngStyle]="{'color': room.usuarios[item.key].boton.audio ? '#34e634' :'#fff'}" class="icon">mic</mat-icon>
+        <mat-icon (click)="opcion(item.key,3)"
+          [ngStyle]="{'color': room.usuarios[item.key].boton.mano ? '#34e634' :'#fff'}" class="icon">pan_tool</mat-icon>
+
+      </mat-list-item>
+    </div>
+  </mat-list>
+</div>

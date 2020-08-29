@@ -19,6 +19,8 @@ export class Util {
 
   static stopDesktop = '4';
 
+  static mano = '5';
+
   static redistribuir = ['1', '2', '3'];
 
   static apiUrl = 'http://192.168.0.17:8000/api/';

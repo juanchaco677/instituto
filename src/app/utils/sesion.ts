@@ -1,5 +1,6 @@
+import { VideoBoton } from 'src/app/aula-virtual/model/video-boton';
+import { Usuario } from './../dashboard/modelo/usuario';
 import { RolUsuario } from './../dashboard/modelo/rol-usuario';
-import { Usuario } from '../dashboard/modelo/usuario';
 export class Sesion {
   /**
    * agregar el usuario logueado
@@ -23,6 +24,9 @@ export class Sesion {
           foto: usuario.foto,
           sex: usuario.sex,
           rol: usuario.rol,
+          socket: '',
+          color: '',
+          boton: new VideoBoton(false, false, false, false, false)
         })
       );
     }
@@ -66,7 +70,7 @@ export class Sesion {
   static user(): Usuario {
     return Sesion.getSesionStorage() as Usuario;
   }
-  static userAulaChat(): Usuario {
+  static userAulaChat(): any {
     return JSON.parse(sessionStorage.getItem('usuarioAulaChat'));
   }
 

@@ -10,7 +10,7 @@
     </mat-list-item>
   </mat-list>
 
-  <div class="entrada-chat" [ngStyle]="{'width':sizeDiv.offsetWidth+'px'}">
+  <div class="entrada-chat" [ngStyle]="{'width':sizeDiv.offsetWidth > 0 ? sizeDiv.offsetWidth+'px' : 'fit-content'}">
 
     <mat-form-field class="w-100">
       <mat-label>Mensaje</mat-label>

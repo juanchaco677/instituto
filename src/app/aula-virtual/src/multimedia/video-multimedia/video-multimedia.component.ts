@@ -18,15 +18,13 @@ import {
   templateUrl: './video-multimedia.component.html',
   styleUrls: ['./video-multimedia.component.css'],
 })
-export class VideoMultimediaComponent extends DualMultimedia
+export class VideoMultimediaComponent
+  extends DualMultimedia
   implements OnInit, OnDestroy, OnChanges {
-
-
   constructor(
     public socket: SocketIoClientService,
     public botones: BotonesService,
     public cdr: ChangeDetectorRef
-
   ) {
     super(false, socket, botones, cdr);
   }
@@ -34,14 +32,20 @@ export class VideoMultimediaComponent extends DualMultimedia
     this.listenPeer();
   }
 
-  // ngDoCheck(): void {
-  //   this.listenPeer();
-  // }
-
   ngOnInit(): void {
     this.socket.getRoom$().subscribe((data) => {
       if (!Util.empty(data) && !Util.empty(data.id)) {
         this.room = data;
+        if (
+          this.esComponenteItem &&
+          !Util.empty(this.room.usuarios[this.usuarioSesion.id].boton) &&
+          !Util.empty(this.room.usuarios[this.usuarioSesion.id].boton.mano)
+        ) {
+          this.usuarioSesion.boton = this.room.usuarios[
+            this.usuarioSesion.id
+          ].boton;
+          this.videoBoton = this.usuarioSesion.boton;
+        }
       }
     });
     this.listenPeer();
@@ -56,6 +60,5 @@ export class VideoMultimediaComponent extends DualMultimedia
     this.listenBotones();
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 }

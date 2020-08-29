@@ -8,7 +8,7 @@
       [ngStyle]="{'font-size':styleFontSize}">
       {{usuario.nombre}}
     </div>
-    <div class="plano-fondo">
+    <div class="plano-fondo" [ngStyle]="{'background-color': videoBoton.video ? 'transparent':'#292828'}">
       <div class="div-boton-true" [hidden]="!videoBoton.video">
         <div class="d-flex justify-content-center contenedor-buttons">
           <button mat-icon-button>
@@ -47,7 +47,7 @@
       [ngStyle]="{'font-size':styleFontSize}">
       {{usuarioSesion.nombre}}
     </div>
-    <div class="plano-fondo">
+    <div class="plano-fondo" [ngStyle]="{'background-color': videoBoton.video ? 'transparent':'#292828'}">
 
       <div class="wrapper"
         [ngStyle]="{left: styleSize.left, top: styleSize.top ,width : styleSize.width , height : styleSize.height}"

@@ -53,6 +53,7 @@ export class PlantillaChatComponent implements OnInit {
     }
     this.usuario = new Usuario();
     this.usuario = Sesion.userAulaChat();
+    this.usuario.boton = new VideoBoton(false, false, false, false, false);
 
     this.route.paramMap.subscribe((params) => {
       const compoundKey = params.get('compoundKey');
@@ -126,8 +127,6 @@ export class PlantillaChatComponent implements OnInit {
   }
 
   async currentRoom(data: any) {
-    console.log('current room');
-    console.log(data);
     for (const key in data.peerServerEmisorReceptor) {
       if (
         data.peerServerEmisorReceptor[key].usuario1.id ===
@@ -146,8 +145,12 @@ export class PlantillaChatComponent implements OnInit {
     this.room.ppts = data.ppts;
     this.startCamDesktop(false);
     this.startCamDesktop(true);
+    console.log('current room');
+    console.log(this.room);
     this.socket.addRoom$(this.room);
     this.socket.addListen(true);
+
+
   }
 
   /**

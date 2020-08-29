@@ -1,6 +1,4 @@
 import { Chat } from './inscripcion-asignatura';
-import { PeerServerEmisorReceptor } from './peer-server-emisor-receptor';
-import { Usuario } from './usuario';
 export class Room {
   prioridad = 2;
   constructor(
