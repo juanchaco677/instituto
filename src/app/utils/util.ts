@@ -21,20 +21,22 @@ export class Util {
 
   static mano = '5';
 
+  static cerrar = '6';
+
   static redistribuir = ['1', '2', '3'];
 
-  static apiUrl = 'http://192.168.0.17:8000/api/';
+  static apiUrl = 'http://181.55.192.137:8000/api/';
 
-  static apiUrlNode = 'http://192.168.0.17:4444/api/';
+  static apiUrlNode = 'http://181.55.192.137:4444/api/';
 
-  static apiUrlImage = 'http://192.168.0.17:8000/archivos/';
+  static apiUrlImage = 'http://181.55.192.137:8000/archivos/';
 
   static httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
   static httpOptionsPost = {
-    headers: new HttpHeaders({
+    headers: new HttpHeaders ({
       'Content-Type': 'application/json',
       Accept: 'application/json',
       Authorization: 'Barer ',

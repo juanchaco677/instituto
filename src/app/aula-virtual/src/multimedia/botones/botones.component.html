@@ -78,8 +78,8 @@
       (mouseout)="visibleComentario[6] = false">
       <app-comentario *ngIf="visibleComentario[6]" class="posicion-comentario" [comentario]="'Colgar'" [width]="'100%'"
         [height]="'50%'" [fontSize]="'12px'" [left]="'16%'"></app-comentario>
-      <button class="m-0 p-0 color-phone" [ngClass]="{'color-phone-hover':visibleComentario[6]}" mat-icon-button>
-        <mat-icon class="icon-color"> phone</mat-icon>
+      <button (click)="cerrar()" class="m-0 p-0 color-phone" [ngClass]="{'color-phone-hover':visibleComentario[6]}" mat-icon-button>
+        <mat-icon class="icon-color">phone</mat-icon>
       </button>
     </div>
   </div>

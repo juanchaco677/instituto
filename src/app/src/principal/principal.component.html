@@ -1,0 +1,46 @@
+<!-- Navigation -->
+<app-navbar-principal></app-navbar-principal>
+<div class="d-block p-0 m-0">
+  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    </ol>
+    <div class="carousel-inner" role="listbox">
+      <!-- Slide One - Set the background image for this slide in the line below -->
+      <div [routerLink]="['']" class="carousel-item active"
+        style="cursor:pointer!important; background-image: url('http://192.168.0.17:8000/archivos/144233-OTC2E7-413.jpg');">
+        <div class="carousel-caption  d-md-block">
+          <h3 class="display-4">Pre-Icfes</h3>
+          <p class="lead">El Preicfes Saber 2020 que asegura los mejores puntajes.</p>
+        </div>
+
+      </div>
+      <!-- Slide Two - Set the background image for this slide in the line below -->
+      <div [routerLink]="['']" class="carousel-item" style="cursor:pointer!important;background-image: url('http://192.168.0.17:8000/archivos/15842.jpg')">
+        <div class="carousel-caption  d-md-block">
+          <h3 class="display-4">Pre-Universitario</h3>
+          <p class="lead">Curso Preuniversitario virtual 2020.</p>
+        </div>
+      </div>
+
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+
+<!-- Page Content -->
+<section class="py-5">
+  <div class="container">
+    <mat-divider></mat-divider>
+    <h1 class="font-weight-light">Ingresa con los mejores</h1>
+    <p class="lead">Institución líder en Preunal, Preicfes Pruebas Saber, Preuniversitarios e ingreso a la Universidad Nacional. 35 años de experiencia. Contamos con profesores UNAL que brindan una moderna metodología en aulas tipo Universidad. ¡Ingresa a la carrera profesional que desees y no a la que te toca estudiar!</p>
+  </div>
+</section>

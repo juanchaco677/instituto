@@ -1,3 +1,4 @@
+import { NavbarPrincipalMModule } from './../../../src/navbar-principal/navbar-principal-m/navbar-principal-m.module';
 import { ParticipantesComponent } from './../../src/chat/participantes/participantes.component';
 import { DialogoIntegrantesComponent } from './../../src/chat/dialogo-integrantes/dialogo-integrantes.component';
 import { PresentacionPPTComponent } from './../../src/multimedia/presentacion-ppt/presentacion-ppt.component';
@@ -71,6 +72,7 @@ const config: SocketIoConfig = {
     FormsModule,
     LoadingModule,
     UploadOnefileModule,
+    NavbarPrincipalMModule,
     SocketIoModule.forRoot(config),
   ],
   providers: [

@@ -124,6 +124,40 @@ export class PlantillaChatComponent implements OnInit {
   ngOnInit(): void {
     this.socket.$currentRoom.subscribe((data) => this.currentRoom(data));
     this.listenMatSidenav();
+    this.socket.$closeUserC.subscribe((data) => this.closeUsuario(data));
+  }
+
+  closeUsuario(data: any) {
+    if (!Util.empty(data)) {
+      console.log('..entro a cerrar todo...');
+      console.log(data);
+      for (const key in this.room.usuarios) {
+        if (this.room.usuarios[key].id === data.usuario.id) {
+          delete this.room.usuarios[key];
+        }
+      }
+      for (const key in this.room.peerServerEmisorReceptor) {
+        if (
+          this.room.peerServerEmisorReceptor[key].usuario1.id ===
+            data.usuario.id ||
+          this.room.peerServerEmisorReceptor[key].usuario2.id ===
+            data.usuario.id
+        ) {
+          delete this.room.peerServerEmisorReceptor[key];
+        }
+      }
+      for (const key in this.room.peerServerEmisorReceptorDesktop) {
+        if (
+          this.room.peerServerEmisorReceptorDesktop[key].usuario1
+            .id === data.usuario.id ||
+          this.room.peerServerEmisorReceptorDesktop[key].usuario2
+            .id === data.usuario.id
+        ) {
+          delete this.room.peerServerEmisorReceptorDesktop[key];
+        }
+      }
+      this.socket.addRoom$(this.room);
+    }
   }
 
   async currentRoom(data: any) {
@@ -145,12 +179,8 @@ export class PlantillaChatComponent implements OnInit {
     this.room.ppts = data.ppts;
     this.startCamDesktop(false);
     this.startCamDesktop(true);
-    console.log('current room');
-    console.log(this.room);
     this.socket.addRoom$(this.room);
     this.socket.addListen(true);
-
-
   }
 
   /**

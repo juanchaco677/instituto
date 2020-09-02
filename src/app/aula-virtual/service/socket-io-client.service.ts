@@ -24,8 +24,7 @@ export class SocketIoClientService {
   $chatMessageC = this.socket.fromEvent<any>('chatMessageC');
   $enviarBotonesC = this.socket.fromEvent<any>('enviarBotonesC');
   $enviarControlesS = this.socket.fromEvent<any>('enviarControlesS');
-
-
+  $closeUserC = this.socket.fromEvent<any>('closeUserC');
 
   /**
    * observables

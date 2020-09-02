@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { DualMultimedia } from './../dual-multimedia';
 import { BotonesService } from './../../../service/botones.service';
 import { Util } from './../../../../utils/util';
@@ -24,9 +25,10 @@ export class VideoMultimediaComponent
   constructor(
     public socket: SocketIoClientService,
     public botones: BotonesService,
-    public cdr: ChangeDetectorRef
+    public cdr: ChangeDetectorRef,
+    public router: Router,
   ) {
-    super(false, socket, botones, cdr);
+    super(false, socket, botones, cdr , router);
   }
   ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
     this.listenPeer();
@@ -57,7 +59,9 @@ export class VideoMultimediaComponent
         }
       }
     });
-    this.listenBotones();
+    if (this.esComponenteItem) {
+      this.listenBotones();
+    }
   }
 
   ngOnDestroy(): void {}

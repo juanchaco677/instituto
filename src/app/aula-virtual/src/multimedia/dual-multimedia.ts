@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Usuario } from 'src/app/aula-virtual/model/usuario';
 import { VideoMultimediaComponent } from './video-multimedia/video-multimedia.component';
 import { DesktopMultimediaComponent } from './desktop-multimedia/desktop-multimedia.component';
@@ -20,7 +21,7 @@ import {
 import { BotonesService } from '../../service/botones.service';
 import { Util } from 'src/app/utils/util';
 import { PeerServerEmisorReceptor } from '../../model/peer-server-emisor-receptor';
-
+import { delay } from 'rxjs/operators';
 export class DualMultimedia {
   @Input() styleSize: any;
   @Input() htmlVideoDesktop: DesktopMultimediaComponent; // es necesario para completar el for del list video multimedia
@@ -35,7 +36,7 @@ export class DualMultimedia {
   @Input() key: string;
   @Input() listContentDesktop: QueryList<DesktopMultimediaComponent>; // es el for que esta en el list video multimedia
   @Input() listVideoMultimedia: QueryList<VideoMultimediaComponent>;
-  @Input() esComponenteItem: boolean; // variable que me dice si es un solo componenete o esta dentro de un for
+  @Input() esComponenteItem = false; // variable que me dice si es un solo componenete o esta dentro de un for
   @Input() videoMultimedia: VideoMultimediaComponent;
   @Input() styleFontSize: string;
   @Input() color: string;
@@ -44,6 +45,7 @@ export class DualMultimedia {
   video: Video;
   room: Room;
   channel = false;
+  average = 0.0;
 
   @ViewChild('videoElement')
   set mainVideoEl(el: ElementRef) {
@@ -53,11 +55,18 @@ export class DualMultimedia {
     public camDesktop: boolean,
     public socket: SocketIoClientService,
     public botones: BotonesService,
-    public cdr: ChangeDetectorRef
+    public cdr: ChangeDetectorRef,
+    public router?: Router
   ) {
     this.videoBoton = new VideoBoton(false, false, false, false);
     this.usuarioSesion = Sesion.userAulaChat();
-    this.usuarioSesion.boton = new VideoBoton(false, false, false, false, false);
+    this.usuarioSesion.boton = new VideoBoton(
+      false,
+      false,
+      false,
+      false,
+      false
+    );
   }
 
   /**
@@ -131,8 +140,6 @@ export class DualMultimedia {
       this.peerClient.receiveChannel.onmessage = (e: any) => {
         this.videoBoton = JSON.parse(e.data);
         this.cdr.detectChanges();
-        console.log('reciviendo data channel......');
-        console.log(this.videoBoton);
         if (this.camDesktop) {
           this.visible = this.videoBoton.desktop ? false : true;
           const cont = this.buscarDesktopMultimedia();
@@ -195,6 +202,7 @@ export class DualMultimedia {
         this.video.video.srcObject = inboundStream;
         this.video.stream = inboundStream;
       }
+      this.listeAudio();
     } catch (error) {}
   }
 
@@ -229,18 +237,35 @@ export class DualMultimedia {
 
       // tslint:disable-next-line: deprecation
       javascriptNode.onaudioprocess = () => {
-        const array = new Uint8Array(analyser.frequencyBinCount);
-        analyser.getByteFrequencyData(array);
-        let values = 0;
-        const length = array.length;
-        for (let i = 0; i < length; i++) {
-          values += array[i];
-        }
-        const average = values / length;
-        if (average >= 3.5) {
-          this.videoBoton.latencia = true;
-        } else {
-          this.videoBoton.latencia = false;
+        if (!Util.empty(this.video) && this.video.audio) {
+          const array = new Uint8Array(analyser.frequencyBinCount);
+          analyser.getByteFrequencyData(array);
+          let values = 0;
+          const length = array.length;
+          for (let i = 0; i < length; i++) {
+            values += array[i];
+          }
+          this.average = values / length;
+          if (this.average >= 3.5) {
+            if (
+              !Util.empty(this.htmlListVideo) &&
+              !Util.empty(this.listVideoMultimedia)
+            ) {
+              let noHabla = false;
+              for (const element of this.listVideoMultimedia.toArray()) {
+                if (element.average < 3.5) {
+                  noHabla = true;
+                }
+              }
+              if (noHabla) {
+                this.htmlListVideo.cambiarOrden(this.key);
+              }
+            }
+            this.videoBoton.latencia = true;
+          } else {
+            this.videoBoton.latencia = false;
+          }
+          delay(1000);
         }
       };
     }
@@ -356,7 +381,9 @@ export class DualMultimedia {
               this.sendInfoBotones();
               await this.start(true);
               this.usuarioSesion.boton.video = this.video.videoCam;
-              this.room.usuarios[this.usuarioSesion.id].boton = this.usuarioSesion.boton;
+              this.room.usuarios[
+                this.usuarioSesion.id
+              ].boton = this.usuarioSesion.boton;
               this.socket.emit('recibirBotonesS', {
                 id: this.room.id,
                 usuario: this.room.usuarios[this.usuarioSesion.id],
@@ -379,9 +406,9 @@ export class DualMultimedia {
                 await this.start(true);
               }
               this.usuarioSesion.boton.audio = this.video.audio;
-              this.room.usuarios[this.usuarioSesion.id].boton = this.usuarioSesion.boton;
-              console.log('antes de enviar............................');
-              console.log(this.room.usuarios[this.usuarioSesion.id]);
+              this.room.usuarios[
+                this.usuarioSesion.id
+              ].boton = this.usuarioSesion.boton;
               this.socket.emit('recibirBotonesS', {
                 id: this.room.id,
                 usuario: this.room.usuarios[this.usuarioSesion.id],
@@ -390,7 +417,19 @@ export class DualMultimedia {
 
             case Util.mano:
               this.usuarioSesion.boton.mano = !this.usuarioSesion.boton.mano;
-              this.room.usuarios[this.usuarioSesion.id].boton = this.usuarioSesion.boton;
+              this.room.usuarios[
+                this.usuarioSesion.id
+              ].boton = this.usuarioSesion.boton;
+              this.socket.emit('recibirBotonesS', {
+                id: this.room.id,
+                usuario: this.room.usuarios[this.usuarioSesion.id],
+              });
+              break;
+            case Util.mano:
+              this.usuarioSesion.boton.mano = !this.usuarioSesion.boton.mano;
+              this.room.usuarios[
+                this.usuarioSesion.id
+              ].boton = this.usuarioSesion.boton;
               this.socket.emit('recibirBotonesS', {
                 id: this.room.id,
                 usuario: this.room.usuarios[this.usuarioSesion.id],

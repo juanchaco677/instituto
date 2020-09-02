@@ -16,7 +16,8 @@ import {
   templateUrl: './desktop-multimedia.component.html',
   styleUrls: ['./desktop-multimedia.component.css'],
 })
-export class DesktopMultimediaComponent extends DualMultimedia
+export class DesktopMultimediaComponent
+  extends DualMultimedia
   implements OnInit, OnDestroy, OnChanges {
   constructor(
     public socket: SocketIoClientService,
@@ -47,9 +48,10 @@ export class DesktopMultimediaComponent extends DualMultimedia
         }
       }
     });
-    this.listenBotones();
+    if (this.esComponenteItem) {
+      this.listenBotones();
+    }
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 }

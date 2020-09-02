@@ -30,27 +30,42 @@ export class AppComponent implements OnInit {
             .getContainerElement()
             .classList.remove('theme-light' || '');
           document.body.classList.remove('theme-light');
+          this.overlay
+            .getContainerElement()
+            .classList.remove('theme-chat' || '');
+          document.body.classList.remove('theme-chat');
           this.overlay.getContainerElement().classList.add('theme-dark');
           document.body.classList.add('theme-dark');
 
           break;
         case 2:
-          this.overlay.getContainerElement().classList.remove('theme-dark' || '');
+          this.overlay
+            .getContainerElement()
+            .classList.remove('theme-dark' || '');
           document.body.classList.remove('theme-dark');
+          this.overlay
+            .getContainerElement()
+            .classList.remove('theme-chat' || '');
+          document.body.classList.remove('theme-chat');
           this.overlay.getContainerElement().classList.add('theme-light');
           document.body.classList.add('theme-light');
           break;
 
-          case 3:
-            this.overlay
+        case 3:
+          this.overlay
             .getContainerElement()
             .classList.remove('theme-light' || '');
-            this.overlay.getContainerElement().classList.remove('theme-dark' || '');
-            document.body.classList.remove('theme-dark');
-            document.body.classList.remove('theme-light');
-            this.overlay.getContainerElement().classList.add('theme-chat');
-            document.body.classList.add('theme-chat');
-            break;
+          this.overlay
+            .getContainerElement()
+            .classList.remove('theme-dark' || '');
+          this.overlay
+            .getContainerElement()
+            .classList.remove('theme-light' || '');
+          document.body.classList.remove('theme-dark');
+          document.body.classList.remove('theme-light');
+          this.overlay.getContainerElement().classList.add('theme-chat');
+          document.body.classList.add('theme-chat');
+          break;
       }
     }
   }

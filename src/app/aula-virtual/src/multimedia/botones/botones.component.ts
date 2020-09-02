@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Video } from './../../../model/video';
 import { Sesion } from 'src/app/utils/sesion';
 import { Usuario } from './../../../model/usuario';
@@ -25,7 +26,8 @@ export class BotonesComponent implements OnInit {
   usuario: Usuario;
   constructor(
     private botones: BotonesService,
-    private socket: SocketIoClientService
+    private socket: SocketIoClientService,
+    public router: Router
   ) {
     this.usuario = Sesion.userAulaChat();
   }
@@ -79,6 +81,15 @@ export class BotonesComponent implements OnInit {
     this.botones.add(Util.redistribuir[opcion]);
   }
 
+  cerrar() {
+    this.botones.add(Util.cerrar);
+    this.socket.emit('closeUserS', {
+      id: this.room.id,
+      usuario: this.room.usuarios[this.usuario.id],
+    });
+    this.router.navigate(['../../../aula-virtual/list-clases']);
+  }
+
   starHand() {
     this.hand = !this.hand;
     this.botones.add(Util.mano);
@@ -86,8 +97,6 @@ export class BotonesComponent implements OnInit {
 
   listenControles(data: any) {
     if (!Util.empty(data)) {
-      console.log('apagando.........');
-      console.log(data);
       switch (data.opcion) {
         case 1:
           this.cam = true;

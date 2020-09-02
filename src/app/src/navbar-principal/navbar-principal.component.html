@@ -1,0 +1,34 @@
+<nav class="d-block navbar navbar-expand-lg navbar-dark caja-borde">
+  <div class="container">
+    <h1 class="navbar-brand" [routerLink]="['']" style="font-size: 24px;font-weight: bold;
+    color: #7071b3;">Pre Icfes - Pre Unal</h1>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+      aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <button mat-button style="color:#fff!important;" [routerLink]="['']">Inicio</button>
+        </li>
+        <li class="nav-item">
+          <button mat-button style="color:#989898!important;">Acerca de</button>
+        </li>
+        <li class="nav-item">
+          <button mat-button [matMenuTriggerFor]="menu" style="color:#989898!important;">Servicios</button>
+          <mat-menu #menu="matMenu" style="z-index: 5000!important;">
+            <button mat-menu-item>Pre-Icfes</button>
+            <button mat-menu-item>Pre-Universitario</button>
+          </mat-menu>
+        </li>
+        <li class="nav-item">
+          <button mat-button style="color:#989898!important;">Contactanos</button>
+        </li>
+        <li class="nav-item">
+          <button mat-raised-button color="accent" [routerLink]="['login-aula-virtual']">Iniciar Sesión</button>
+          <button mat-raised-button [routerLink]="['']">Registrate</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -65,6 +65,7 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
     public socket: SocketIoClientService,
     public botonesService: BotonesService
   ) {
+    console.log('nuevo componennte');
     this.room = new Room(null, {}, [], {}, {}, {});
     this.usuario = Sesion.userAulaChat();
   }
@@ -188,7 +189,7 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
     }
 
     if (!this.buscarUsuario(data)) {
-      this.room.usuarios [data.usuario.id] = data.usuario;
+      this.room.usuarios[data.usuario.id] = data.usuario;
     }
     this.room.ppts = data.ppts;
     this.room.chat = data.chat.concat(this.room.chat);
@@ -359,5 +360,85 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
       cont++;
     }
     return cont;
+  }
+
+  getClass() {
+    if (this.redimensionar) {
+      return 'col-md-12 col-2-redVideoM';
+    } else {
+      if (this.keysCam.length > 0) {
+        if (this.keysCam.length > 4) {
+          if (this.keysCam.length > 9) {
+            return 'col-md-2 col-2-redVideoM';
+          } else {
+            return 'col-md-4 col-4-redVideoM';
+          }
+        } else {
+          return 'col-md-6 col-6-redVideoM';
+        }
+      } else {
+        return 'col-md-8 col-8-redVideoM';
+      }
+    }
+  }
+
+  getStyleFontSize() {
+    if (this.redimensionar) {
+      return 'small';
+    } else {
+      if (this.keysCam.length > 0) {
+        if (this.keysCam.length > 4) {
+          if (this.keysCam.length > 9) {
+            return 'small';
+          } else {
+            return 'medium';
+          }
+        } else {
+          return 'medium';
+        }
+      } else {
+        return 'large';
+      }
+    }
+  }
+
+  getStyleSize() {
+    if (this.redimensionar) {
+      return this.reacomodarImgIco[0];
+    } else {
+      if (this.keysCam.length > 0) {
+        if (this.keysCam.length > 4) {
+          if (this.keysCam.length > 9) {
+            return this.reacomodarImgIco[0];
+          } else {
+            return this.reacomodarImgIco[1];
+          }
+        } else {
+          return this.reacomodarImgIco[1];
+        }
+      } else {
+        return this.reacomodarImgIco[2];
+      }
+    }
+  }
+
+  getNgClassDesktop() {
+    if (this.redimensionar) {
+      if (this.contVisibleDesktop > 1) {
+        if (this.contVisibleDesktop > 4) {
+          if (this.contVisibleDesktop > 9) {
+            return 'col-md-2 col-2-redVideoM';
+          } else {
+            return 'col-md-4 col-4-redVideoM';
+          }
+        } else {
+          return 'col-md-4 col-4-redVideoM';
+        }
+      } else {
+        return 'col-md-12 col-12-redVideoM';
+      }
+    } else {
+      return 'col-md-12 col-12-redVideoM';
+    }
   }
 }
