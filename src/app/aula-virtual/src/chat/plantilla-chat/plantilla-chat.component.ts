@@ -29,7 +29,7 @@ export class PlantillaChatComponent implements OnInit {
   data: any;
   usuario: Usuario;
   sesionUsuario: any;
-  room = new Room(null, {}, [], {}, {}, {});
+  room = new Room(null, {}, [], {}, {}, {}, {});
   @ViewChild('sidenav') sidenav: MatSidenav;
 
   constructor(
@@ -125,6 +125,23 @@ export class PlantillaChatComponent implements OnInit {
     this.socket.$currentRoom.subscribe((data) => this.currentRoom(data));
     this.listenMatSidenav();
     this.socket.$closeUserC.subscribe((data) => this.closeUsuario(data));
+
+    this.socket.$addRecordClient.subscribe((data) =>
+      this.addRecordClient(data)
+    );
+  }
+
+  addRecordClient(data: any) {
+    if (!Util.empty(data)) {
+      if (!Util.empty(this.room.peerRecord)) {
+        this.room.peerRecord = {};
+      }
+      this.room.peerRecord[1] = new PeerServerEmisorReceptor(
+        this.room.usuarios[this.usuario.id],
+        data
+      );
+      this.socket.addRoom$(this.room);
+    }
   }
 
   closeUsuario(data: any) {
@@ -148,10 +165,10 @@ export class PlantillaChatComponent implements OnInit {
       }
       for (const key in this.room.peerServerEmisorReceptorDesktop) {
         if (
-          this.room.peerServerEmisorReceptorDesktop[key].usuario1
-            .id === data.usuario.id ||
-          this.room.peerServerEmisorReceptorDesktop[key].usuario2
-            .id === data.usuario.id
+          this.room.peerServerEmisorReceptorDesktop[key].usuario1.id ===
+            data.usuario.id ||
+          this.room.peerServerEmisorReceptorDesktop[key].usuario2.id ===
+            data.usuario.id
         ) {
           delete this.room.peerServerEmisorReceptorDesktop[key];
         }
@@ -177,6 +194,11 @@ export class PlantillaChatComponent implements OnInit {
     this.room.usuarios = data.usuarios;
     this.room.chat = data.chat;
     this.room.ppts = data.ppts;
+    if (Util.empty(data.peerRecord) && Util.empty(data.peerRecord[1])) {
+      this.room.peerRecord = {};
+      this.room.peerRecord[1] = new PeerServerEmisorReceptor();
+    }
+    this.room.peerRecord = data.peerRecord;
     this.startCamDesktop(false);
     this.startCamDesktop(true);
     this.socket.addRoom$(this.room);

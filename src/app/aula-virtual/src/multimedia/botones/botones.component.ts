@@ -1,3 +1,7 @@
+import { DesktopMultimediaComponent } from './../desktop-multimedia/desktop-multimedia.component';
+import { PeerServerEmisorReceptor } from './../../../model/peer-server-emisor-receptor';
+import { PeerClient } from 'src/app/aula-virtual/model/peer-client';
+import { PeerServer } from 'src/app/aula-virtual/model/peer-server';
 import { Router } from '@angular/router';
 import { Video } from './../../../model/video';
 import { Sesion } from 'src/app/utils/sesion';
@@ -14,16 +18,29 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./botones.component.css'],
 })
 export class BotonesComponent implements OnInit {
+  @Input() visible = true;
+  @Input() htmlListVideo: any;
+  @Input() htmlVideoDesktop: DesktopMultimediaComponent;
   cam = false;
   audio = false;
   desktop = false;
   hand = false;
+  record = false;
   visibleCompartir = false;
-  @Input() visible = true;
-  @Input() htmlListVideo: any;
-  visibleComentario = [false, false, false, false, false, false, false, false];
-  room = new Room(null, {}, [], {}, {}, {});
+  visibleComentario = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ];
+  room = new Room(null, {}, [], {}, {}, {}, {});
   usuario: Usuario;
+  peerServer: PeerServer;
   constructor(
     private botones: BotonesService,
     private socket: SocketIoClientService,
@@ -51,6 +68,7 @@ export class BotonesComponent implements OnInit {
     this.socket.$enviarControlesS.subscribe((data) =>
       this.listenControles(data)
     );
+    this.socket.getListenRecord().subscribe((data) => this.listenPeer(data));
   }
 
   startVideo() {
@@ -75,6 +93,87 @@ export class BotonesComponent implements OnInit {
 
   sidenav() {
     this.botones.addSidenav(true);
+  }
+
+  async start(stream: any) {
+    for (const track of stream.getTracks()) {
+      this.peerServer.peerConnection.addTrack(track, stream);
+    }
+    await this.peerServer.createOffer();
+    this.room.peerRecord[1].peerServer = this.peerServer;
+    this.room.peerRecord[1].peerClient = new PeerClient();
+    console.log('entro hasta aqui');
+    this.socket.emit('createAnswer', {
+      data: this.peerServer.localDescription,
+      id: this.room.id,
+      camDesktop: true,
+      usuarioOrigen: this.room.peerRecord[1].usuario1,
+      usuarioDestino: this.room.peerRecord[1].usuario2,
+      record: true,
+    });
+  }
+
+  async starRecord() {
+    this.record = !this.record;
+    if (this.record) {
+      this.socket.addListenRecord(true);
+      this.peerServer = new PeerServer();
+      this.peerServer.createDataChannel('recording');
+      if (
+        !Util.empty(this.htmlVideoDesktop) &&
+        !Util.empty(this.htmlVideoDesktop.videoBoton) &&
+        this.htmlVideoDesktop.videoBoton.desktop &&
+        !Util.empty(this.htmlVideoDesktop.video.stream) &&
+        !Util.empty(this.htmlVideoDesktop.video.stream.getVideoTracks()) &&
+        this.htmlVideoDesktop.video.stream.getVideoTracks().length > 0 &&
+        this.htmlVideoDesktop.video.stream.getVideoTracks()[0].getSettings()
+          .displaySurface
+      ) {
+        const displaySurface = this.htmlVideoDesktop.video.stream
+          .getVideoTracks()[0]
+          .getSettings().displaySurface;
+        if (displaySurface === 'monitor') {
+          this.room.peerRecord[1].stream = this.htmlVideoDesktop.video.stream;
+          await this.start(this.htmlVideoDesktop.video.stream);
+          this.socket.addRoom$(this.room);
+        } else {
+          const video = new Video(null, null);
+          this.room.peerRecord[1].stream = await video.getDisplayMedia({
+            video: true,
+            audio: true,
+          });
+          await this.start(this.room.peerRecord[1].stream);
+          this.socket.addRoom$(this.room);
+          this.socket.addListenRecord(true);
+        }
+      } else {
+        const video = new Video(null, null);
+        this.room.peerRecord[1].stream = await video.getDisplayMedia({
+          video: true,
+          audio: true,
+        });
+        await this.start(this.room.peerRecord[1].stream);
+        this.socket.addRoom$(this.room);
+        this.socket.addListenRecord(true);
+      }
+    } else {
+      this.room.peerRecord[1].peerServer.close();
+      if (
+        !Util.empty(this.room.peerRecord[1].stream.getAudioTracks()) &&
+        this.room.peerRecord[1].stream.getAudioTracks().length > 0
+      ) {
+        this.room.peerRecord[1].stream
+          .getAudioTracks()
+          .forEach((track) => track.stop());
+      }
+      this.room.peerRecord[1].stream
+        .getVideoTracks()
+        .forEach((track) => track.stop());
+      this.socket.emit('stopRecordS', {
+        id: this.room.id,
+        usuarioDestino: this.room.peerRecord[1].usuario2,
+      });
+    }
   }
 
   redistribuir(opcion: string) {
@@ -106,11 +205,44 @@ export class BotonesComponent implements OnInit {
           this.audio = true;
           this.startMic();
           break;
-
         case 3:
           this.starHand();
           break;
       }
+    }
+  }
+
+  listenPeer(data: any) {
+    if (!Util.empty(data) && data && !Util.empty(this.peerServer)) {
+      this.peerServer.peerConnection.onicecandidate = (event: any) =>
+        this.getIceCandidate(event);
+
+      this.peerServer.dataChannel.onerror = (error) => {
+        console.log('Data Channel Error:', error);
+      };
+
+      this.peerServer.dataChannel.onopen = () => {
+        this.peerServer.send('conectados record..');
+      };
+
+      this.peerServer.dataChannel.onclose = () => {};
+
+      this.peerServer.peerConnection.ondatachannel = () => {};
+    }
+  }
+
+  getIceCandidate(event: any) {
+    if (event.candidate) {
+      console.log('enviando candidato');
+      console.log(this.room);
+      this.socket.emit('createAnswer', {
+        data: event.candidate,
+        id: this.room.id,
+        camDesktop: true,
+        usuarioOrigen: this.room.peerRecord[1].usuario1,
+        usuarioDestino: this.room.peerRecord[1].usuario2,
+        record: true,
+      });
     }
   }
 }

@@ -13,17 +13,15 @@
                 style="width: 100%; height: 100%;">
 
                 <div *ngIf="!redimensionarPPT">
-                  <app-desktop-multimedia
-                    [ngClass]="getNgClassDesktop()"
-                    [esComponenteItem]="true" [htmlListVideo]="this" [visible]="visible" #htmlVideoDesktop
-                    [width]="'100%'" [height]="'100%'" [listContentDesktop]="listContentDesktop">
+                  <app-desktop-multimedia [ngClass]="getNgClassDesktop()" [esComponenteItem]="true"
+                    [htmlListVideo]="this" [visible]="visible" #htmlVideoDesktop [width]="'100%'" [height]="'100%'"
+                    [listContentDesktop]="listContentDesktop">
                   </app-desktop-multimedia>
 
-                  <app-desktop-multimedia
-                    [ngClass]="getNgClassDesktop()"
-                    [esComponenteItem]="false" [htmlListVideo]="this" #contentDesktop *ngFor="let key of keysDesktop"
-                    [key]="key" [videoMultimedia]="videoMultimedia"
-                    [element]="room.peerServerEmisorReceptorDesktop[key]" [width]="'100%'" [height]="'100%'"
+                  <app-desktop-multimedia [ngClass]="getNgClassDesktop()" [esComponenteItem]="false"
+                    [htmlListVideo]="this" #contentDesktop *ngFor="let key of keysDesktop" [key]="key"
+                    [videoMultimedia]="videoMultimedia" [element]="room.peerServerEmisorReceptorDesktop[key]"
+                    [width]="'100%'" [height]="'100%'"
                     [peerClient]="room.peerServerEmisorReceptorDesktop[key].peerClient"
                     [peerServer]="room.peerServerEmisorReceptorDesktop[key].peerServer"
                     [usuario]="room.peerServerEmisorReceptorDesktop[key].usuario1.id === usuario.id ?room.peerServerEmisorReceptorDesktop[key].usuario2 : room.peerServerEmisorReceptorDesktop[key].usuario1"
@@ -31,7 +29,8 @@
                   </app-desktop-multimedia>
                 </div>
 
-                <app-presentacion-ppt *ngIf="redimensionarPPT" [listVideo] = "this" [ppt]="ppt" [room]="room" [width]="'60vw'" [height]="'70vh'">
+                <app-presentacion-ppt *ngIf="redimensionarPPT" [listVideo]="this" [ppt]="ppt" [room]="room"
+                  [width]="'60vw'" [height]="'70vh'">
                 </app-presentacion-ppt>
 
               </div>
@@ -40,21 +39,15 @@
               <div class="row m-0 p-0 text-center d-lg-flex justify-content-center"
                 [ngClass]="{'align-content-start':redimensionar,'align-items-center justify-content-lg-center':!redimensionar}"
                 style="width: 100%; height: 100%;">
-                <app-video-multimedia
-                  [ngClass]="getClass()"
-                  [styleFontSize]="getStyleFontSize()"
-                  [styleSize]="getStyleSize()"
-                  class="p-1 m-0 " [esComponenteItem]="true" #videoMultimedia [width]="'100%'" [height]="'100%'"
-                  [color]="color"
-                  [listVideoMultimedia]="listVideoMultimedia">
+                <app-video-multimedia [ngClass]="getClass()" [styleFontSize]="getStyleFontSize()"
+                  [styleSize]="getStyleSize()" class="p-1 m-0 " [esComponenteItem]="true" #videoMultimedia
+                  [width]="'100%'" [height]="'100%'" [color]="color" [listVideoMultimedia]="listVideoMultimedia">
                 </app-video-multimedia>
 
-                <app-video-multimedia
-                  [ngClass]="getClass()"
-                  [styleFontSize]="getStyleFontSize()"
-                  [styleSize]="getStyleSize()"
-                  #listVideoMultimedia [videoMultimedia]="videoMultimedia" [esComponenteItem]="false" class="p-1 m-0"
-                  *ngFor="let key of keysCam" [peerClient]="room.peerServerEmisorReceptor[key].peerClient" [key]="key"
+                <app-video-multimedia [ngClass]="getClass()" [styleFontSize]="getStyleFontSize()"
+                  [styleSize]="getStyleSize()" #listVideoMultimedia [videoMultimedia]="videoMultimedia"
+                  [esComponenteItem]="false" class="p-1 m-0" *ngFor="let key of keysCam"
+                  [peerClient]="room.peerServerEmisorReceptor[key].peerClient" [key]="key"
                   [peerServer]="room.peerServerEmisorReceptor[key].peerServer"
                   [element]="room.peerServerEmisorReceptor[key]"
                   [color]="room.peerServerEmisorReceptor[key].usuario1.id === usuario.id ? room.peerServerEmisorReceptor[key].usuario2.color: room.peerServerEmisorReceptor[key].usuario1.color"
@@ -63,7 +56,8 @@
                 </app-video-multimedia>
               </div>
             </div>
-            <app-botones [visible]="visibleBotones" [htmlListVideo]="this" #boton></app-botones>
+            <app-botones [htmlVideoDesktop]="htmlVideoDesktop" [visible]="visibleBotones" [htmlListVideo]="this" #boton>
+            </app-botones>
           </div>
         </div>
       </div>

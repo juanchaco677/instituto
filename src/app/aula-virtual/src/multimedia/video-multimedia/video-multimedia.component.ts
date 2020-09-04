@@ -52,13 +52,6 @@ export class VideoMultimediaComponent
     });
     this.listenPeer();
 
-    this.socket.$refreshUsuario.subscribe((data) => {
-      if (data) {
-        if (this.video.video || this.video.audio) {
-          // this.start(true, true);
-        }
-      }
-    });
     if (this.esComponenteItem) {
       this.listenBotones();
     }

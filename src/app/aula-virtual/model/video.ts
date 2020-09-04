@@ -81,6 +81,7 @@ export class Video {
     return await browser.mediaDevices.getDisplayMedia(config);
   }
 
+
   async initCamera(config: any) {
     switch (this.camDesktop) {
       case 1:
@@ -94,7 +95,7 @@ export class Video {
   }
 
   async startVideo() {
-    this.videoCam = !this.videoCam; 
+    this.videoCam = !this.videoCam;
     await this.initCamera({
       video: this.videoCam,
       audio: this.audio,

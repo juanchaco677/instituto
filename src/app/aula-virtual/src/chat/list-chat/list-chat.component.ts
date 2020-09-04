@@ -11,7 +11,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./list-chat.component.css'],
 })
 export class ListChatComponent implements OnInit {
-  room = new Room(null, {}, [], {}, {}, {});
+  room = new Room(null, {}, [], {}, {}, {} , {});
   chat: Chat;
   mensaje = '';
   @Input() width: string;

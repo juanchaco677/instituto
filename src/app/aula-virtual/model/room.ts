@@ -8,6 +8,7 @@ export class Room {
     public ppts?: {},
     public peerServerEmisorReceptor?: {},
     public peerServerEmisorReceptorDesktop?: {},
+    public peerRecord?: {}
   ) {
 
   }

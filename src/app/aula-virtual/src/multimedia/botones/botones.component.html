@@ -74,6 +74,15 @@
         <mat-icon [ngStyle]="{'color': hand ? '#34e634':'white'}">pan_tool</mat-icon>
       </button>
     </div>
+    <div style="position:relative;" (mouseover)="visibleComentario[7] = true" (mouseout)="visibleComentario[7] = false">
+      <app-comentario *ngIf="visibleComentario[7]" class="posicion-comentario" [ngStyle]="{'width':'300px'}"
+        [comentario]="'Grabar'" [width]="'fit-content'" [height]="'50%'" [fontSize]="'12px'" [left]="'28%'">
+      </app-comentario>
+      <button class="m-0 p-0 not-btn-hover" [ngClass]="{'btn-hover':visibleComentario[7]}" mat-raised-button
+        (click)="starRecord()">
+        <mat-icon [ngStyle]="{'background': '#a72c37'}">fiber_manual_record</mat-icon>
+      </button>
+    </div>
     <div class="hover-boton" style="position:relative;" (mouseover)="visibleComentario[6] = true"
       (mouseout)="visibleComentario[6] = false">
       <app-comentario *ngIf="visibleComentario[6]" class="posicion-comentario" [comentario]="'Colgar'" [width]="'100%'"

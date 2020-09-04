@@ -66,7 +66,7 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
     public botonesService: BotonesService
   ) {
     console.log('nuevo componennte');
-    this.room = new Room(null, {}, [], {}, {}, {});
+    this.room = new Room(null, {}, [], {}, {}, {} , {});
     this.usuario = Sesion.userAulaChat();
   }
   ngAfterViewInit(): void {
@@ -187,6 +187,10 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
     if (Util.empty(this.room.chat)) {
       this.room.chat = [];
     }
+    if (Util.empty(this.room.peerRecord) && Util.empty(this.room.peerRecord[1])){
+      this.room.peerRecord = {};
+      this.room.peerRecord[1] = new PeerServerEmisorReceptor();
+    }
 
     if (!this.buscarUsuario(data)) {
       this.room.usuarios[data.usuario.id] = data.usuario;
@@ -287,8 +291,8 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
    * @param data
    */
   async addAnswer(data: any) {
-    this.socket.addListen(true);
-    if (!Util.empty(data.data)) {
+    if (!Util.empty(data.data) && Util.empty(data.record)) {
+      this.socket.addListen(true);
       if (data.camDesktop) {
         if (data.data.type === 'answer') {
           await this.room.peerServerEmisorReceptorDesktop[
@@ -320,6 +324,27 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
       }
       this.socket.addRoom$(this.room);
       this.socket.addListen(true);
+    }else{
+      console.log('ingreso para add asnwer');
+      console.log(data);
+      // iniciar el record en entre el cliente profesor
+      if (!Util.empty(data.record) && !Util.empty(data.data) && data.record){
+        if (data.camDesktop) {
+          console.log('0');
+          if (data.data.type === 'answer') {
+            console.log('1');
+            await this.room.peerRecord[1].peerServer.addAnswer(data.data);
+          } else {
+            if (data.data.candidate) {
+              console.log('2');
+              this.room.peerRecord[1].peerServer.peerConnection.addIceCandidate(
+                new RTCIceCandidate(data.data)
+              );
+            }
+          }
+          this.socket.addRoom$(this.room);
+        }
+      }
     }
   }
 

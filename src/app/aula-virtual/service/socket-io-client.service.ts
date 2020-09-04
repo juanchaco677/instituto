@@ -17,14 +17,13 @@ export class SocketIoClientService {
   $chatRoom = this.socket.fromEvent<Usuario>('chatRoom');
   $createAnswer = this.socket.fromEvent<any>('createAnswer');
   $sendAnswer = this.socket.fromEvent<any>('sendAnswer');
-  $refreshUsuario = this.socket.fromEvent<boolean>('refreshUsuario');
-  $addIceCandidate = this.socket.fromEvent<any>('addIceCandidate');
   $archivoPpt = this.socket.fromEvent<any>('archivoPpt');
   $recivePaginationC = this.socket.fromEvent<any>('recibePaginationC');
   $chatMessageC = this.socket.fromEvent<any>('chatMessageC');
   $enviarBotonesC = this.socket.fromEvent<any>('enviarBotonesC');
   $enviarControlesS = this.socket.fromEvent<any>('enviarControlesS');
   $closeUserC = this.socket.fromEvent<any>('closeUserC');
+  $addRecordClient = this.socket.fromEvent<any>('addRecordClient');
 
   /**
    * observables
@@ -32,13 +31,18 @@ export class SocketIoClientService {
   room$: BehaviorSubject<Room> = new BehaviorSubject<Room>(new Room());
   usuarios$: BehaviorSubject<Usuario[]> = new BehaviorSubject<Usuario[]>([]);
 
-  programacion$: BehaviorSubject<ProgramacionHorario> = new BehaviorSubject<ProgramacionHorario>(null);
+  programacion$: BehaviorSubject<ProgramacionHorario> = new BehaviorSubject<
+    ProgramacionHorario
+  >(null);
   listen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
   boton$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
   listeAudio$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
-  listeVideoBoton$: BehaviorSubject<VideoBoton> = new BehaviorSubject<VideoBoton>(null);
+  listenRecord$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
+  listeVideoBoton$: BehaviorSubject<VideoBoton> = new BehaviorSubject<
+    VideoBoton
+  >(null);
 
-  constructor(private socket: Socket) { }
+  constructor(private socket: Socket) {}
 
   emit(key: string, data: any) {
     this.socket.emit(key, data);
@@ -51,8 +55,6 @@ export class SocketIoClientService {
   addRoom$(room: Room) {
     this.room$.next(room);
   }
-
-
 
   deleteRoom$() {
     this.room$.next(null);
@@ -74,67 +76,76 @@ export class SocketIoClientService {
     this.usuarios$.next(null);
   }
 
-  addProgramacion$(programacion: ProgramacionHorario){
+  addProgramacion$(programacion: ProgramacionHorario) {
     this.programacion$.next(programacion);
   }
 
-  getProgramacion$(){
+  getProgramacion$() {
     return this.programacion$.asObservable();
   }
 
-  deleteProgramacion(){
+  deleteProgramacion() {
     this.programacion$.next(null);
   }
 
   buscarProfesor() {
     let usuario: Usuario = null;
-    this.getRoom$().subscribe(
-      room => {
-        for (const key in room.usuarios) {
-          if (room.usuarios[key].rol.tipo === 'PR') {
-            usuario = room.usuarios[key];
-            return usuario;
-          }
+    this.getRoom$().subscribe((room) => {
+      for (const key in room.usuarios) {
+        if (room.usuarios[key].rol.tipo === 'PR') {
+          usuario = room.usuarios[key];
+          return usuario;
         }
       }
-    );
+    });
     return usuario;
   }
 
-  addListen(data: boolean){
+  addListen(data: boolean) {
     this.listen$.next(data);
   }
 
-  getListen(){
+  getListen() {
     return this.listen$.asObservable();
   }
 
-  deleteListen(){
+  deleteListen() {
     this.listen$.next(null);
   }
 
-  addListenAudio(data: boolean){
+  addListenAudio(data: boolean) {
     this.listeAudio$.next(data);
   }
 
-  getListenAudio(){
+  getListenAudio() {
     return this.listeAudio$.asObservable();
   }
 
-  deleteListenAudio(){
+  deleteListenAudio() {
     this.listeAudio$.next(null);
   }
 
-  addListenVideoBoton(data: VideoBoton){
+  addListenRecord(data: boolean) {
+    this.listenRecord$.next(data);
+  }
+
+  getListenRecord() {
+    return this.listenRecord$.asObservable();
+  }
+
+  deleteListenRecord() {
+    this.listenRecord$.next(null);
+  }
+
+  addListenVideoBoton(data: VideoBoton) {
     this.listeVideoBoton$.next(data);
   }
 
-  getListenVideoBoton(){
+  getListenVideoBoton() {
     return this.listeVideoBoton$.asObservable();
   }
 
-  deleteListenVideoBoton(){
+  deleteListenVideoBoton() {
     this.listeVideoBoton$.next(null);
   }
-
 }

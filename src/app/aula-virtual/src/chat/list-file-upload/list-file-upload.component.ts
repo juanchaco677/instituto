@@ -18,7 +18,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ListFileUploadComponent implements OnInit {
   fileUpload: FileUpload;
-  room: Room = new Room(null, {}, [], {}, {}, {});
+  room: Room = new Room(null, {}, [], {}, {}, {} , {});
   ppts = {};
   activar = false;
   srcPath: string;

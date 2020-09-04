@@ -13,7 +13,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
   styleUrls: ['./participantes.component.css'],
 })
 export class ParticipantesComponent implements OnInit {
-  room = new Room(null, {}, [], {}, {}, {});
+  room = new Room(null, {}, [], {}, {}, {} , {});
   usuario: Usuario;
   constructor(private socket: SocketIoClientService) {
     this.usuario = Sesion.userAulaChat();

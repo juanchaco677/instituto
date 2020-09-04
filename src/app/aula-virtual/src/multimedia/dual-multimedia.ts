@@ -425,16 +425,6 @@ export class DualMultimedia {
                 usuario: this.room.usuarios[this.usuarioSesion.id],
               });
               break;
-            case Util.mano:
-              this.usuarioSesion.boton.mano = !this.usuarioSesion.boton.mano;
-              this.room.usuarios[
-                this.usuarioSesion.id
-              ].boton = this.usuarioSesion.boton;
-              this.socket.emit('recibirBotonesS', {
-                id: this.room.id,
-                usuario: this.room.usuarios[this.usuarioSesion.id],
-              });
-              break;
           }
         }
       }
