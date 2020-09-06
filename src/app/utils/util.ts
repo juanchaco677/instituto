@@ -102,6 +102,33 @@ export class Util {
     });
   }
 
+  static openSnackBarDuration(
+    snackBar: MatSnackBar,
+    message: string,
+    opcion: number,
+    position: MatSnackBarVerticalPosition,
+    duration: number
+  ) {
+    let snackbar: string;
+    switch (opcion) {
+      case 1:
+        snackbar = 'snackbar-success';
+        break;
+      case 2:
+        snackbar = 'snackbar-warning';
+        break;
+      case 3:
+        snackbar = 'snackbar-danger';
+        break;
+    }
+
+    snackBar.open(message, '', {
+      duration,
+      verticalPosition: position,
+      panelClass: [snackbar],
+    });
+  }
+
   static empty(data: any) {
     return (
       data === undefined ||

@@ -1,3 +1,9 @@
+.posicion-notificaciones{
+  position: fixed;
+  top: 0px;
+  left: 75%;
+  z-index: 1;
+}
 .example-container {
   display: flex;
   flex-direction: column;

@@ -1,3 +1,5 @@
+import { NotificacionService } from './../../service/notificacion.service';
+import { NotificacionComponent } from './../../../notificacion/notificacion.component';
 import { NavbarPrincipalMModule } from './../../../src/navbar-principal/navbar-principal-m/navbar-principal-m.module';
 import { ParticipantesComponent } from './../../src/chat/participantes/participantes.component';
 import { DialogoIntegrantesComponent } from './../../src/chat/dialogo-integrantes/dialogo-integrantes.component';
@@ -62,7 +64,8 @@ const config: SocketIoConfig = {
     ListFileUploadComponent,
     PresentacionPPTComponent,
     DialogoIntegrantesComponent,
-    ParticipantesComponent
+    ParticipantesComponent,
+    NotificacionComponent
   ],
   imports: [
     MaterialModule,
@@ -88,6 +91,7 @@ const config: SocketIoConfig = {
     ConfiguracionService,
     FileUploadPptService,
     ThemeService,
+    NotificacionService
   ],
 })
 export class AulaVirtualModule {}

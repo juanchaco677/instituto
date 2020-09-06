@@ -1,0 +1,35 @@
+<div *ngIf="notificacion.tipo === 1" class="mt-1"yle="position: relative;">
+  <mat-card>
+    <button (click)="out.emit(true)" class="posicion-cancelar" mat-icon-button>
+      <mat-icon>cancel</mat-icon>
+    </button>
+    <mat-list>
+      <mat-list-item class="mat-list-item-Word-wrap">
+        <img matListAvatar [src]="notificacion.data.foto">
+        <h6 matLine><small class="color-nombre">{{notificacion.data.nombre}}</small> </h6>
+        <h6 matLine><small class="color-hora">{{ notificacion.hora | date:'shortTime' }} </small></h6>
+        <div matLine>
+          <p class="text-justify"><span class="mensaje text-justify">{{notificacion.descripcion}}</span></p>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card>
+</div>
+
+<div *ngIf="notificacion.tipo === 2" class="mt-1"yle="position: relative;">
+  <mat-card>
+    <button (click)="out.emit(true)" class="posicion-cancelar" mat-icon-button>
+      <mat-icon>cancel</mat-icon>
+    </button>
+    <mat-list>
+      <mat-list-item class="mat-list-item-Word-wrap">
+        <img matListAvatar [src]="notificacion.data.foto">
+        <h6 matLine><small class="color-nombre">{{notificacion.data.nombre}}</small> </h6>
+        <h6 matLine><small class="color-hora">{{ notificacion.hora | date:'shortTime' }} </small></h6>
+        <div matLine>
+          <p class="text-justify"><span class="mensaje text-justify">{{notificacion.descripcion}}   <mat-icon [ngStyle]="{'color':'#34e634'}">pan_tool</mat-icon></span></p>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card>
+</div>

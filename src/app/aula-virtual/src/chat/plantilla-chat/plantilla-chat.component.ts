@@ -1,3 +1,5 @@
+import { NotificacionService } from './../../../service/notificacion.service';
+import { Notificacion } from './../../../model/notificacion';
 import { ThemeService } from './../../../../theme.service';
 import { PeerServerEmisorReceptor } from './../../../model/peer-server-emisor-receptor';
 import { BotonesService } from './../../../service/botones.service';
@@ -30,6 +32,7 @@ export class PlantillaChatComponent implements OnInit {
   usuario: Usuario;
   sesionUsuario: any;
   room = new Room(null, {}, [], {}, {}, {}, {});
+  notificaciones: Notificacion[] = [];
   @ViewChild('sidenav') sidenav: MatSidenav;
 
   constructor(
@@ -40,7 +43,8 @@ export class PlantillaChatComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private overlay: OverlayContainer,
-    private botones: BotonesService
+    private botones: BotonesService,
+    private notificacionService: NotificacionService
   ) {
     // if (this.overlay.getContainerElement().classList.contains('theme-dark')) {
     themeService.add$(3);
@@ -129,6 +133,8 @@ export class PlantillaChatComponent implements OnInit {
     this.socket.$addRecordClient.subscribe((data) =>
       this.addRecordClient(data)
     );
+
+    this.notificacionService.get$().subscribe(data => this.notificaciones = data);
   }
 
   addRecordClient(data: any) {
@@ -241,4 +247,5 @@ export class PlantillaChatComponent implements OnInit {
       }
     });
   }
+
 }

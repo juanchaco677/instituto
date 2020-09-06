@@ -1,3 +1,4 @@
+import { NotificacionService } from './../../../service/notificacion.service';
 import { PPT } from './../../../model/ppt';
 import { BotonesService } from './../../../service/botones.service';
 import { VideoMultimediaComponent } from './../../multimedia/video-multimedia/video-multimedia.component';
@@ -23,6 +24,7 @@ import {
 import { PeerClient } from 'src/app/aula-virtual/model/peer-client';
 import { PeerServer } from 'src/app/aula-virtual/model/peer-server';
 import { VideoBoton } from 'src/app/aula-virtual/model/video-boton';
+import { Notificacion } from 'src/app/aula-virtual/model/notificacion';
 @Component({
   selector: 'app-list-video',
   templateUrl: './list-video.component.html',
@@ -63,7 +65,8 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
   ];
   constructor(
     public socket: SocketIoClientService,
-    public botonesService: BotonesService
+    public botonesService: BotonesService,
+    public notificacionService: NotificacionService
   ) {
     console.log('nuevo componennte');
     this.room = new Room(null, {}, [], {}, {}, {} , {});
@@ -138,6 +141,13 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
    * @param data función que agrega un usuario a la sala
    */
   addUsuario(data: any) {
+    this.notificacionService.add$(new Notificacion(
+      '',
+      data.usuario.nombre + ' ha ingrasa al salón de clase.',
+      4000,
+      1,
+      data.usuario
+    ));
     if (Util.empty(this.room.peerServerEmisorReceptor)) {
       this.room.peerServerEmisorReceptor = {};
     }

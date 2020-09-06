@@ -1,0 +1,25 @@
+.color-nombre{
+  font-weight: bold;
+  color: #7071b3;
+}
+.color-hora{
+  color: #ceccc8;
+}
+.mensaje{
+  font-size: 11px;
+  color: #a3a2a0;
+}
+.mat-list-item.mat-list-item-Word-wrap {
+  height: initial !important;
+}
+.mat-list-item-Word-wrap .mat-line {
+  word-wrap: break-Word !important;
+  white-space: pre-wrap !important;
+}
+
+.posicion-cancelar{
+  position:absolute;
+  top: 0px;
+  left: 91.5%;
+  z-index: 1;
+}

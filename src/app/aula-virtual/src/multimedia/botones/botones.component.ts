@@ -1,5 +1,6 @@
+import { VideoMultimediaComponent } from './../video-multimedia/video-multimedia.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DesktopMultimediaComponent } from './../desktop-multimedia/desktop-multimedia.component';
-import { PeerServerEmisorReceptor } from './../../../model/peer-server-emisor-receptor';
 import { PeerClient } from 'src/app/aula-virtual/model/peer-client';
 import { PeerServer } from 'src/app/aula-virtual/model/peer-server';
 import { Router } from '@angular/router';
@@ -11,6 +12,7 @@ import { SocketIoClientService } from 'src/app/aula-virtual/service/socket-io-cl
 import { Util } from './../../../../utils/util';
 import { BotonesService } from './../../../service/botones.service';
 import { Component, OnInit, Input } from '@angular/core';
+import { concat } from 'rxjs';
 
 @Component({
   selector: 'app-botones',
@@ -21,12 +23,14 @@ export class BotonesComponent implements OnInit {
   @Input() visible = true;
   @Input() htmlListVideo: any;
   @Input() htmlVideoDesktop: DesktopMultimediaComponent;
+  @Input() videoMultimedia: VideoMultimediaComponent;
   cam = false;
   audio = false;
   desktop = false;
   hand = false;
   record = false;
   visibleCompartir = false;
+  sidenaV = false;
   visibleComentario = [
     false,
     false,
@@ -44,7 +48,8 @@ export class BotonesComponent implements OnInit {
   constructor(
     private botones: BotonesService,
     private socket: SocketIoClientService,
-    public router: Router
+    public router: Router,
+    public snackBar: MatSnackBar
   ) {
     this.usuario = Sesion.userAulaChat();
   }
@@ -92,17 +97,24 @@ export class BotonesComponent implements OnInit {
   }
 
   sidenav() {
+    this.sidenaV = !this.sidenaV;
     this.botones.addSidenav(true);
   }
 
-  async start(stream: any) {
-    for (const track of stream.getTracks()) {
-      this.peerServer.peerConnection.addTrack(track, stream);
+  async start(stream: any, streamAudio: any) {
+    let concatenar = [];
+    concatenar = concatenar.concat(stream.getVideoTracks());
+    concatenar = concatenar.concat(streamAudio.getAudioTracks());
+    const mediaStream = new MediaStream(concatenar);
+    for (const track of mediaStream.getTracks()) {
+      console.log('trackkkkk');
+      console.log(track);
+      this.peerServer.peerConnection.addTrack(track, mediaStream);
     }
+
     await this.peerServer.createOffer();
     this.room.peerRecord[1].peerServer = this.peerServer;
     this.room.peerRecord[1].peerClient = new PeerClient();
-    console.log('entro hasta aqui');
     this.socket.emit('createAnswer', {
       data: this.peerServer.localDescription,
       id: this.room.id,
@@ -116,6 +128,13 @@ export class BotonesComponent implements OnInit {
   async starRecord() {
     this.record = !this.record;
     if (this.record) {
+      Util.openSnackBarDuration(
+        this.snackBar,
+        'Grabando Clase...',
+        1,
+        'bottom',
+        2000
+      );
       this.socket.addListenRecord(true);
       this.peerServer = new PeerServer();
       this.peerServer.createDataChannel('recording');
@@ -134,15 +153,24 @@ export class BotonesComponent implements OnInit {
           .getSettings().displaySurface;
         if (displaySurface === 'monitor') {
           this.room.peerRecord[1].stream = this.htmlVideoDesktop.video.stream;
-          await this.start(this.htmlVideoDesktop.video.stream);
+          await this.start(this.htmlVideoDesktop.video.stream, null);
           this.socket.addRoom$(this.room);
         } else {
           const video = new Video(null, null);
           this.room.peerRecord[1].stream = await video.getDisplayMedia({
             video: true,
+            audio: false,
+          });
+          const audio = new Video(null, null);
+          audio.audio = true;
+          this.room.peerRecord[1].streamAudio = await audio.getUserMedia({
+            video: false,
             audio: true,
           });
-          await this.start(this.room.peerRecord[1].stream);
+          await this.start(
+            this.room.peerRecord[1].stream,
+            this.room.peerRecord[1].streamAudio
+          );
           this.socket.addRoom$(this.room);
           this.socket.addListenRecord(true);
         }
@@ -150,11 +178,27 @@ export class BotonesComponent implements OnInit {
         const video = new Video(null, null);
         this.room.peerRecord[1].stream = await video.getDisplayMedia({
           video: true,
+          audio: false,
+        });
+        const audio = new Video(null, null);
+        audio.audio = true;
+        this.room.peerRecord[1].streamAudio = await audio.getUserMedia({
+          video: false,
           audio: true,
         });
-        await this.start(this.room.peerRecord[1].stream);
+        await this.start(
+          this.room.peerRecord[1].stream,
+          this.room.peerRecord[1].streamAudio
+        );
         this.socket.addRoom$(this.room);
         this.socket.addListenRecord(true);
+        Util.openSnackBarDuration(
+          this.snackBar,
+          'La clase se encuentra grabada correctamente.',
+          1,
+          'bottom',
+          2000
+        );
       }
     } else {
       this.room.peerRecord[1].peerServer.close();
@@ -233,8 +277,6 @@ export class BotonesComponent implements OnInit {
 
   getIceCandidate(event: any) {
     if (event.candidate) {
-      console.log('enviando candidato');
-      console.log(this.room);
       this.socket.emit('createAnswer', {
         data: event.candidate,
         id: this.room.id,

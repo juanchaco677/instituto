@@ -1,3 +1,4 @@
+import { NotificacionService } from './../../../service/notificacion.service';
 import { Sesion } from './../../../../utils/sesion';
 import { VideoBoton } from './../../../model/video-boton';
 import { Usuario } from './../../../model/usuario';
@@ -6,6 +7,7 @@ import { SocketIoClientService } from 'src/app/aula-virtual/service/socket-io-cl
 import { Room } from './../../../model/room';
 import { Component, OnInit } from '@angular/core';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Notificacion } from 'src/app/aula-virtual/model/notificacion';
 
 @Component({
   selector: 'app-participantes',
@@ -13,9 +15,12 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
   styleUrls: ['./participantes.component.css'],
 })
 export class ParticipantesComponent implements OnInit {
-  room = new Room(null, {}, [], {}, {}, {} , {});
+  room = new Room(null, {}, [], {}, {}, {}, {});
   usuario: Usuario;
-  constructor(private socket: SocketIoClientService) {
+  constructor(
+    private socket: SocketIoClientService,
+    private notificacionService: NotificacionService
+  ) {
     this.usuario = Sesion.userAulaChat();
   }
 
@@ -35,6 +40,18 @@ export class ParticipantesComponent implements OnInit {
     console.log(data);
     if (!Util.empty(data)) {
       this.room.usuarios[data.usuario.id] = data.usuario;
+
+      if (data.usuario.boton.mano) {
+        this.notificacionService.add$(
+          new Notificacion(
+            '',
+            (data.usuario.rol.tipo === 'PR' ? '' : (data.usuario.sex === 'F' ? 'La estudiante ' : 'El estudiante ')) + data.usuario.nombre + ' pidió la palabra',
+            6000,
+            2,
+            data.usuario
+          )
+        );
+      }
       this.socket.addRoom$(this.room);
     }
   }

@@ -1,32 +1,33 @@
 <div class="example-container">
   <mat-sidenav-container class="example-container">
     <mat-sidenav #sidenav mode="side" class="mat-sidenav-lateral vh-100">
-      <mat-tab-group >
+      <mat-tab-group>
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>people</mat-icon>
           </ng-template>
           <app-participantes></app-participantes>
         </mat-tab>
-         <mat-tab>
+        <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon> chat</mat-icon>
           </ng-template>
-          <app-list-chat ></app-list-chat>
+          <app-list-chat></app-list-chat>
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
-            <mat-icon > attach_file</mat-icon>
+            <mat-icon> attach_file</mat-icon>
           </ng-template>
           <app-list-file-upload [listVideo]="listVideo"></app-list-file-upload>
         </mat-tab>
       </mat-tab-group>
     </mat-sidenav>
-    <mat-sidenav-content class="w-100 vh-100"  style="overflow:hidden!important;" >
-     <app-list-video #listVideo></app-list-video>
+    <mat-sidenav-content class="w-100 vh-100" style="overflow:hidden!important;">
+      <app-list-video #listVideo></app-list-video>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>
-
-
-
+<div class="posicion-notificaciones w-25 mh-100">
+  <app-notificacion *ngFor="let notificacion of notificaciones ;let i=index" [notificacion]="notificacion"
+    (out)="$event ? notificaciones.splice(i, 1):''"></app-notificacion>
+</div>
