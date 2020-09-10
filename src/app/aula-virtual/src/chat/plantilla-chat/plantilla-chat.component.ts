@@ -3,7 +3,7 @@ import { Notificacion } from './../../../model/notificacion';
 import { ThemeService } from './../../../../theme.service';
 import { PeerServerEmisorReceptor } from './../../../model/peer-server-emisor-receptor';
 import { BotonesService } from './../../../service/botones.service';
-import { MatSidenavModule, MatSidenav } from '@angular/material/sidenav';
+import { MatSidenav } from '@angular/material/sidenav';
 import { PeerClient } from 'src/app/aula-virtual/model/peer-client';
 import { Usuario } from 'src/app/aula-virtual/model/usuario';
 import { Room } from './../../../model/room';
@@ -76,6 +76,7 @@ export class PlantillaChatComponent implements OnInit {
                   usuario: this.usuario,
                 });
               });
+            Sesion.setProgramacion(this.incripcionAsigEs.programacion);
           } else {
             this.incripcionAsigEs = this.service.buscarElementList$({
               id: compoundKey,
@@ -87,6 +88,7 @@ export class PlantillaChatComponent implements OnInit {
                 programacion: this.incripcionAsigEs.programacion,
                 usuario: this.usuario,
               });
+              Sesion.setProgramacion(this.incripcionAsigEs.programacion);
             }
           }
         } else {
@@ -102,6 +104,7 @@ export class PlantillaChatComponent implements OnInit {
                     usuario: this.usuario,
                   });
                 });
+              Sesion.setProgramacion(this.programacionHorario);
             } else {
               this.programacionHorario = this.serviceProgramacion.buscarElementList$(
                 { id: idProgramacion }
@@ -114,6 +117,7 @@ export class PlantillaChatComponent implements OnInit {
                   programacion: this.programacionHorario,
                   usuario: this.usuario,
                 });
+                Sesion.setProgramacion(this.programacionHorario);
               }
             }
           } else {
@@ -134,7 +138,9 @@ export class PlantillaChatComponent implements OnInit {
       this.addRecordClient(data)
     );
 
-    this.notificacionService.get$().subscribe(data => this.notificaciones = data);
+    this.notificacionService
+      .get$()
+      .subscribe((data) => (this.notificaciones = data));
   }
 
   addRecordClient(data: any) {
@@ -247,5 +253,4 @@ export class PlantillaChatComponent implements OnInit {
       }
     });
   }
-
 }

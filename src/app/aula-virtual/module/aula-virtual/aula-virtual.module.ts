@@ -1,3 +1,6 @@
+import { OperacionBD } from './../../../dashboard/modelo/operacion-bd';
+import { ArchivoBilbliotecaService } from './../../service/archivo-bilblioteca.service';
+import { ListMp4Component } from './../../src/chat/list-mp4/list-mp4.component';
 import { NotificacionService } from './../../service/notificacion.service';
 import { NotificacionComponent } from './../../../notificacion/notificacion.component';
 import { NavbarPrincipalMModule } from './../../../src/navbar-principal/navbar-principal-m/navbar-principal-m.module';
@@ -40,6 +43,7 @@ import { AulaVirtualGuard } from '../../guard/aula-virtual.guard';
 import { ListRoomComponent } from '../../src/menu/list-room/list-room.component';
 import { InscripcionAsigEsComponent } from '../../src/menu/list-room/ver/incripcion-asignatura-estudiante/inscripcion-asig-es.component';
 import { AsigProfeAsigsComponent } from '../../src/menu/list-room/ver/asig-profe-asigs/asig-profe-asigs.component';
+import { VideosClaseComponent } from '../../src/menu/videos-clase/videos-clase.component';
 const config: SocketIoConfig = {
   url: 'http://181.55.192.137:4444',
   options: {},
@@ -65,7 +69,9 @@ const config: SocketIoConfig = {
     PresentacionPPTComponent,
     DialogoIntegrantesComponent,
     ParticipantesComponent,
-    NotificacionComponent
+    NotificacionComponent,
+    ListMp4Component,
+    VideosClaseComponent
   ],
   imports: [
     MaterialModule,
@@ -91,7 +97,8 @@ const config: SocketIoConfig = {
     ConfiguracionService,
     FileUploadPptService,
     ThemeService,
-    NotificacionService
+    NotificacionService,
+    ArchivoBilbliotecaService,
   ],
 })
 export class AulaVirtualModule {}

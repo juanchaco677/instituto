@@ -12,6 +12,8 @@ import { DashboardModule } from './dashboard/module/dashboard/dashboard.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginGuard } from './dashboard/guard/login/login.guard';
 import { PrincipalComponent } from './src/principal/principal.component';
+import { ListMp4Component } from './aula-virtual/src/chat/list-mp4/list-mp4.component';
+import { VideosClaseComponent } from './aula-virtual/src/menu/videos-clase/videos-clase.component';
 
 @NgModule({
   imports: [

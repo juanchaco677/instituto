@@ -1,15 +1,17 @@
 <app-loading [activar]="activar"></app-loading>
 <div class="list-file-upload">
   <div class="body-list-pptx">
+
     <mat-card class="card-presentacion mb-3 ml-2 mr-2 mt-1" *ngFor="let item of ppts | keyvalue ">
       <img mat-card-image
-        [src]="srcPath +'pptx/'+this.room.id+'/'+ppts[item.key].nombre+'/'+ppts[item.key].nombre+'-0.png'"
+        [src]="srcPath +'pptx/'+((room.id === null )? ppts[item.key].idRoom : this.room.id)+'/'+ppts[item.key].nombre+'/'+ppts[item.key].nombre+'-0.png'"
         matTooltip="{{ppts[item.key].nombre}}">
       <mat-card-content>
         <p>Integrantes :</p>
         <div>
-          <mat-chip-list >
-            <mat-chip  *ngFor="let itemSub of ppts[item.key].integrantes | keyvalue" matTooltip="{{ppts[item.key].integrantes[itemSub.key].nombre}}" >
+          <mat-chip-list>
+            <mat-chip *ngFor="let itemSub of ppts[item.key].integrantes | keyvalue"
+              matTooltip="{{ppts[item.key].integrantes[itemSub.key].nombre}}">
               {{ (ppts[item.key].integrantes[itemSub.key].nombre.length > 15)? (ppts[item.key].integrantes[itemSub.key].nombre | slice:0:15)+'..':(ppts[item.key].integrantes[itemSub.key].nombre) }}
             </mat-chip>
           </mat-chip-list>
@@ -23,9 +25,9 @@
       </mat-card-actions>
     </mat-card>
   </div>
-  <div>
-    <app-btn-upload-one-file [miniFab]="true" [ngClass]="{'fixed-bottom':true}" (complete)="onFileComplete($event)"
-      (load)="recive($event)" [accept]="'.ppt,.pptx'" [text]="'Subir Presentación'">
-    </app-btn-upload-one-file>
-  </div>
+
+  <app-btn-upload-one-file [miniFab]="true" [ngClass]="{'fixed-bottom posicion-boton':true}"
+    (complete)="onFileComplete($event)" (load)="recive($event)" [accept]="'.ppt,.pptx'" [text]="'Subir Presentación'">
+  </app-btn-upload-one-file>
+
 </div>

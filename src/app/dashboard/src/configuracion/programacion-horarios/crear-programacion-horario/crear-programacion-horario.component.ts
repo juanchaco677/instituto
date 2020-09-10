@@ -22,9 +22,11 @@ import { Validacion } from 'src/app/utils/validacion';
 @Component({
   selector: 'app-crear-programacion-horario',
   templateUrl: './crear-programacion-horario.component.html',
-  styleUrls: ['./crear-programacion-horario.component.css']
+  styleUrls: ['./crear-programacion-horario.component.css'],
 })
-export class CrearProgramacionHorarioComponent extends CrearBaseComponent implements OnInit {
+export class CrearProgramacionHorarioComponent
+  extends CrearBaseComponent
+  implements OnInit {
   programacionHorario: ProgramacionHorario;
   dialogRef: any;
   constructor(
@@ -34,15 +36,25 @@ export class CrearProgramacionHorarioComponent extends CrearBaseComponent implem
     private formBuilder: FormBuilder,
     public service: ProgramacionHorarioService,
     public route: ActivatedRoute,
-    private menuService: MenuService,
+    private menuService: MenuService
   ) {
     super(route, service, snackBar);
 
     this.menuService.add$(properties.get('menu-titulo-materia-linea').value);
-    const asigProfeAsigs = new AsigProfeAsigs(new Programa(), new Plan(), new Materia(), new Usuario(), new Salon());
-    this.programacionHorario = new ProgramacionHorario(asigProfeAsigs);
 
-    this.programacionHorario = !Util.empty(this.data) ? this.data : this.programacionHorario;
+    this.programacionHorario = new ProgramacionHorario(
+      new AsigProfeAsigs(
+        new Programa(),
+        new Plan(),
+        new Materia(),
+        new Usuario(),
+        new Salon()
+      )
+    );
+
+    this.programacionHorario = !Util.empty(this.data)
+      ? this.data
+      : this.programacionHorario;
 
     this.crear = this.formBuilder.group({
       programa: Validacion.getCampoLetras(true),
@@ -58,21 +70,19 @@ export class CrearProgramacionHorarioComponent extends CrearBaseComponent implem
       fechaFinal: Validacion.getCampo(true),
       fechaInicial: Validacion.getCampo(true),
     });
-
   }
 
-  ngOnInit(): void {
-
-  }
-
+  ngOnInit(): void {}
 
   onSubmit() {
     this.programacionHorario.fecha_final.setHours(18);
     this.programacionHorario.fecha_final.setMinutes(59);
     this.programacionHorario.fecha_final.setSeconds(0);
-    this.onSubmit$(this.properties.get('route-programacion-horario').value, this.programacionHorario);
+    this.onSubmit$(
+      this.properties.get('route-programacion-horario').value,
+      this.programacionHorario
+    );
   }
-
 
   openDialog(): void {
     this.dialogRef = this.dialog.open(ActualizarAsigProfeAsigsComponent, {
@@ -80,8 +90,8 @@ export class CrearProgramacionHorarioComponent extends CrearBaseComponent implem
     });
     // this.dialogRef.componentInstance.consultarDatos(0, this.dialogRef.componentInstance.searchValue);
     this.dialogRef.componentInstance.combobox = true;
-    this.dialogRef.componentInstance.out.subscribe((element) => {
-      const asig_profe_asig = new AsigProfeAsigs(
+    this.dialogRef.componentInstance.out.subscribe((element: any) => {
+      this.programacionHorario.asig_profe_asig = new AsigProfeAsigs(
         element.programa,
         element.plan,
         element.materia,
@@ -93,21 +103,8 @@ export class CrearProgramacionHorarioComponent extends CrearBaseComponent implem
         element.created_at,
         element.updated_at
       );
-      this.programacionHorario.asig_profe_asig = asig_profe_asig;
 
       this.dialogRef.close();
     });
   }
-
-
 }
-
-
-
-
-
-
-
-
-
-

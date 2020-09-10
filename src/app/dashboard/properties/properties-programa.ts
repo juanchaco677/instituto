@@ -22,7 +22,7 @@ export class PropertiesPrograma {
     {
       key: 'f-c-nombre',
       value: 'Nombre',
-      placeholder: 'ej: Ingeniera de Sistemas - Técnico en Sisttemas.',
+      placeholder: 'ej: Ingeniera de Sistemas - Técnico en Sistemas.',
       control: 'nombre',
     },
     {

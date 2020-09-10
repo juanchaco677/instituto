@@ -38,21 +38,27 @@ export class OperacionBD implements Tabla {
 
   getAll(url: string, page: number, buscar: string, tipo: string): Observable<any[]> {
     const params = new HttpParams({ fromString: page > 0 ? 'page=' + page + '&buscar=' + buscar + '&tipo=' + tipo : '&buscar=' + buscar + '&tipo=' + tipo });
-    return this.http.get<any[]>(Util.apiUrl + url, { headers: Util.getHttpOptionsGet(), params: params, responseType: 'json' }).pipe(
+    return this.http.get<any[]>(Util.apiUrl + url, { headers: Util.getHttpOptionsGet(),  params, responseType: 'json' }).pipe(
       tap(objetos => console.log('obtener objetos')),
     );
   }
 
   get(url: string , data: any): Observable<any> {
     const params = new HttpParams({ fromString:  'id=' + data });
-    return this.http.get<any>(Util.apiUrl + url, { headers: Util.getHttpOptionsGet(), params: params, responseType: 'json' }).pipe(
+    return this.http.get<any>(Util.apiUrl + url, { headers: Util.getHttpOptionsGet(),  params, responseType: 'json' }).pipe(
       tap(objetos => console.log('obtener objetos')),
     );
   }
 
   getAllObject(url: string, page: number, buscar: string, data: any): Observable<any[]> {
     const params = new HttpParams({ fromString: page > 0 ? 'page=' + page + '&buscar=' + buscar + '&data=' + data : '&buscar=' + buscar + '&data=' + data });
-    return this.http.get<any[]>(Util.apiUrl + url, { headers: Util.getHttpOptionsGet(), params: params, responseType: 'json' }).pipe(
+    return this.http.get<any[]>(Util.apiUrl + url, { headers: Util.getHttpOptionsGet(),  params, responseType: 'json' }).pipe(
+      tap(objetos => console.log('obtener objetos')),
+    );
+  }
+
+  getList(url: string, params: HttpParams): Observable<any[]> {
+    return this.http.get<any[]>(Util.apiUrl + url, { headers: Util.getHttpOptionsGet(), params, responseType: 'json' }).pipe(
       tap(objetos => console.log('obtener objetos')),
     );
   }

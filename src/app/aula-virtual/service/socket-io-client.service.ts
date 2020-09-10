@@ -24,6 +24,7 @@ export class SocketIoClientService {
   $enviarControlesS = this.socket.fromEvent<any>('enviarControlesS');
   $closeUserC = this.socket.fromEvent<any>('closeUserC');
   $addRecordClient = this.socket.fromEvent<any>('addRecordClient');
+  $archivosBibliotecaC = this.socket.fromEvent<any>('archivosBibliotecaC');
 
   /**
    * observables

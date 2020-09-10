@@ -3,10 +3,7 @@
   height: 100%;
 }
 .posicion-boton {
-  position: fixed;
-  top: 84.5%;
-  left: 0px;
-  height: 0px;
+  width: fit-content !important;
 }
 
 .body-list-pptx {
@@ -15,14 +12,12 @@
 
 .card-presentacion {
   max-width: 100%;
-  -webkit-box-shadow: 0px 0px 7px 3px rgba(40,39,39,1)!important;
-  -moz-box-shadow: 0px 0px 7px 3px rgba(40,39,39,1)!important;
-  box-shadow: 0px 0px 7px 3px rgba(40,39,39,1)!important;
-
+  -webkit-box-shadow: 0px 0px 7px 3px rgba(40, 39, 39, 1) !important;
+  -moz-box-shadow: 0px 0px 7px 3px rgba(40, 39, 39, 1) !important;
+  box-shadow: 0px 0px 7px 3px rgba(40, 39, 39, 1) !important;
 }
 
 .example-header-image {
   background-image: url("https://material.angular.io/assets/img/examples/shiba1.jpg");
   background-size: cover;
 }
-

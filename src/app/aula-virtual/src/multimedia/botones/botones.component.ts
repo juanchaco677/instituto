@@ -107,14 +107,13 @@ export class BotonesComponent implements OnInit {
     concatenar = concatenar.concat(streamAudio.getAudioTracks());
     const mediaStream = new MediaStream(concatenar);
     for (const track of mediaStream.getTracks()) {
-      console.log('trackkkkk');
-      console.log(track);
       this.peerServer.peerConnection.addTrack(track, mediaStream);
     }
 
     await this.peerServer.createOffer();
     this.room.peerRecord[1].peerServer = this.peerServer;
     this.room.peerRecord[1].peerClient = new PeerClient();
+    const programacion = Sesion.getProgramacion();
     this.socket.emit('createAnswer', {
       data: this.peerServer.localDescription,
       id: this.room.id,
@@ -122,6 +121,11 @@ export class BotonesComponent implements OnInit {
       usuarioOrigen: this.room.peerRecord[1].usuario1,
       usuarioDestino: this.room.peerRecord[1].usuario2,
       record: true,
+      biblioteca: {
+        id_usuario: this.usuario.id,
+        id_programacion_horario: programacion.id,
+        id_salon: programacion.asig_profe_asig.salon.id,
+      },
     });
   }
 
@@ -153,7 +157,10 @@ export class BotonesComponent implements OnInit {
           .getSettings().displaySurface;
         if (displaySurface === 'monitor') {
           this.room.peerRecord[1].stream = this.htmlVideoDesktop.video.stream;
-          await this.start(this.htmlVideoDesktop.video.stream, null);
+          await this.start(
+            this.htmlVideoDesktop.video.stream,
+            this.videoMultimedia.video.stream
+          );
           this.socket.addRoom$(this.room);
         } else {
           const video = new Video(null, null);
@@ -192,13 +199,6 @@ export class BotonesComponent implements OnInit {
         );
         this.socket.addRoom$(this.room);
         this.socket.addListenRecord(true);
-        Util.openSnackBarDuration(
-          this.snackBar,
-          'La clase se encuentra grabada correctamente.',
-          1,
-          'bottom',
-          2000
-        );
       }
     } else {
       this.room.peerRecord[1].peerServer.close();
@@ -213,9 +213,15 @@ export class BotonesComponent implements OnInit {
       this.room.peerRecord[1].stream
         .getVideoTracks()
         .forEach((track) => track.stop());
+      const programacion = Sesion.getProgramacion();
       this.socket.emit('stopRecordS', {
         id: this.room.id,
         usuarioDestino: this.room.peerRecord[1].usuario2,
+        biblioteca: {
+          id_usuario: this.usuario.id,
+          id_programacion_horario: programacion.id,
+          id_salon: programacion.asig_profe_asig.salon.id,
+        },
       });
     }
   }
@@ -277,6 +283,7 @@ export class BotonesComponent implements OnInit {
 
   getIceCandidate(event: any) {
     if (event.candidate) {
+      const programacion = Sesion.getProgramacion();
       this.socket.emit('createAnswer', {
         data: event.candidate,
         id: this.room.id,
@@ -284,6 +291,11 @@ export class BotonesComponent implements OnInit {
         usuarioOrigen: this.room.peerRecord[1].usuario1,
         usuarioDestino: this.room.peerRecord[1].usuario2,
         record: true,
+        biblioteca: {
+          id_usuario: this.usuario.id,
+          id_programacion_horario: programacion.id,
+          id_salon: programacion.asig_profe_asig.salon.id,
+        },
       });
     }
   }

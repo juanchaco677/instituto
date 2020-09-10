@@ -1,3 +1,4 @@
+import { ProgramacionHorario } from './../dashboard/modelo/programacion-horario';
 import { VideoBoton } from 'src/app/aula-virtual/model/video-boton';
 import { Usuario } from './../dashboard/modelo/usuario';
 import { RolUsuario } from './../dashboard/modelo/rol-usuario';
@@ -33,6 +34,13 @@ export class Sesion {
   }
   static setRolUser(rolUsuario: RolUsuario) {
     sessionStorage.setItem('rolUsuario', JSON.stringify(rolUsuario));
+  }
+  static setProgramacion(data: any){
+    localStorage.setItem('programacion', JSON.stringify(data));
+  }
+
+  static getProgramacion(): ProgramacionHorario{
+    return JSON.parse(localStorage.getItem('programacion'));
   }
   static getSesionStorage(): any {
     return JSON.parse(sessionStorage.getItem('usuario'));

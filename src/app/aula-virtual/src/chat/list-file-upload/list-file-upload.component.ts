@@ -1,3 +1,9 @@
+import { Salon } from './../../../../dashboard/modelo/salon';
+import { Session } from 'protractor';
+import { PPT } from './../../../model/ppt';
+import { Sesion } from 'src/app/utils/sesion';
+import { ArchivoBilbliotecaService } from './../../../service/archivo-bilblioteca.service';
+import { ArchivoBiblioteca } from './../../../model/archivo-biblioteca';
 import { DialogoIntegrantesComponent } from './../dialogo-integrantes/dialogo-integrantes.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ListVideoComponent } from './../list-video/list-video.component';
@@ -18,7 +24,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ListFileUploadComponent implements OnInit {
   fileUpload: FileUpload;
-  room: Room = new Room(null, {}, [], {}, {}, {} , {});
+  room: Room = new Room(null, {}, [], {}, {}, {}, {});
   ppts = {};
   activar = false;
   srcPath: string;
@@ -27,19 +33,71 @@ export class ListFileUploadComponent implements OnInit {
     public dialog: MatDialog,
     private serviceSocket: SocketIoClientService,
     private snackBar: MatSnackBar,
-    private serviceFileUpload: FileUploadPptService
+    private serviceFileUpload: FileUploadPptService,
+    private archivoService: ArchivoBilbliotecaService
   ) {
     this.srcPath = Util.apiUrlImage;
   }
 
   ngOnInit(): void {
     this.serviceSocket.getRoom$().subscribe((data) => {
-      if (!Util.empty(data)) {
+      if (!Util.empty(data) && !Util.empty(data.id)) {
         this.room = data;
-        this.ppts = this.room.ppts;
+        if (!Util.empty(this.room.ppts)) {
+          this.ppts = this.room.ppts;
+        }
       }
     });
     this.serviceSocket.$archivoPpt.subscribe((data) => this.recivePPT(data));
+    // const programacion = Sesion.getProgramacion();
+    // this.archivoService
+    //   .getAll('archivo-biblioteca/get-all', {
+    //     extension: 'ppt',
+    //     tipo: 'CLASE',
+    //     id_programacion: programacion.id,
+    //     id_salon: programacion.asig_profe_asig.salon.id,
+    //   })
+    //   .subscribe((data: any) => {
+    //     if (!Util.empty(data) && data.success) {
+    //       console.log(data);
+    //       for (const element of data.data) {
+    //         const nombre = element.nombre
+    //           .replace('.pptx', '')
+    //           .replace('.ppt', '');
+
+    //         const integrantes = {};
+    //         for (const usuario of element.integrantes) {
+    //           integrantes[usuario.id] = usuario;
+    //         }
+    //         console.log('integrantes');
+    //         console.log(element);
+    //         this.ppts[nombre] = new PPT(
+    //           nombre,
+    //           0,
+    //           0,
+    //           0,
+    //           0,
+    //           element.totalPaginas,
+    //           integrantes,
+    //           element.todos,
+    //           element.programacion_horario.id + '' + element.salon.id
+    //         );
+    //       }
+    //       console.log('por ultimo');
+    //       console.log(this.ppts);
+    //     }
+    //   });
+  }
+
+  buscarPPTnombre(data: any) {
+    // tslint:disable-next-line: forin
+    for (const key in this.ppts) {
+      for (const element of data) {
+        if (element.nombre === this.ppts[key].nombre) {
+          delete this.ppts[key];
+        }
+      }
+    }
   }
 
   recivePPT(data: any) {
@@ -54,13 +112,16 @@ export class ListFileUploadComponent implements OnInit {
     this.listVideo.ppt = this.ppts[key];
     this.listVideo.redimensionarPPT = true;
     this.listVideo.redimensionar = true;
-    this.serviceSocket.emit('recibePaginationS', {id: this.room.id, ppt: this.listVideo.ppt});
+    this.serviceSocket.emit('recibePaginationS', {
+      id: this.room.id,
+      ppt: this.listVideo.ppt,
+    });
   }
 
-  eliminar(key: string){
+  eliminar(key: string) {
     delete this.room.ppts[key];
     this.serviceSocket.addRoom$(this.room);
-    this.serviceSocket.emit('eliminarPPTS', {id: this.room.id, key});
+    this.serviceSocket.emit('eliminarPPTS', { id: this.room.id, key });
   }
 
   recive(fileUpload: any) {
@@ -76,6 +137,8 @@ export class ListFileUploadComponent implements OnInit {
     });
     dialogRef.componentInstance.room = this.room;
     dialogRef.componentInstance.out.subscribe((data: any) => {
+      const integrantes = data.integrantes;
+      const permisos = data.todos;
       if (!Util.empty(data)) {
         switch (data.opcion) {
           case 1:
@@ -91,7 +154,7 @@ export class ListFileUploadComponent implements OnInit {
 
             dataForm.append('id', this.room.id);
             dataForm.append('integrantes', JSON.stringify(data.integrantes));
-            dataForm.append('permisos', JSON.stringify({todos : data.todos}));
+            dataForm.append('permisos', JSON.stringify({ todos: data.todos }));
             this.serviceFileUpload
               .store(dataForm)
               .pipe(
@@ -128,6 +191,23 @@ export class ListFileUploadComponent implements OnInit {
                       1,
                       'top'
                     );
+                    const programacion = Sesion.getProgramacion();
+                    const biblioteca = new ArchivoBiblioteca(
+                      null,
+                      data.body.nombreExtension,
+                      'ppt',
+                      'CLASE',
+                      Sesion.userAulaChat().id,
+                      programacion.asig_profe_asig.salon.id,
+                      programacion.id,
+                      data.body.totalPaginas,
+                      integrantes,
+                      permisos
+                    );
+                    this.archivoService
+                      .store({ biblioteca }, 'archivo-biblioteca')
+                      // tslint:disable-next-line: no-shadowed-variable
+                      .subscribe();
                   } else {
                     if (
                       !Util.empty(data) &&

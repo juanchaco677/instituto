@@ -8,23 +8,30 @@ import { EliminarBaseComponent } from 'src/app/dashboard/modelo/eliminar-base-co
 @Component({
   selector: 'app-eliminar-escuela-usuario',
   templateUrl: './eliminar-escuela-usuario.component.html',
-  styleUrls: ['./eliminar-escuela-usuario.component.css']
+  styleUrls: ['./eliminar-escuela-usuario.component.css'],
+  providers: [EscuelaUsuarioService],
 })
-export class EliminarEscuelaUsuarioComponent extends EliminarBaseComponent implements OnInit {
-
+export class EliminarEscuelaUsuarioComponent
+  extends EliminarBaseComponent
+  implements OnInit {
   constructor(
     public properties: PropertiesEscuelaUsuarios,
     public snackBar: MatSnackBar,
     public service: EscuelaUsuarioService,
     private menuService: MenuService,
-    public route: ActivatedRoute,
+    public route: ActivatedRoute
   ) {
-    super(snackBar, service , properties.get('route-escuela-usuario').value, route );
-    this.displayedColumns = properties.get('table-eliminar-escuela-usuario-col').value;
+    super(
+      snackBar,
+      service,
+      properties.get('route-escuela-usuario').value,
+      route
+    );
+    this.displayedColumns = properties.get(
+      'table-eliminar-escuela-usuario-col'
+    ).value;
     this.menuService.add$(properties.get('menu-escuela-usuario').value);
   }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 }

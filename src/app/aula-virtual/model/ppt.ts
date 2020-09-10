@@ -7,6 +7,7 @@ export class PPT {
     public pagAct: number,
     public pagTot: number,
     public integrantes?: {},
-    public todos?: boolean
+    public todos?: boolean,
+    public idRoom?: string
   ) {}
 }

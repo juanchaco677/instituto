@@ -17,6 +17,7 @@ export class AsigProfeAsigs {
     public grupo?: number,
     public programaciones?: ProgramacionHorario[],
     public created_at?: string,
-    public updated_at?: string
+    public updated_at?: string,
+    public periodo?: number
   ) { }
 }
