@@ -1,3 +1,9 @@
+import { PlantillaAsigEstudianteAsigsComponent } from './../../src/configuracion/asig-estudiante-asigs/plantilla-asig-estudiante-asigs/plantilla-asig-estudiante-asigs.component';
+import { EliminarAsigEstudianteAsigsComponent } from './../../src/configuracion/asig-estudiante-asigs/eliminar-asig-estudiante-asigs/eliminar-asig-estudiante-asigs.component';
+import { ActualizarAsigEstudianteAsigsComponent } from './../../src/configuracion/asig-estudiante-asigs/actualizar-asig-estudiante-asigs/actualizar-asig-estudiante-asigs.component';
+import { CrearAsigEstudianteAsigsComponent } from './../../src/configuracion/asig-estudiante-asigs/crear-asig-estudiante-asigs/crear-asig-estudiante-asigs.component';
+import { PropertiesAsigEstudianteAsigs } from './../../properties/properties-asig-estudiante-asigs';
+import { AsigEstudianteAsigsService } from './../../service/dashboard/asig-estudiante-asigs.service';
 import { UploadOnefileModule } from './../../../btn-upload-one-file/upload-onefile.module';
 import { PropertiesSalones } from './../../properties/properties-salones';
 import { PropertiesNivelEducativo } from './../../properties/properties-nivel-educativo';
@@ -64,7 +70,7 @@ import { PlantillaCRUDComponent } from '../../src/pantallas-base/plantilla-crud/
 import { PropertiesPlan } from 'src/app/dashboard/properties/properties-plan';
 import { PropertiesMateria } from 'src/app/dashboard/properties/properties-materias';
 import { PropertiesAsigProfeAsigs } from 'src/app/dashboard/properties/properties-asig-profe-asigs';
-import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { SedeComponent } from '../../src/configuracion/sede/crear-sede/sede.component';
 import { NombreInstitucionComponent } from '../../src/configuracion/nombre-institucion/nombre-institucion.component';
 import { MisionComponent } from '../../src/configuracion/mision/mision.component';
@@ -147,8 +153,8 @@ import { EliminarSalonComponent } from '../../src/configuracion/salones/eliminar
     NgxMaterialTimepickerModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBpgmyUAUnqX1-HYVZpAI-aO7cbFfjkpos',
-      libraries: ['places']
-    })
+      libraries: ['places'],
+    }),
   ],
   declarations: [
     EliminarUsuarioComponent,
@@ -235,10 +241,12 @@ import { EliminarSalonComponent } from '../../src/configuracion/salones/eliminar
     CrearNivelComponent,
     ActualizarNivelComponent,
     EliminarNivelComponent,
-
+    CrearAsigEstudianteAsigsComponent,
+    ActualizarAsigEstudianteAsigsComponent,
+    EliminarAsigEstudianteAsigsComponent,
+    PlantillaAsigEstudianteAsigsComponent,
   ],
-  exports: [
-  ],
+  exports: [],
 
   providers: [
     PropertiesLoginDashboard,
@@ -279,9 +287,8 @@ import { EliminarSalonComponent } from '../../src/configuracion/salones/eliminar
     PropertiesNivelEducativo,
     SalonService,
     PropertiesSalones,
-  ]
+    AsigEstudianteAsigsService,
+    PropertiesAsigEstudianteAsigs,
+  ],
 })
-
-export class DashboardModule {
-
-}
+export class DashboardModule {}

@@ -27,39 +27,55 @@ export class ActualizarBaseComponent {
     public routeWeb: string
   ) {
     if (!Util.empty(route)) {
-      this.route.paramMap.subscribe(params => {
-        this.tipo = !Util.empty(params.get('tipo')) ? params.get('tipo').toUpperCase() : null;
+      this.route.paramMap.subscribe((params) => {
+        this.tipo = !Util.empty(params.get('tipo'))
+          ? params.get('tipo').toUpperCase()
+          : null;
       });
     }
     if (Util.empty(this.service.listPagination$)) {
       this.consultarDatos(0, this.searchValue);
     } else {
-      this.consultarDatosEnMemoria();
+      if (
+        !Util.empty(this.service.listPagination$) &&
+        this.service.listPagination$.getValue().array.length === 0
+      ) {
+        this.consultarDatos(0, this.searchValue);
+      } else {
+        this.consultarDatosEnMemoria();
+      }
     }
   }
 
   consultarDatos(page: number, searchValue: string) {
-     this.service.getAll(this.routeBD + '/get-all-pagination', page, searchValue, this.tipo).subscribe(data => {
-
-      this.datas = data['data'].data;
-      this.dataSource = new MatTableDataSource<any>(this.datas);
-      this.paginationMaterial = new PaginationMaterial(
-        data['data'].total,
-        data['data'].per_page,
-        [5, 10, 25, 100],
-        page - 1
-      );
-      this.service.createList$(new AnyPagination(this.datas, this.paginationMaterial));
-    });
+    this.service
+      .getAll(
+        this.routeBD + '/get-all-pagination',
+        page,
+        searchValue,
+        this.tipo
+      )
+      .subscribe((data) => {
+        this.datas = data['data'].data;
+        this.dataSource = new MatTableDataSource<any>(this.datas);
+        this.paginationMaterial = new PaginationMaterial(
+          data['data'].total,
+          data['data'].per_page,
+          [5, 10, 25, 100],
+          page - 1
+        );
+        this.service.createList$(
+          new AnyPagination(this.datas, this.paginationMaterial)
+        );
+      });
   }
 
   consultarDatosEnMemoria() {
-    this.service.getList$().subscribe(
-      materiaPagination => {
-        this.datas = materiaPagination.array;
-        this.dataSource = new MatTableDataSource<any>(this.datas);
-        this.paginationMaterial = materiaPagination.pagination;
-      });
+    this.service.getList$().subscribe((materiaPagination) => {
+      this.datas = materiaPagination.array;
+      this.dataSource = new MatTableDataSource<any>(this.datas);
+      this.paginationMaterial = materiaPagination.pagination;
+    });
   }
 
   reciveMaterial(page) {
@@ -82,9 +98,13 @@ export class ActualizarBaseComponent {
       this.selection.select(row);
       if (!Util.empty(row.id)) {
         if (!Util.empty(this.tipo)) {
-          this.router.navigate(['../../' + this.routeWeb, row.id, this.tipo], { relativeTo: this.route });
+          this.router.navigate(['../../' + this.routeWeb, row.id, this.tipo], {
+            relativeTo: this.route,
+          });
         } else {
-          this.router.navigate(['../' + this.routeWeb, row.id], { relativeTo: this.route });
+          this.router.navigate(['../' + this.routeWeb, row.id], {
+            relativeTo: this.route,
+          });
         }
       } else {
         this.router.navigate(['../' + this.routeWeb, row.compoundKey], {
@@ -93,5 +113,4 @@ export class ActualizarBaseComponent {
       }
     }
   }
-
 }

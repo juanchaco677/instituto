@@ -12,8 +12,6 @@ import { DashboardModule } from './dashboard/module/dashboard/dashboard.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginGuard } from './dashboard/guard/login/login.guard';
 import { PrincipalComponent } from './src/principal/principal.component';
-import { ListMp4Component } from './aula-virtual/src/chat/list-mp4/list-mp4.component';
-import { VideosClaseComponent } from './aula-virtual/src/menu/videos-clase/videos-clase.component';
 
 @NgModule({
   imports: [
@@ -26,10 +24,11 @@ import { VideosClaseComponent } from './aula-virtual/src/menu/videos-clase/video
     BrowserAnimationsModule,
     RouterModule.forRoot(routes),
   ],
-  declarations: [AppComponent, PrincipalComponent],
+  declarations: [
+    AppComponent,
+    PrincipalComponent
+  ],
   providers: [LoginGuard, ThemeService],
   bootstrap: [AppComponent],
 })
-export class AppModule {
-
-}
+export class AppModule {}

@@ -1,0 +1,128 @@
+<app-loading [activar]="activar"></app-loading>
+<div class="d-flex justify-content-center">
+  <div class="row">
+    <form [formGroup]="crear" (ngSubmit)="onSubmit()" novalidate>
+      <mat-card class="example-card">
+
+        <mat-card-content>
+          <div class="row">
+            <div class="col-md-6 pr-1">
+              <mat-form-field appearance="legacy" class="form-campo">
+                <mat-label>{{properties.get('mat-form-field-programa').value}}</mat-label>
+                <input matInput [readonly]="true"
+                  [formControl]="getControls(properties.get('mat-form-field-programa').control)"
+                  placeholder="{{properties.get('mat-form-field-programa').placeholder}}"
+                  [(ngModel)]="asigEstudianteAsigs.programa.nombre">
+                <mat-icon matSuffix style="cursor:pointer" (click)="openDialogPrograma()">table_chart</mat-icon>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-programa').control).errors!= null && getControls(properties.get('mat-form-field-programa').control).errors.required">
+                  {{properties.get('mat-form-field-programa').error}} es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-programa').control).errors!= null && getControls(properties.get('mat-form-field-programa').control).errors.pattern">
+                  Solamente <strong>letras</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 pl-1">
+              <mat-form-field appearance="legacy" class="form-campo">
+                <mat-label>{{properties.get('mat-form-field-materia').value}}</mat-label>
+                <input matInput [readonly]="true"
+                  [formControl]="getControls(properties.get('mat-form-field-materia').control)"
+                  placeholder="{{properties.get('mat-form-field-materia').placeholder}}"
+                  [(ngModel)]="asigEstudianteAsigs.materia.nombre">
+                <mat-icon matSuffix style="cursor:pointer" (click)="openDialogMateria()">table_chart</mat-icon>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-materia').control).errors!= null && getControls(properties.get('mat-form-field-materia').control).errors.required">
+                  {{properties.get('mat-form-field-materia').error}} es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-materia').control).errors!= null && getControls(properties.get('mat-form-field-materia').control).errors.pattern">
+                  Solamente <strong>letras</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 pr-1">
+              <mat-form-field appearance="legacy" class="form-campo">
+                <mat-label>{{properties.get('mat-form-field-estudiante').value}}</mat-label>
+                <input matInput [readonly]="true"
+                  [formControl]="getControls(properties.get('mat-form-field-estudiante').control)"
+                  placeholder="{{properties.get('mat-form-field-estudiante').placeholder}}"
+                  [(ngModel)]="asigEstudianteAsigs.estudiante.nombre">
+                <mat-icon matSuffix style="cursor:pointer" (click)="openDialogEstudiante()">table_chart</mat-icon>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-estudiante').control).errors!= null && getControls(properties.get('mat-form-field-estudiante').control).errors.required">
+                  {{properties.get('mat-form-field-estudiante').error}} es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-estudiante').control).errors!= null && getControls(properties.get('mat-form-field-estudiante').control).errors.pattern">
+                  Solamente <strong>letras</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 pl-1">
+              <mat-form-field appearance="legacy" class="form-campo">
+                <mat-label>{{properties.get('mat-form-field-plan').value}}</mat-label>
+                <input matInput [readonly]="true"
+                  [formControl]="getControls(properties.get('mat-form-field-plan').control)"
+                  placeholder="{{properties.get('mat-form-field-plan').placeholder}}"
+                  [(ngModel)]="asigEstudianteAsigs.plan.nombre">
+                <mat-icon matSuffix style="cursor:pointer" (click)="openDialogPlan()">table_chart</mat-icon>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-plan').control).errors!= null && getControls(properties.get('mat-form-field-plan').control).errors.required">
+                  {{properties.get('mat-form-field-plan').error}} es <strong>obligatorio</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 pr-1">
+              <mat-form-field class="form-campo">
+                <mat-label>{{properties.get('mat-form-field-periodo').value}}</mat-label>
+                <input matInput type="number"
+                  [formControl]="getControls(properties.get('mat-form-field-periodo').control)"
+                  placeholder="{{properties.get('mat-form-field-periodo').placeholder}}"
+                  [(ngModel)]="asigEstudianteAsigs.periodo">
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-periodo').control).errors!= null && getControls(properties.get('mat-form-field-periodo').control).errors.required">
+                  {{properties.get('mat-form-field-periodo').error}} es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-periodo').control).errors!= null && getControls(properties.get('mat-form-field-periodo').control).errors.minlength">
+                  Minimo 1 <strong>números</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-6 pl-1">
+              <mat-form-field class="form-campo">
+                <mat-label>{{properties.get('mat-form-field-ano').value}}</mat-label>
+                <input matInput type="number"
+                  [formControl]="getControls(properties.get('mat-form-field-ano').control)"
+                  placeholder="{{properties.get('mat-form-field-ano').placeholder}}"
+                  [(ngModel)]="asigEstudianteAsigs.ano_gravable">
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-ano').control).errors!= null && getControls(properties.get('mat-form-field-ano').control).errors.required">
+                  {{properties.get('mat-form-field-ano').error}} es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-ano').control).errors!= null && getControls(properties.get('mat-form-field-ano').control).errors.minlength">
+                  Minimo 4 <strong>números</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <button type="submit" class="btn-block" mat-raised-button color="accent">Guardar</button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </form>
+  </div>
+</div>

@@ -66,7 +66,6 @@ export class CrearAsigProfeAsigsComponent extends CrearBaseComponent implements 
   }
 
   onSubmit() {
-    console.log(this.crear);
     this.onSubmit$(this.properties.get('route-asig-profe-asigs').value, this.asigProfeAsigs);
   }
 

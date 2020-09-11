@@ -1,3 +1,7 @@
+import { ActualizarAsigEstudianteAsigsComponent } from './../../../src/configuracion/asig-estudiante-asigs/actualizar-asig-estudiante-asigs/actualizar-asig-estudiante-asigs.component';
+import { CrearAsigEstudianteAsigsComponent } from './../../../src/configuracion/asig-estudiante-asigs/crear-asig-estudiante-asigs/crear-asig-estudiante-asigs.component';
+import { EliminarAsigEstudianteAsigsComponent } from './../../../src/configuracion/asig-estudiante-asigs/eliminar-asig-estudiante-asigs/eliminar-asig-estudiante-asigs.component';
+import { PlantillaAsigEstudianteAsigsComponent } from './../../../src/configuracion/asig-estudiante-asigs/plantilla-asig-estudiante-asigs/plantilla-asig-estudiante-asigs.component';
 import { ActualizarNivelComponent } from './../../../src/configuracion/nivel-educativo/actualizar-nivel/actualizar-nivel.component';
 import { CrearNivelComponent } from './../../../src/configuracion/nivel-educativo/crear-nivel/crear-nivel.component';
 import { EliminarNivelComponent } from './../../../src/configuracion/nivel-educativo/eliminar-nivel/eliminar-nivel.component';
@@ -407,6 +411,28 @@ export const routes = [
           {
             path: 'actualizar-asig-profe-asigs/:id',
             component: CrearAsigProfeAsigsComponent
+          }
+        ]
+      },
+      {
+        path: 'dashboard/usuario/asig-estudiante-asigs',
+        component: PlantillaAsigEstudianteAsigsComponent,
+        children: [
+          {
+            path: 'eliminar-asig-estudiante-asigs',
+            component: EliminarAsigEstudianteAsigsComponent
+          },
+          {
+            path: 'crear-asig-estudiante-asigs',
+            component: CrearAsigEstudianteAsigsComponent
+          },
+          {
+            path: 'actualizar-asig-estudiante-asigs',
+            component: ActualizarAsigEstudianteAsigsComponent,
+          },
+          {
+            path: 'actualizar-asig-estudiante-asigs/:id',
+            component: CrearAsigEstudianteAsigsComponent
           }
         ]
       },

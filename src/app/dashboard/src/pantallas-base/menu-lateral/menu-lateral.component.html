@@ -71,7 +71,7 @@
         <mat-list-item [routerLink]="['dashboard/usuario/escuela','pr']"  (click)="addMenuOpcion('Escuela Profesores')">
           <a matLine class="ml-5" >Escuela Profesores</a>
         </mat-list-item>
-        <mat-list-item [routerLink]="['dashboard/configuracion/asig-profe-asigs']"  (click)="addMenuOpcion('Asignar Profesor Asignatura Programa')">
+        <mat-list-item [routerLink]="['dashboard/configuracion/asig-profe-asigs']"  (click)="addMenuOpcion('Asignar Materias Profesor')">
           <a matLine class="ml-5" >Asignar Profesor Asignatura Programa</a>
         </mat-list-item>
         <mat-list-item [routerLink]="['dashboard/usuario/tipo/','es']"  (click)="addMenuOpcion('Estudiante')">
@@ -79,6 +79,9 @@
         </mat-list-item>
         <mat-list-item [routerLink]="['dashboard/usuario/escuela','es']"  (click)="addMenuOpcion('Escuela Profesores')">
           <a matLine class="ml-5" >Escuela Estudiante</a>
+        </mat-list-item>
+        <mat-list-item [routerLink]="['dashboard/usuario/asig-estudiante-asigs']"  (click)="addMenuOpcion('Asignar Materias Estudiante')">
+          <a matLine class="ml-5" >Asignar Materia Estudiante</a>
         </mat-list-item>
       </mat-nav-list>
     </mat-expansion-panel>
