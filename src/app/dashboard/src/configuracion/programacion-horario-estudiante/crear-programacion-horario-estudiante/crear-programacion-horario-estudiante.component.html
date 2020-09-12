@@ -1,0 +1,128 @@
+<app-loading [activar]="activar"></app-loading>
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <form [formGroup]="crear" (ngSubmit)="onSubmit()" novalidate>
+      <mat-card class="example-card">
+
+        <mat-card-content>
+          <div class="row">
+            <div class="col-md-6 pr-1">
+              <mat-form-field appearance="legacy" class="form-campo w-100">
+                <mat-label>{{properties.get('mat-form-field-estudiante').value}}</mat-label>
+                <input matInput [readonly]="true"
+                  [formControl]="getControls(properties.get('mat-form-field-estudiante').control)"
+                  placeholder="{{properties.get('mat-form-field-estudiante').placeholder}}"
+                  [(ngModel)]="programacionHorarioEstudiante.estudiante.nombre">
+                <mat-icon matSuffix style="cursor:pointer" (click)="openDialogEstudiante()">table_chart</mat-icon>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-estudiante').control).errors!= null && getControls(properties.get('mat-form-field-estudiante').control).errors.required">
+                  {{properties.get('mat-form-field-estudiante').error}} es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-estudiante').control).errors!= null && getControls(properties.get('mat-form-field-estudiante').control).errors.pattern">
+                  Solamente <strong>letras</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 pl-1">
+              <mat-form-field appearance="legacy" class="form-campo w-100">
+                <mat-label>{{properties.get('mat-form-field-profesor').value}}</mat-label>
+                <input matInput [readonly]="true"
+                  [formControl]="getControls(properties.get('mat-form-field-profesor').control)"
+                  placeholder="{{properties.get('mat-form-field-profesor').placeholder}}"
+                  [(ngModel)]="programacionHorarioEstudiante.programacion_horario.asig_profe_asig.profesor.nombre">
+                <mat-icon matSuffix style="cursor:pointer" (click)="openDialogProgramacionHorario()">table_chart</mat-icon>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-profesor').control).errors!= null && getControls(properties.get('mat-form-field-profesor').control).errors.required">
+                  {{properties.get('mat-form-field-profesor').error}} es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-profesor').control).errors!= null && getControls(properties.get('mat-form-field-profesor').control).errors.pattern">
+                  Solamente <strong>letras</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 pr-1">
+              <mat-form-field appearance="legacy" class="form-campo w-100">
+                <mat-label>{{properties.get('mat-form-field-materia').value}}</mat-label>
+                <input matInput [readonly]="true"
+                  [formControl]="getControls(properties.get('mat-form-field-materia').control)"
+                  placeholder="{{properties.get('mat-form-field-materia').placeholder}}"
+                  [(ngModel)]="programacionHorarioEstudiante.programacion_horario.asig_profe_asig.materia.nombre">
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-materia').control).errors!= null && getControls(properties.get('mat-form-field-materia').control).errors.required">
+                  {{properties.get('mat-form-field-materia').error}} es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-materia').control).errors!= null && getControls(properties.get('mat-form-field-materia').control).errors.pattern">
+                  Solamente <strong>letras</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 pl-1">
+              <mat-form-field appearance="legacy" class="form-campo w-100">
+                <mat-label>{{properties.get('mat-form-field-salon').value}}</mat-label>
+                <input matInput [readonly]="true"
+                  [formControl]="getControls(properties.get('mat-form-field-salon').control)"
+                  placeholder="{{properties.get('mat-form-field-salon').placeholder}}"
+                  [(ngModel)]="programacionHorarioEstudiante.programacion_horario.asig_profe_asig.salon.nombre">
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-salon').control).errors!= null && getControls(properties.get('mat-form-field-salon').control).errors.required">
+                  {{properties.get('mat-form-field-salon').error}} es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-salon').control).errors!= null && getControls(properties.get('mat-form-field-salon').control).errors.pattern">
+                  Solamente <strong>letras</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 pr-1">
+              <mat-form-field appearance="legacy" class="form-campo w-100">
+                <mat-label>{{properties.get('mat-form-field-hora-inicial').value}}</mat-label>
+                <input matInput [readonly]="true"
+                  [formControl]="getControls(properties.get('mat-form-field-hora-inicial').control)"
+                  placeholder="{{properties.get('mat-form-field-hora-inicial').placeholder}}"
+                  [(ngModel)]="programacionHorarioEstudiante.programacion_horario.hora_inicial">
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-hora-inicial').control).errors!= null && getControls(properties.get('mat-form-field-hora-inicial').control).errors.required">
+                  {{properties.get('mat-form-field-hora-inicial').error}} es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-hora-inicial').control).errors!= null && getControls(properties.get('mat-form-field-hora-inicial').control).errors.pattern">
+                  Solamente <strong>letras</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 pl-1">
+              <mat-form-field appearance="legacy" class="form-campo w-100">
+                <mat-label>{{properties.get('mat-form-field-hora-final').value}}</mat-label>
+                <input matInput [readonly]="true"
+                  [formControl]="getControls(properties.get('mat-form-field-hora-final').control)"
+                  placeholder="{{properties.get('mat-form-field-hora-final').placeholder}}"
+                  [(ngModel)]="programacionHorarioEstudiante.programacion_horario.hora_final">
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-hora-final').control).errors!= null && getControls(properties.get('mat-form-field-hora-final').control).errors.required">
+                  {{properties.get('mat-form-field-hora-final').error}} es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-hora-final').control).errors!= null && getControls(properties.get('mat-form-field-hora-final').control).errors.pattern">
+                  Solamente <strong>letras</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <button type="submit" class="btn-block" mat-raised-button color="accent">Guardar</button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </form>
+  </div>
+</div>

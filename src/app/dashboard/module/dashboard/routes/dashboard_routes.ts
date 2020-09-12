@@ -1,3 +1,9 @@
+import { ActualizarProgramacionHorarioEstudianteComponent } from './../../../src/configuracion/programacion-horario-estudiante/actualizar-programacion-horario-estudiante/actualizar-programacion-horario-estudiante.component';
+import { EliminarProgramacionHorarioEstudianteComponent } from './../../../src/configuracion/programacion-horario-estudiante/eliminar-programacion-horario-estudiante/eliminar-programacion-horario-estudiante.component';
+import { ActualizarMatriculaComponent } from './../../../src/matricula/actualizar-matricula/actualizar-matricula.component';
+import { CrearMatriculaComponent } from './../../../src/matricula/crear-matricula/crear-matricula.component';
+import { EliminarMatriculaComponent } from './../../../src/matricula/eliminar-matricula/eliminar-matricula.component';
+import { PlantillaMatriculaComponent } from './../../../src/matricula/plantilla-matricula/plantilla-matricula.component';
 import { ActualizarAsigEstudianteAsigsComponent } from './../../../src/configuracion/asig-estudiante-asigs/actualizar-asig-estudiante-asigs/actualizar-asig-estudiante-asigs.component';
 import { CrearAsigEstudianteAsigsComponent } from './../../../src/configuracion/asig-estudiante-asigs/crear-asig-estudiante-asigs/crear-asig-estudiante-asigs.component';
 import { EliminarAsigEstudianteAsigsComponent } from './../../../src/configuracion/asig-estudiante-asigs/eliminar-asig-estudiante-asigs/eliminar-asig-estudiante-asigs.component';
@@ -72,6 +78,8 @@ import { PlantillaEscuelaProgramaComponent } from 'src/app/dashboard/src/configu
 import { EliminarEscuelaProgramaComponent } from 'src/app/dashboard/src/configuracion/escuelas/escuela-programa/eliminar-escuela-programa/eliminar-escuela-programa.component';
 import { CrearEscuelaProgramaComponent } from 'src/app/dashboard/src/configuracion/escuelas/escuela-programa/crear-escuela-programa/crear-escuela-programa.component';
 import { ActualizarEscuelaProgramaComponent } from 'src/app/dashboard/src/configuracion/escuelas/escuela-programa/actualizar-escuela-programa/actualizar-escuela-programa.component';
+import { PlantillaProgramacionHorarioEstudianteComponent } from 'src/app/dashboard/src/configuracion/programacion-horario-estudiante/plantilla-programacion-horario-estudiante/plantilla-programacion-horario-estudiante.component';
+import { CrearProgramacionHorarioEstudianteComponent } from 'src/app/dashboard/src/configuracion/programacion-horario-estudiante/crear-programacion-horario-estudiante/crear-programacion-horario-estudiante.component';
 
 export const routes = [
   {
@@ -455,6 +463,51 @@ export const routes = [
           {
             path: 'actualizar-programacion-horario/:id',
             component: CrearProgramacionHorarioComponent
+          }
+        ]
+      },
+      {
+        path: 'dashboard/configuracion/programacion-horario-estudiante',
+        component: PlantillaProgramacionHorarioEstudianteComponent,
+        children: [
+          {
+            path: 'eliminar-programacion-horario-estudiante',
+            component: EliminarProgramacionHorarioEstudianteComponent
+          },
+          {
+            path: 'crear-programacion-horario-estudiante',
+            component: CrearProgramacionHorarioEstudianteComponent
+          },
+          {
+            path: 'actualizar-programacion-horario-estudiante',
+            component: ActualizarProgramacionHorarioEstudianteComponent,
+          },
+          {
+            path: 'actualizar-programacion-horario-estudiante/:id',
+            component: CrearProgramacionHorarioEstudianteComponent
+          }
+        ]
+      },
+
+      {
+        path: 'dashboard/matricula/registro',
+        component: PlantillaMatriculaComponent,
+        children: [
+          {
+            path: 'eliminar-matricula',
+            component: EliminarMatriculaComponent
+          },
+          {
+            path: 'crear-matricula',
+            component: CrearMatriculaComponent
+          },
+          {
+            path: 'actualizar-matricula',
+            component: ActualizarMatriculaComponent,
+          },
+          {
+            path: 'actualizar-matricula/:id',
+            component: CrearMatriculaComponent
           }
         ]
       },

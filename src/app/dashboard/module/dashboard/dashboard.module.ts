@@ -1,3 +1,6 @@
+import { PropertiesProgramacionHorarioEstudiante } from './../../properties/properties-programacion-horario-estudiante';
+import { PropertiesMatricula } from './../../properties/properties-matricula';
+import { MatriculaService } from './../../service/dashboard/matricula.service';
 import { PlantillaAsigEstudianteAsigsComponent } from './../../src/configuracion/asig-estudiante-asigs/plantilla-asig-estudiante-asigs/plantilla-asig-estudiante-asigs.component';
 import { EliminarAsigEstudianteAsigsComponent } from './../../src/configuracion/asig-estudiante-asigs/eliminar-asig-estudiante-asigs/eliminar-asig-estudiante-asigs.component';
 import { ActualizarAsigEstudianteAsigsComponent } from './../../src/configuracion/asig-estudiante-asigs/actualizar-asig-estudiante-asigs/actualizar-asig-estudiante-asigs.component';
@@ -138,6 +141,15 @@ import { PlantillaSalonComponent } from '../../src/configuracion/salones/plantil
 import { CrearSalonComponent } from '../../src/configuracion/salones/crear-salon/crear-salon.component';
 import { ActualizarSalonComponent } from '../../src/configuracion/salones/actualizar-salon/actualizar-salon.component';
 import { EliminarSalonComponent } from '../../src/configuracion/salones/eliminar-salon/eliminar-salon.component';
+import { PlantillaMatriculaComponent } from '../../src/matricula/plantilla-matricula/plantilla-matricula.component';
+import { CrearMatriculaComponent } from '../../src/matricula/crear-matricula/crear-matricula.component';
+import { ActualizarMatriculaComponent } from '../../src/matricula/actualizar-matricula/actualizar-matricula.component';
+import { EliminarMatriculaComponent } from '../../src/matricula/eliminar-matricula/eliminar-matricula.component';
+import { PlantillaProgramacionHorarioEstudianteComponent } from '../../src/configuracion/programacion-horario-estudiante/plantilla-programacion-horario-estudiante/plantilla-programacion-horario-estudiante.component';
+import { CrearProgramacionHorarioEstudianteComponent } from '../../src/configuracion/programacion-horario-estudiante/crear-programacion-horario-estudiante/crear-programacion-horario-estudiante.component';
+import { ActualizarProgramacionHorarioEstudianteComponent } from '../../src/configuracion/programacion-horario-estudiante/actualizar-programacion-horario-estudiante/actualizar-programacion-horario-estudiante.component';
+import { EliminarProgramacionHorarioEstudianteComponent } from '../../src/configuracion/programacion-horario-estudiante/eliminar-programacion-horario-estudiante/eliminar-programacion-horario-estudiante.component';
+import { ProgramacionHorarioEstudianteService } from '../../service/dashboard/programacion-horario-estudiante.service';
 
 @NgModule({
   imports: [
@@ -245,6 +257,14 @@ import { EliminarSalonComponent } from '../../src/configuracion/salones/eliminar
     ActualizarAsigEstudianteAsigsComponent,
     EliminarAsigEstudianteAsigsComponent,
     PlantillaAsigEstudianteAsigsComponent,
+    PlantillaMatriculaComponent,
+    CrearMatriculaComponent,
+    ActualizarMatriculaComponent,
+    EliminarMatriculaComponent,
+    PlantillaProgramacionHorarioEstudianteComponent,
+    CrearProgramacionHorarioEstudianteComponent,
+    ActualizarProgramacionHorarioEstudianteComponent,
+    EliminarProgramacionHorarioEstudianteComponent
   ],
   exports: [],
 
@@ -289,6 +309,10 @@ import { EliminarSalonComponent } from '../../src/configuracion/salones/eliminar
     PropertiesSalones,
     AsigEstudianteAsigsService,
     PropertiesAsigEstudianteAsigs,
+    MatriculaService,
+    PropertiesMatricula,
+    ProgramacionHorarioEstudianteService,
+    PropertiesProgramacionHorarioEstudiante
   ],
 })
 export class DashboardModule {}

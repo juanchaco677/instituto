@@ -7,50 +7,55 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-nav-list>
-        <mat-list-item [routerLink]="['dashboard/configuracion/noticia']" (click)="addMenuOpcion('Noticia')" >
-          <a matLine class="ml-5" >Noticia</a>
+        <mat-list-item [routerLink]="['dashboard/configuracion/noticia']" (click)="addMenuOpcion('Noticia')">
+          <a matLine class="ml-5">Noticia</a>
         </mat-list-item>
-        <mat-list-item [routerLink]="['dashboard/configuracion/general']" (click)="addMenuOpcion('General')" >
-          <a matLine class="ml-5" >General</a>
+        <mat-list-item [routerLink]="['dashboard/configuracion/general']" (click)="addMenuOpcion('General')">
+          <a matLine class="ml-5">General</a>
         </mat-list-item>
-        <mat-list-item [routerLink]="['dashboard/configuracion/sedes']"  (click)="addMenuOpcion('Sedes')">
+        <mat-list-item [routerLink]="['dashboard/configuracion/sedes']" (click)="addMenuOpcion('Sedes')">
           <a matLine class="ml-5">Sedes</a>
-        </mat-list-item >
-        <mat-list-item [routerLink]="['dashboard/configuracion/salon']"  (click)="addMenuOpcion('Salones Clase')">
+        </mat-list-item>
+        <mat-list-item [routerLink]="['dashboard/configuracion/salon']" (click)="addMenuOpcion('Salones Clase')">
           <a matLine class="ml-5">Salon</a>
-        </mat-list-item >
-        <mat-list-item [routerLink]="['dashboard/configuracion/escuelas']"  (click)="addMenuOpcion('Escuelas')">
-          <a matLine class="ml-5" >Escuelas</a>
         </mat-list-item>
-        <mat-list-item [routerLink]="['dashboard/configuracion/asignatura']"  (click)="addMenuOpcion('Asignaturas')">
-          <a matLine class="ml-5" >Asignaturas</a>
+        <mat-list-item [routerLink]="['dashboard/configuracion/escuelas']" (click)="addMenuOpcion('Escuelas')">
+          <a matLine class="ml-5">Escuelas</a>
         </mat-list-item>
-        <mat-list-item [routerLink]="['dashboard/configuracion/linea-asignatura']"  (click)="addMenuOpcion('Linea Asignaturas')">
-          <a matLine class="ml-5" >Linea Asignaturas</a>
+        <mat-list-item [routerLink]="['dashboard/configuracion/asignatura']" (click)="addMenuOpcion('Asignaturas')">
+          <a matLine class="ml-5">Asignaturas</a>
         </mat-list-item>
-        <mat-list-item [routerLink]="['dashboard/configuracion/modalidad']"  (click)="addMenuOpcion('Modalidad')">
-          <a matLine class="ml-5" >Modalidad</a>
+        <mat-list-item [routerLink]="['dashboard/configuracion/linea-asignatura']"
+          (click)="addMenuOpcion('Linea Asignaturas')">
+          <a matLine class="ml-5">Linea Asignaturas</a>
         </mat-list-item>
-        <mat-list-item [routerLink]="['dashboard/configuracion/nivel-educativo']"  (click)="addMenuOpcion('Nivel Educativo')">
-          <a matLine class="ml-5" >Nivel Educativo</a>
+        <mat-list-item [routerLink]="['dashboard/configuracion/modalidad']" (click)="addMenuOpcion('Modalidad')">
+          <a matLine class="ml-5">Modalidad</a>
         </mat-list-item>
-        <mat-list-item [routerLink]="['dashboard/configuracion/programa']"  (click)="addMenuOpcion('Programas')">
-          <a matLine class="ml-5" >Programas</a>
+        <mat-list-item [routerLink]="['dashboard/configuracion/nivel-educativo']"
+          (click)="addMenuOpcion('Nivel Educativo')">
+          <a matLine class="ml-5">Nivel Educativo</a>
         </mat-list-item>
-        <mat-list-item [routerLink]="['dashboard/configuracion/escuela-programa']"  (click)="addMenuOpcion('Escuela Programa')">
-          <a matLine class="ml-5" >Escuela Programa</a>
+        <mat-list-item [routerLink]="['dashboard/configuracion/programa']" (click)="addMenuOpcion('Programas')">
+          <a matLine class="ml-5">Programas</a>
         </mat-list-item>
-        <mat-list-item [routerLink]="['dashboard/configuracion/programa-modalidad']"  (click)="addMenuOpcion('Programas Modalidad')">
-          <a matLine class="ml-5" >Programa Modalidad</a>
+        <mat-list-item [routerLink]="['dashboard/configuracion/escuela-programa']"
+          (click)="addMenuOpcion('Escuela Programa')">
+          <a matLine class="ml-5">Escuela Programa</a>
         </mat-list-item>
-        <mat-list-item [routerLink]="['dashboard/configuracion/plan']"  (click)="addMenuOpcion('Plan')">
-          <a matLine class="ml-5" >Plan</a>
+        <mat-list-item [routerLink]="['dashboard/configuracion/programa-modalidad']"
+          (click)="addMenuOpcion('Programas Modalidad')">
+          <a matLine class="ml-5">Programa Modalidad</a>
         </mat-list-item>
-        <mat-list-item [routerLink]="['dashboard/configuracion/plan-estudio']"  (click)="addMenuOpcion('Plan Estudio')">
-          <a matLine class="ml-5" >Plan Estudio</a>
+        <mat-list-item [routerLink]="['dashboard/configuracion/plan']" (click)="addMenuOpcion('Plan')">
+          <a matLine class="ml-5">Plan</a>
         </mat-list-item>
-        <mat-list-item [routerLink]="['dashboard/configuracion/programacion-horario']"  (click)="addMenuOpcion('Programación Horario')">
-          <a matLine class="ml-5" >Programación Horario</a>
+        <mat-list-item [routerLink]="['dashboard/configuracion/plan-estudio']" (click)="addMenuOpcion('Plan Estudio')">
+          <a matLine class="ml-5">Plan Estudio</a>
+        </mat-list-item>
+        <mat-list-item [routerLink]="['dashboard/configuracion/programacion-horario']"
+          (click)="addMenuOpcion('Programación Horario')">
+          <a matLine class="ml-5">Programación Horario</a>
         </mat-list-item>
       </mat-nav-list>
     </mat-expansion-panel>
@@ -60,32 +65,55 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Usuarios
+          Profesor - Estudiante
         </mat-panel-title>
       </mat-expansion-panel-header>
 
       <mat-nav-list>
-        <mat-list-item [routerLink]="['dashboard/usuario/tipo/','pr']"  (click)="addMenuOpcion('Profesor')">
-          <a matLine class="ml-5" >Profesor</a>
+        <mat-list-item [routerLink]="['dashboard/usuario/tipo/','pr']" (click)="addMenuOpcion('Profesor')">
+          <a matLine class="ml-5">Profesor</a>
         </mat-list-item>
-        <mat-list-item [routerLink]="['dashboard/usuario/escuela','pr']"  (click)="addMenuOpcion('Escuela Profesores')">
-          <a matLine class="ml-5" >Escuela Profesores</a>
+        <mat-list-item [routerLink]="['dashboard/usuario/escuela','pr']" (click)="addMenuOpcion('Escuela Profesores')">
+          <a matLine class="ml-5">Escuela Profesores</a>
         </mat-list-item>
-        <mat-list-item [routerLink]="['dashboard/configuracion/asig-profe-asigs']"  (click)="addMenuOpcion('Asignar Materias Profesor')">
-          <a matLine class="ml-5" >Asignar Profesor Asignatura Programa</a>
+        <mat-list-item [routerLink]="['dashboard/configuracion/asig-profe-asigs']"
+          (click)="addMenuOpcion('Asignar Materias Profesor')">
+          <a matLine class="ml-5">Asignar Profesor Asignatura Programa</a>
         </mat-list-item>
-        <mat-list-item [routerLink]="['dashboard/usuario/tipo/','es']"  (click)="addMenuOpcion('Estudiante')">
-          <a matLine class="ml-5" >Estudiante</a>
+        <mat-list-item [routerLink]="['dashboard/usuario/tipo/','es']" (click)="addMenuOpcion('Estudiante')">
+          <a matLine class="ml-5">Estudiante</a>
         </mat-list-item>
-        <mat-list-item [routerLink]="['dashboard/usuario/escuela','es']"  (click)="addMenuOpcion('Escuela Profesores')">
-          <a matLine class="ml-5" >Escuela Estudiante</a>
+        <mat-list-item [routerLink]="['dashboard/usuario/escuela','es']" (click)="addMenuOpcion('Escuela Profesores')">
+          <a matLine class="ml-5">Escuela Estudiante</a>
         </mat-list-item>
-        <mat-list-item [routerLink]="['dashboard/usuario/asig-estudiante-asigs']"  (click)="addMenuOpcion('Asignar Materias Estudiante')">
-          <a matLine class="ml-5" >Asignar Materia Estudiante</a>
+        <mat-list-item [routerLink]="['dashboard/usuario/asig-estudiante-asigs']"
+          (click)="addMenuOpcion('Asignar Materias Estudiante')">
+          <a matLine class="ml-5">Asignar Materia Estudiante</a>
+        </mat-list-item>
+        <mat-list-item [routerLink]="['dashboard/configuracion/programacion-horario-estudiante']"
+          (click)="addMenuOpcion('Horario Estudiante')">
+          <a matLine class="ml-5">Horario Estudiante</a>
+        </mat-list-item>
+
+      </mat-nav-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Matriculas
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <mat-nav-list>
+        <mat-list-item [routerLink]="['dashboard/matricula/registro']">
+          <a matLine class="ml-5">Registro</a>
         </mat-list-item>
       </mat-nav-list>
     </mat-expansion-panel>
   </mat-accordion>
+
   <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
