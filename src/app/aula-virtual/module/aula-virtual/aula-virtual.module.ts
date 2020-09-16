@@ -1,4 +1,15 @@
-import { OperacionBD } from './../../../dashboard/modelo/operacion-bd';
+import { PropertiesAsigProfeAsigs } from './../../../dashboard/properties/properties-asig-profe-asigs';
+import { AsigProfeAsigsService } from './../../../dashboard/service/dashboard/asig-profe-asigs.service';
+import { VerAsigProfeAsigsComponent } from './../../src/ver-asig-profe-asigs/ver-asig-profe-asigs.component';
+import { PropertiesListRoom } from './../../properties/properties-list-room';
+import { ProgramacionHorarioComponent } from '../../src/menu/clase/list-room/ver/programacion-horario/programacion-horario.component';
+import { PlantillaForoAulaMateriaComponent } from './../../src/menu/foro/plantilla-foro-aula-materia/plantilla-foro-aula-materia.component';
+import { PropertiesForoAualaMateria } from './../../properties/properties-foro-aula-materia';
+import { ForoAulaMateriaService } from './../../service/foro-aula-materia.service';
+import { PresentacionClaseComponent } from './../../src/menu/clase/presentacion/presentacion-clase/presentacion-clase.component';
+import { SalonesEsPrService } from './../../service/salones-es-pr.service';
+import { GaleriaVideoComponent } from './../../src/menu/clase/video/galeria-video/galeria-video.component';
+import { SalonesEstudianteProfesorComponent } from '../../src/menu/clase/salones-estudiante-profesor/salones-estudiante-profesor.component';
 import { ArchivoBilbliotecaService } from './../../service/archivo-bilblioteca.service';
 import { ListMp4Component } from './../../src/chat/list-mp4/list-mp4.component';
 import { NotificacionService } from './../../service/notificacion.service';
@@ -10,7 +21,6 @@ import { PresentacionPPTComponent } from './../../src/multimedia/presentacion-pp
 import { ThemeService } from './../../../theme.service';
 import { FileUploadPptService } from './../../service/file-upload-ppt.service';
 import { UploadOnefileModule } from './../../../btn-upload-one-file/upload-onefile.module';
-import { BtnUploadOneFileComponent } from './../../../btn-upload-one-file/btn-upload-one-file.component';
 import { ListFileUploadComponent } from './../../src/chat/list-file-upload/list-file-upload.component';
 import { ComentarioComponent } from './../../src/comentario/comentario.component';
 import { VideoMultimediaComponent } from './../../src/multimedia/video-multimedia/video-multimedia.component';
@@ -31,7 +41,6 @@ import { LoadingModule } from '../../../loading/loading.module';
 import { PropertiesLoginChat } from '../../../dashboard/properties/properties-login-chat';
 import { RoomGuard } from '../../guard/room.guard';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PropertiesListRoom } from '../../properties/properties-list-room';
 import { MaterialModule } from '../../../dashboard/module/material/material.module';
 import { RouteModule } from '../route/route.module';
 import { NgModule } from '@angular/core';
@@ -40,10 +49,15 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { SocketIoClientService } from '../../service/socket-io-client.service';
 import { PlantillaPrincipalComponent } from '../../src/pantalla-base/plantilla-principal/plantilla-principal.component';
 import { AulaVirtualGuard } from '../../guard/aula-virtual.guard';
-import { ListRoomComponent } from '../../src/menu/list-room/list-room.component';
-import { InscripcionAsigEsComponent } from '../../src/menu/list-room/ver/incripcion-asignatura-estudiante/inscripcion-asig-es.component';
-import { AsigProfeAsigsComponent } from '../../src/menu/list-room/ver/asig-profe-asigs/asig-profe-asigs.component';
-import { VideosClaseComponent } from '../../src/menu/videos-clase/videos-clase.component';
+import { ListRoomComponent } from '../../src/menu/clase/list-room/list-room.component';
+import { InscripcionAsigEsComponent } from '../../src/menu/clase/list-room/ver/incripcion-asignatura-estudiante/inscripcion-asig-es.component';
+import { VideosClaseComponent } from '../../src/menu/clase/video/videos-clase/videos-clase.component';
+import { GaleriaPresentacionComponent } from '../../src/menu/clase/presentacion/galeria-presentacion/galeria-presentacion.component';
+import { ForoMateriaComponent } from '../../src/menu/foro/foro-materia/foro-materia.component';
+import { ForoComentariosComponent } from '../../src/menu/foro/foro-comentarios/foro-comentarios.component';
+import { CrearForoAulaMateriaComponent } from '../../src/menu/foro/crear-foro-aula-materia/crear-foro-aula-materia.component';
+import { ActualizarForoAulaMateriaComponent } from '../../src/menu/foro/actualizar-foro-aula-materia/actualizar-foro-aula-materia.component';
+import { EliminarForoAulaMateriaComponent } from '../../src/menu/foro/eliminar-foro-aula-materia/eliminar-foro-aula-materia.component';
 const config: SocketIoConfig = {
   url: 'http://181.55.192.137:4444',
   options: {},
@@ -53,7 +67,7 @@ const config: SocketIoConfig = {
   declarations: [
     ListRoomComponent,
     InscripcionAsigEsComponent,
-    AsigProfeAsigsComponent,
+    ProgramacionHorarioComponent,
     PlantillaPrincipalComponent,
     NavbarComponent,
     MenuLateralComponent,
@@ -71,7 +85,18 @@ const config: SocketIoConfig = {
     ParticipantesComponent,
     NotificacionComponent,
     ListMp4Component,
-    VideosClaseComponent
+    VideosClaseComponent,
+    SalonesEstudianteProfesorComponent,
+    GaleriaVideoComponent,
+    GaleriaPresentacionComponent,
+    PresentacionClaseComponent,
+    ForoMateriaComponent,
+    ForoComentariosComponent,
+    CrearForoAulaMateriaComponent,
+    ActualizarForoAulaMateriaComponent,
+    EliminarForoAulaMateriaComponent,
+    PlantillaForoAulaMateriaComponent,
+    VerAsigProfeAsigsComponent
   ],
   imports: [
     MaterialModule,
@@ -99,6 +124,11 @@ const config: SocketIoConfig = {
     ThemeService,
     NotificacionService,
     ArchivoBilbliotecaService,
+    SalonesEsPrService,
+    ForoAulaMateriaService,
+    PropertiesForoAualaMateria,
+    AsigProfeAsigsService,
+    PropertiesAsigProfeAsigs
   ],
 })
 export class AulaVirtualModule {}

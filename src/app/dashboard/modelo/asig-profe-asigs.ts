@@ -7,11 +7,11 @@ import { Programa } from './programa';
 
 export class AsigProfeAsigs {
   constructor(
-    public programa?: Programa,
-    public plan?: Plan,
-    public materia?: Materia,
-    public profesor?: Usuario,
-    public salon?: Salon,
+    public programa: Programa = new Programa(),
+    public plan: Plan = new Plan(),
+    public materia: Materia = new Materia(),
+    public profesor: Usuario = new Usuario(),
+    public salon: Salon = new Salon(),
     public id?: number,
     public cupos?: number,
     public grupo?: number,

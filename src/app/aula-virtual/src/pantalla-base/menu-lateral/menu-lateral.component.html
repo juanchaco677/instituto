@@ -12,14 +12,10 @@
         <mat-list-item   [routerLink]="['list-clases']" (click)="addMenuOpcion('Clases Virtuales')">
           <a matLine class="ml-5" >Clases Virtuales</a>
         </mat-list-item>
-        <mat-list-item   [routerLink]="['list-clases']" (click)="addMenuOpcion('Videos de las clases')">
-          <a matLine class="ml-5" [matMenuTriggerFor]="videoClase">Videos</a>
-          <mat-menu #videoClase="matMenu">
-            <button mat-menu-item >Vertebrates</button>
-            <button mat-menu-item >Invertebrates</button>
-          </mat-menu>
+        <mat-list-item   [routerLink]="['list-videos/','V']" (click)="addMenuOpcion('Videos de las clases')">
+          <a matLine class="ml-5">Videos</a>
         </mat-list-item>
-        <mat-list-item   [routerLink]="['list-clases']" (click)="addMenuOpcion('Presentaciones')">
+        <mat-list-item   [routerLink]="['list-presentaciones/','P']" (click)="addMenuOpcion('Presentaciones de las clases')">
           <a matLine class="ml-5" >Presentaciones</a>
         </mat-list-item>
       </mat-nav-list>
@@ -34,7 +30,10 @@
       </mat-expansion-panel-header>
       <mat-nav-list>
         <mat-list-item>
-          <a matLine class="ml-5">Foro</a>
+          <a matLine class="ml-5" [routerLink]="['foro-crear-actualizar-eliminar']">Crear, Actulizar y Eliminar</a>
+        </mat-list-item>
+        <mat-list-item>
+          <a matLine class="ml-5" >Asignaturas</a>
         </mat-list-item>
       </mat-nav-list>
     </mat-expansion-panel>

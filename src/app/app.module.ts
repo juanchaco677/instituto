@@ -26,8 +26,7 @@ import { PrincipalComponent } from './src/principal/principal.component';
   ],
   declarations: [
     AppComponent,
-    PrincipalComponent,
-
+    PrincipalComponent
 
   ],
   providers: [LoginGuard, ThemeService],

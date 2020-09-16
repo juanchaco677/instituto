@@ -1,9 +1,11 @@
+import { AnyPagination } from './../../../../modelo/anyPagination';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PropertiesAsigProfeAsigs } from 'src/app/dashboard/properties/properties-asig-profe-asigs';
 import { Component, OnInit } from '@angular/core';
 import { ActualizarBaseComponent } from 'src/app/dashboard/modelo/actualizar-base-component';
 import { AsigProfeAsigsService } from 'src/app/dashboard/service/dashboard/asig-profe-asigs.service';
 import { MenuService } from 'src/app/dashboard/service/menu.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-actualizar-asig-profe-asigs',

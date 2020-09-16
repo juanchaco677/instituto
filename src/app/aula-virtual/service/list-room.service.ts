@@ -19,25 +19,6 @@ export class ListRoomService extends OperacionBD {
     );
   }
 
-  buscarElementList$(data: any) {
-    const compoundKey = data.id.split(',');
-    const idEstudiante = +compoundKey[0];
-    const idProgramacion = +compoundKey[1];
-    let nuevoElement: any;
-    this.getList$().subscribe(
-      anyPagination => {
-        anyPagination.array.forEach(element => {
-          if (element.estudiante.id === idEstudiante
-            && element.programacion.id === idProgramacion
-          ) {
-            nuevoElement = element;
-            return nuevoElement;
-          }
-        });
-      }
-    );
-    return nuevoElement;
-  }
 }
 
 

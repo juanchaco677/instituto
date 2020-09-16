@@ -1,3 +1,4 @@
+import { ProgramacionHorario } from './../../../../dashboard/modelo/programacion-horario';
 import { Salon } from './../../../../dashboard/modelo/salon';
 import { Session } from 'protractor';
 import { PPT } from './../../../model/ppt';
@@ -191,15 +192,15 @@ export class ListFileUploadComponent implements OnInit {
                       1,
                       'top'
                     );
-                    const programacion = Sesion.getProgramacion();
+                    const programacion: ProgramacionHorario = Sesion.getProgramacion();
                     const biblioteca = new ArchivoBiblioteca(
                       null,
                       data.body.nombreExtension,
                       'ppt',
                       'CLASE',
-                      Sesion.userAulaChat().id,
-                      programacion.asig_profe_asig.salon.id,
-                      programacion.id,
+                      Sesion.userAulaChat(),
+                      programacion.asig_profe_asig.salon,
+                      programacion,
                       data.body.totalPaginas,
                       integrantes,
                       permisos

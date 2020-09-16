@@ -1,0 +1,11 @@
+.posicion-spinner {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+}
+
+.no-informacion{
+  position: fixed;
+  left: 50%;
+  top: 50%;
+}

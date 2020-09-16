@@ -35,8 +35,17 @@ export class Sesion {
   static setRolUser(rolUsuario: RolUsuario) {
     sessionStorage.setItem('rolUsuario', JSON.stringify(rolUsuario));
   }
+
   static setProgramacion(data: any){
     localStorage.setItem('programacion', JSON.stringify(data));
+  }
+
+  static setObjectAux(data: any){
+    localStorage.setItem('objectAux', JSON.stringify(data));
+  }
+
+  static getObjectAux(): any{
+    return JSON.parse(localStorage.getItem('objectAux'));
   }
 
   static getProgramacion(): ProgramacionHorario{

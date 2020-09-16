@@ -1,3 +1,4 @@
+import { ProgramacionHorarioEstudiante } from './../../../../dashboard/modelo/programacion-horario-estudiante';
 import { NotificacionService } from './../../../service/notificacion.service';
 import { Notificacion } from './../../../model/notificacion';
 import { ThemeService } from './../../../../theme.service';
@@ -15,7 +16,6 @@ import { Sesion } from 'src/app/utils/sesion';
 import { Util } from '../../../../utils/util';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IncripcionAsigEs } from 'src/app/dashboard/modelo/incripcion-asig-es';
 import { ProgramacionHorario } from 'src/app/dashboard/modelo/programacion-horario';
 import { PeerServer } from 'src/app/aula-virtual/model/peer-server';
 import { VideoBoton } from 'src/app/aula-virtual/model/video-boton';
@@ -26,7 +26,7 @@ import { VideoBoton } from 'src/app/aula-virtual/model/video-boton';
   styleUrls: ['./plantilla-chat.component.css'],
 })
 export class PlantillaChatComponent implements OnInit {
-  incripcionAsigEs: IncripcionAsigEs;
+  programcionHorarioEstudiante: ProgramacionHorarioEstudiante;
   programacionHorario: ProgramacionHorario;
   data: any;
   usuario: Usuario;
@@ -46,6 +46,7 @@ export class PlantillaChatComponent implements OnInit {
     private botones: BotonesService,
     private notificacionService: NotificacionService
   ) {
+    console.log('entrando el puto');
     // if (this.overlay.getContainerElement().classList.contains('theme-dark')) {
     themeService.add$(3);
     // }
@@ -60,72 +61,72 @@ export class PlantillaChatComponent implements OnInit {
     this.usuario.boton = new VideoBoton(false, false, false, false, false);
 
     this.route.paramMap.subscribe((params) => {
-      const compoundKey = params.get('compoundKey');
-      if (!Util.empty(compoundKey)) {
-        if (Sesion.user().tipo === 'ES') {
-          if (Util.empty(this.service.listPagination$)) {
-            this.service
-              .get(
-                'incripcion-horario-estudiante/get',
-                compoundKey.split(',')[0] + ',' + compoundKey.split(',')[1]
-              )
-              .subscribe((res) => {
-                this.incripcionAsigEs = res['data'];
-                this.socket.emit('livingRoom', {
-                  programacion: this.incripcionAsigEs.programacion,
-                  usuario: this.usuario,
-                });
-              });
-            Sesion.setProgramacion(this.incripcionAsigEs.programacion);
-          } else {
-            this.incripcionAsigEs = this.service.buscarElementList$({
-              id: compoundKey,
-            });
-            if (Util.empty(this.incripcionAsigEs)) {
-              this.router.navigate(['../../../aula-virtual']);
-            } else {
+      const id = params.get('id').toString();
+      if (Sesion.user().rol.tipo === 'ES') {
+        if (Util.empty(this.service.listPagination$)) {
+          this.service
+            .get('programacion-horario-estudiante/get', id)
+            .subscribe((res) => {
+              this.programcionHorarioEstudiante = res['data'];
               this.socket.emit('livingRoom', {
-                programacion: this.incripcionAsigEs.programacion,
+                programacion: this.programcionHorarioEstudiante
+                  .programacion_horario,
                 usuario: this.usuario,
               });
-              Sesion.setProgramacion(this.incripcionAsigEs.programacion);
-            }
-          }
+            });
+          Sesion.setProgramacion(
+            this.programcionHorarioEstudiante.programacion_horario
+          );
         } else {
-          if (Sesion.user().tipo === 'PR') {
-            const idProgramacion = +compoundKey.split(',')[1];
-            if (Util.empty(this.serviceProgramacion.listPagination$)) {
-              this.serviceProgramacion
-                .get('programacion-horario/get', idProgramacion)
-                .subscribe((res) => {
-                  this.programacionHorario = res['data'];
-                  this.socket.emit('livingRoom', {
-                    programacion: this.programacionHorario,
-                    usuario: this.usuario,
-                  });
-                });
-              Sesion.setProgramacion(this.programacionHorario);
-            } else {
-              this.programacionHorario = this.serviceProgramacion.buscarElementList$(
-                { id: idProgramacion }
-              );
-
-              if (Util.empty(this.programacionHorario)) {
-                this.router.navigate(['../../../aula-virtual']);
-              } else {
+          this.programcionHorarioEstudiante = this.service.buscarElementList$({
+            id,
+          });
+          if (Util.empty(this.programcionHorarioEstudiante)) {
+            this.router.navigate(['../../../aula-virtual']);
+          } else {
+            this.socket.emit('livingRoom', {
+              programacion: this.programcionHorarioEstudiante
+                .programacion_horario,
+              usuario: this.usuario,
+            });
+            Sesion.setProgramacion(
+              this.programcionHorarioEstudiante.programacion_horario
+            );
+          }
+        }
+      } else {
+        if (Sesion.user().rol.tipo === 'PR') {
+          if (Util.empty(this.serviceProgramacion.listPagination$)) {
+            this.serviceProgramacion
+              .get('programacion-horario/get', id)
+              .subscribe((res) => {
+                this.programacionHorario = res['data'];
                 this.socket.emit('livingRoom', {
                   programacion: this.programacionHorario,
                   usuario: this.usuario,
                 });
-                Sesion.setProgramacion(this.programacionHorario);
-              }
-            }
+              });
+            Sesion.setProgramacion(this.programacionHorario);
           } else {
-            this.router.navigate(['../../../aula-virtual']);
+            console.log('veeeeeeeeeeeeee');
+            console.log(id);
+            this.programacionHorario = this.serviceProgramacion.buscarElementList$(
+              { id }
+            );
+
+            if (Util.empty(this.programacionHorario)) {
+              this.router.navigate(['../../../aula-virtual']);
+            } else {
+              this.socket.emit('livingRoom', {
+                programacion: this.programacionHorario,
+                usuario: this.usuario,
+              });
+              Sesion.setProgramacion(this.programacionHorario);
+            }
           }
+        } else {
+          this.router.navigate(['../../../aula-virtual']);
         }
-      } else {
-        this.router.navigate(['../../../aula-virtual']);
       }
     });
   }

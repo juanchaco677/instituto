@@ -29,7 +29,7 @@ export class AulaVirtualGuard implements CanActivate {
       }
     }
     Util.openSnackBar(this.snackBar, 'No tiene los suficientes permisos para ingresar a la ruta.', 3, 'top');
-    this.router.navigate(['login-room']);
+    this.router.navigate(['login-aula-virtual']);
     return false;
   }
 

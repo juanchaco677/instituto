@@ -1,23 +1,17 @@
-import { ListRoomComponent } from '../../src/menu/list-room/list-room.component';
+import { PlantillaForoAulaMateriaComponent } from './../../src/menu/foro/plantilla-foro-aula-materia/plantilla-foro-aula-materia.component';
+import { PresentacionClaseComponent } from './../../src/menu/clase/presentacion/presentacion-clase/presentacion-clase.component';
+import { GaleriaPresentacionComponent } from './../../src/menu/clase/presentacion/galeria-presentacion/galeria-presentacion.component';
+import { GaleriaVideoComponent } from './../../src/menu/clase/video/galeria-video/galeria-video.component';
+import { VideosClaseComponent } from '../../src/menu/clase/video/videos-clase/videos-clase.component';
+import { ListVideoComponent } from './../../src/chat/list-video/list-video.component';
+import { ListRoomComponent } from '../../src/menu/clase/list-room/list-room.component';
 import { PlantillaChatComponent } from './../../src/chat/plantilla-chat/plantilla-chat.component';
 import { PlantillaPrincipalComponent } from './../../src/pantalla-base/plantilla-principal/plantilla-principal.component';
 import { AulaVirtualGuard } from '../../guard/aula-virtual.guard';
 
 export const routes = [
-  // {
-  //   path: 'login-room',
-  //   component: LoginChatRoomComponent,
-  // },
-  // {
-  //   path: 'list-room',
-  //   component: ListRoomComponent,
-  //   canActivate: [RoomGuard],
-  //   data: {
-  //     rol: ['PR', 'ES']
-  //   },
-  // },
   {
-    path: 'aula-virtual/living-room/:compoundKey',
+    path: 'aula-virtual/living-room/:id',
     component: PlantillaChatComponent,
   },
   {
@@ -25,14 +19,38 @@ export const routes = [
     component: PlantillaPrincipalComponent,
     canActivate: [AulaVirtualGuard],
     data: {
-      rol: ['PR', 'ES']
+      rol: ['PR', 'ES'],
     },
     children: [
       {
         path: 'list-clases',
         component: ListRoomComponent,
       },
-    ]
+      {
+        path: 'list-videos/:data',
+        component: VideosClaseComponent,
+      },
+      {
+        path: 'list-presentaciones/:data',
+        component: PresentacionClaseComponent,
+      },
+      {
+        path: 'clase-videos/:id',
+        component: GaleriaVideoComponent,
+      },
+      {
+        path: 'clase-presentaciones/:id',
+        component: GaleriaPresentacionComponent,
+      },
+      {
+        path: 'foro-crear-actualizar-eliminar',
+        component: PlantillaForoAulaMateriaComponent,
+      },
+    ],
   },
-  { path: 'cerrar-sesion-es-pr', redirectTo: 'login-aula-virtual', pathMatch: 'full' },
+  {
+    path: 'cerrar-sesion-es-pr',
+    redirectTo: 'login-aula-virtual',
+    pathMatch: 'full',
+  },
 ];

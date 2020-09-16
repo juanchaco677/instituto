@@ -1,0 +1,29 @@
+<mat-spinner class="posicion-spinner" *ngIf="spinner"></mat-spinner>
+<div class="row p-0 m-0  scroll-galeria">
+  <div *ngIf="datas !== undefined && datas.length === 0" class="no-informacion">
+    <mat-icon>info</mat-icon><span >No existen, presentaciones de la clase.</span>
+  </div>
+  <div class="col-lg-3 col-md-4 col-xs-6 thumb mt-1" *ngFor="let element of datas">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title>{{element.nombre}}</mat-card-title>
+        <mat-card-subtitle>{{ element.created_at | date:'medium'  }} </mat-card-subtitle>
+      </mat-card-header>
+      <img
+      [src]="src + '' + element.id_programacion_horario + '' + element.salon.id +'/' + replace(element.nombre) + '/' + replace(element.nombre) +'-0.png'"
+      class="zoom img-fluid">
+      <mat-card-actions class="d-flex flex-row-reverse">
+        <a mat-button  [href]="src + '' +element.nombre" download="{{element.nombre}}" target="_blank">Descargar</a>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <div class="col-md-12 fixed-bottom" style="width: fit-content; left: 70%;" *ngIf="datas !== undefined && datas.length > 0">
+    <mat-paginator *ngIf="paginationMaterial" [length]="paginationMaterial.length"
+      [pageSize]="paginationMaterial.pageSize" [pageSizeOptions]="paginationMaterial.pageSizeOptions"
+      (page)="reciveMaterial($event)" [pageIndex]="paginationMaterial.page">
+    </mat-paginator>
+  </div>
+</div>
+
+
