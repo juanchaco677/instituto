@@ -27,6 +27,10 @@ export class PropertiesListRoom {
       route: '../../clase-presentaciones',
     },
     {
+      key: 'route-redirect-web-foro-comentarios',
+      route: '../../foro-comentarios',
+    },
+    {
       key: 'route-programacion-horario-estudiante',
       value: 'programacion-horario-estudiante',
     },
@@ -59,9 +63,7 @@ export class PropertiesListRoom {
     },
     {
       key: 'table-ver-salon-programacion-horario-estudiante-col',
-      value: [
-        'materia',
-      ],
+      value: ['salon', 'materia'],
     },
     {
       key: 'table-eliminar-programacion-horario-estudiante-col',
@@ -86,12 +88,8 @@ export class PropertiesListRoom {
         'hora_inicial',
         'hora_final',
       ],
-      matColumnDefMateria: [
-        'materia',
-      ],
-      matHeaderCellDefMateria: [
-        'Asignatura',
-      ],
+      matColumnDefMateria: ['salon', 'materia'],
+      matHeaderCellDefMateria: ['Salón', 'Asignatura'],
       matHeaderCellDef: [
         'Estudiante',
         'Profesor',

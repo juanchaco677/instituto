@@ -1,7 +1,7 @@
+import { Usuario } from './../../../model/usuario';
 import { ListRoomService } from './../../../service/list-room.service';
 import { Sesion } from './../../../../utils/sesion';
 import { HttpParams } from '@angular/common/http';
-import { OperacionBD } from './../../../../dashboard/modelo/operacion-bd';
 import { MenuAulaService } from './../../../service/menu-aula.service';
 import { Component, OnInit, Input } from '@angular/core';
 
@@ -14,6 +14,7 @@ export class MenuLateralComponent implements OnInit {
   clases = [];
   @Input()
   inputData: any;
+  usuario: Usuario;
   constructor(
     private menuService: MenuAulaService,
     private service: ListRoomService
@@ -21,6 +22,7 @@ export class MenuLateralComponent implements OnInit {
   ngOnInit() {
     // this.consultarDatos();
     this.consultarClasesEstudiante();
+    this.usuario = Sesion.userAulaChat();
   }
 
   addMenuOpcion(data: string) {

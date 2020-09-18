@@ -1,13 +1,13 @@
 <app-loading [activar]="activar"></app-loading>
 <div class="d-flex justify-content-center">
-  <div class="row">
+  <div class="col-md-8">
     <form [formGroup]="crear" (ngSubmit)="onSubmit()" novalidate>
       <mat-card class="example-card">
 
         <mat-card-content>
           <div class="row">
             <div class="col-md-6 pr-1">
-              <mat-form-field appearance="legacy" class="form-campo">
+              <mat-form-field appearance="legacy" class="form-campo w-100 ">
                 <mat-label>{{properties.get('mat-form-field-programa').value}}</mat-label>
                 <input matInput [readonly]="true"
                   [formControl]="getControls(properties.get('mat-form-field-programa').control)"
@@ -25,7 +25,7 @@
               </mat-form-field>
             </div>
             <div class="col-md-6 pl-1">
-              <mat-form-field appearance="legacy" class="form-campo">
+              <mat-form-field appearance="legacy" class="form-campo w-100">
                 <mat-label>{{properties.get('mat-form-field-materia').value}}</mat-label>
                 <input matInput [readonly]="true"
                   [formControl]="getControls(properties.get('mat-form-field-materia').control)"
@@ -46,7 +46,7 @@
 
           <div class="row">
             <div class="col-md-6 pr-1">
-              <mat-form-field appearance="legacy" class="form-campo">
+              <mat-form-field appearance="legacy" class="form-campo w-100">
                 <mat-label>{{properties.get('mat-form-field-estudiante').value}}</mat-label>
                 <input matInput [readonly]="true"
                   [formControl]="getControls(properties.get('mat-form-field-estudiante').control)"
@@ -64,7 +64,7 @@
               </mat-form-field>
             </div>
             <div class="col-md-6 pl-1">
-              <mat-form-field appearance="legacy" class="form-campo">
+              <mat-form-field appearance="legacy" class="form-campo w-100">
                 <mat-label>{{properties.get('mat-form-field-plan').value}}</mat-label>
                 <input matInput [readonly]="true"
                   [formControl]="getControls(properties.get('mat-form-field-plan').control)"
@@ -81,7 +81,7 @@
 
           <div class="row">
             <div class="col-md-6 pr-1">
-              <mat-form-field class="form-campo">
+              <mat-form-field class="form-campo w-100">
                 <mat-label>{{properties.get('mat-form-field-periodo').value}}</mat-label>
                 <input matInput type="number"
                   [formControl]="getControls(properties.get('mat-form-field-periodo').control)"
@@ -99,10 +99,9 @@
             </div>
 
             <div class="col-md-6 pl-1">
-              <mat-form-field class="form-campo">
+              <mat-form-field class="form-campo w-100">
                 <mat-label>{{properties.get('mat-form-field-ano').value}}</mat-label>
-                <input matInput type="number"
-                  [formControl]="getControls(properties.get('mat-form-field-ano').control)"
+                <input matInput type="number" [formControl]="getControls(properties.get('mat-form-field-ano').control)"
                   placeholder="{{properties.get('mat-form-field-ano').placeholder}}"
                   [(ngModel)]="asigEstudianteAsigs.ano_gravable">
                 <mat-error
@@ -112,6 +111,45 @@
                 <mat-error
                   *ngIf="getControls(properties.get('mat-form-field-ano').control).errors!= null && getControls(properties.get('mat-form-field-ano').control).errors.minlength">
                   Minimo 4 <strong>números</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 pr-1">
+              <mat-form-field appearance="legacy" class="form-campo w-100">
+                <mat-label>{{properties.get('mat-form-field-profesor').value}}</mat-label>
+                <input matInput [readonly]="true"
+                  [formControl]="getControls(properties.get('mat-form-field-profesor').control)"
+                  placeholder="{{properties.get('mat-form-field-profesor').placeholder}}"
+                  [(ngModel)]="asigEstudianteAsigs.profesor.nombre">
+                <mat-icon matSuffix style="cursor:pointer" (click)="openDialogProfesor()">table_chart</mat-icon>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-profesor').control).errors!= null && getControls(properties.get('mat-form-field-profesor').control).errors.required">
+                  {{properties.get('mat-form-field-profesor').error}} es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-profesor').control).errors!= null && getControls(properties.get('mat-form-field-profesor').control).errors.pattern">
+                  Solamente <strong>letras</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-6 pl-1">
+              <mat-form-field appearance="legacy" class="form-campo w-100">
+                <mat-label>{{properties.get('mat-form-field-salon').value}}</mat-label>
+                <input matInput [readonly]="true"
+                  [formControl]="getControls(properties.get('mat-form-field-salon').control)"
+                  placeholder="{{properties.get('mat-form-field-salon').placeholder}}"
+                  [(ngModel)]="asigEstudianteAsigs.salon.nombre">
+                <mat-icon matSuffix style="cursor:pointer" (click)="openDialogSalon()">table_chart</mat-icon>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-salon').control).errors!= null && getControls(properties.get('mat-form-field-salon').control).errors.required">
+                  {{properties.get('mat-form-field-salon').error}} es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-salon').control).errors!= null && getControls(properties.get('mat-form-field-salon').control).errors.pattern">
+                  Solamente <strong>letras</strong>
                 </mat-error>
               </mat-form-field>
             </div>

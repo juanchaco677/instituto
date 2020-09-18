@@ -1,3 +1,5 @@
+import { ForoComentariosComponent } from './../../src/menu/foro/foro-comentarios/foro-comentarios.component';
+import { ForoMateriaComponent } from './../../src/menu/foro/foro-materia/foro-materia.component';
 import { PlantillaForoAulaMateriaComponent } from './../../src/menu/foro/plantilla-foro-aula-materia/plantilla-foro-aula-materia.component';
 import { PresentacionClaseComponent } from './../../src/menu/clase/presentacion/presentacion-clase/presentacion-clase.component';
 import { GaleriaPresentacionComponent } from './../../src/menu/clase/presentacion/galeria-presentacion/galeria-presentacion.component';
@@ -43,8 +45,16 @@ export const routes = [
         component: GaleriaPresentacionComponent,
       },
       {
+        path: 'foro-comentarios/:id',
+        component: ForoComentariosComponent,
+      },
+      {
         path: 'foro-crear-actualizar-eliminar',
         component: PlantillaForoAulaMateriaComponent,
+      },
+      {
+        path: 'foro-clase/:data',
+        component: ForoMateriaComponent,
       },
     ],
   },

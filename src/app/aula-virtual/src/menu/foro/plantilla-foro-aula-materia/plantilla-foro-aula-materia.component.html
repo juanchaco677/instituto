@@ -1,15 +1,14 @@
-<mat-tab-group mat-align-tabs="center">
-  <mat-tab label="Crear">
+<mat-tab-group #tabGroup mat-align-tabs="center" (selectedIndexChange)="cambiarTap($event)">
+  <mat-tab label="{{titleTap}}" #tabCrear>
     <div class="mt-5">
-      <app-crear-foro-aula-materia></app-crear-foro-aula-materia>
+      <app-crear-foro-aula-materia #htmlCrear></app-crear-foro-aula-materia>
     </div>
   </mat-tab>
   <mat-tab label="Actualizar">
     <div class="mt-5">
-      <app-actualizar-foro-aula-materia></app-actualizar-foro-aula-materia>
+      <app-actualizar-foro-aula-materia [htmlPlantilla]="this" [htmlCrear]="htmlCrear"></app-actualizar-foro-aula-materia>
     </div>
   </mat-tab>
-
   <mat-tab label="Eliminar">
     <div class="mt-5">
       <app-eliminar-foro-aula-materia></app-eliminar-foro-aula-materia>

@@ -1,0 +1,37 @@
+<div class="d-flex flex-row-reverse">
+  <div class="col-md-4">
+    <form [formGroup]="crear" (ngSubmit)="onSubmit()" novalidate>
+      <mat-card class="example-card">
+
+        <mat-card-content>
+          <div class="row">
+            <div class="col-md-12 pr-1">
+              <mat-form-field appearance="legacy" class="form-campo w-100">
+                <mat-label>{{properties.get('mat-form-field-comentario').value}}</mat-label>
+                <input matInput [formControl]="getControls(properties.get('mat-form-field-comentario').control)"
+                  placeholder="{{properties.get('mat-form-field-comentario').placeholder}}"
+                  [(ngModel)]="foroAulaComentario.comentario">
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-comentario').control).errors!= null && getControls(properties.get('mat-form-field-comentario').control).errors.required">
+                  {{properties.get('mat-form-field-comentario').error}} es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="getControls(properties.get('mat-form-field-comentario').control).errors!= null && getControls(properties.get('mat-form-field-comentario').control).errors.pattern">
+                  Solamente <strong>letras</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <button type="submit" class="btn-block" mat-raised-button color="accent">Guardar</button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </form>
+  </div>
+</div>

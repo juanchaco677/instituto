@@ -1,13 +1,10 @@
-<div class="container-fluid d-flex justify-content-center vh-100 mt-5">
-  <mat-tab-group class="w-50 mw-75">
-    <mat-tab label="Clase Virtual">
-      <mat-card class="example-card">
-        <mat-card-content>
-          <app-inscripcion-asig-es *ngIf="tipo === 'ES'"></app-inscripcion-asig-es>
-          <app-programacion-horario *ngIf="tipo === 'PR'"></app-programacion-horario>
-        </mat-card-content>
-      </mat-card>
-    </mat-tab>
-  </mat-tab-group>
-</div>
-
+<mat-tab-group mat-align-tabs="left">
+  <mat-tab label="Clase Virtual">
+    <mat-card class="example-card">
+      <mat-card-content>
+        <app-inscripcion-asig-es *ngIf="tipo === 'ES'"></app-inscripcion-asig-es>
+        <app-programacion-horario *ngIf="tipo === 'PR'"></app-programacion-horario>
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+</mat-tab-group>

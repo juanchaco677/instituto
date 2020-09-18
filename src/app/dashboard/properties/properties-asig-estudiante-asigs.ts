@@ -109,6 +109,20 @@ export class PropertiesAsigEstudianteAsigs {
       error: 'Año',
     },
     {
+      key: 'mat-form-field-profesor',
+      value: 'Profesor',
+      placeholder: 'ej: Carol Tatiana Rodriguez Becerra..',
+      control: 'profesor',
+      error: 'Profesor',
+    },
+    {
+      key: 'mat-form-field-salon',
+      value: 'Salón',
+      placeholder: 'ej: RA - A',
+      control: 'salon',
+      error: 'Salón',
+    },
+    {
       key: 'r-c-asig-estudiante-asigs',
       route: 'crear-asig-estudiante-asigs',
       titulo: 'Crear',

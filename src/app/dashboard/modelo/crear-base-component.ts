@@ -1,3 +1,4 @@
+import { Output, EventEmitter } from '@angular/core';
 import { PaginationMaterial } from './../../paginationmaterial';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OperacionBD } from './operacion-bd';
@@ -11,6 +12,7 @@ export class CrearBaseComponent {
   actCrear: boolean;
   data: any;
   tipo: string;
+  @Output() out = new EventEmitter<boolean>();
   constructor(
     public route: ActivatedRoute,
     public service: OperacionBD,
@@ -37,6 +39,7 @@ export class CrearBaseComponent {
     if (this.crear.invalid) {
       return;
     }
+    this.out.emit(true);
     this.activar = true;
     this.service.store({ data: dataModel }, key + '/store').subscribe(
       (data) => {
@@ -63,14 +66,10 @@ export class CrearBaseComponent {
             }
             if (!Util.empty(this.service.listPagination$)) {
               console.log('2');
-              if (this.service.size$() < 5) {
-                console.log('3');
-                this.service.addElementList$(data['data']);
-                console.log(this.service.listPagination$);
-              } else {
-                console.log('4');
-                this.service.listPagination$ = null;
-              }
+
+              console.log('3');
+              this.service.addElementList$(data['data']);
+              console.log(this.service.listPagination$);
             }
             this.crear.reset();
           }

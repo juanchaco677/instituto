@@ -4,10 +4,10 @@ import { AnyPagination } from './anyPagination';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { PaginationMaterial } from 'src/app/paginationmaterial';
-import { Output, EventEmitter } from '@angular/core';
+import { Output, EventEmitter, OnInit } from '@angular/core';
 import { OperacionBD } from './operacion-bd';
 import { ActivatedRoute, Router } from '@angular/router';
-export class ActualizarBaseRedireccionarComponent {
+export class ActualizarBaseRedireccionarComponent implements OnInit {
   @Output() out = new EventEmitter<any>();
   paginationMaterial: PaginationMaterial;
   datas: any[] = [];
@@ -35,11 +35,10 @@ export class ActualizarBaseRedireccionarComponent {
           : null;
       });
     }
-    if (Util.empty(this.service.listPagination$)) {
-      this.consultarDatos(0, this.searchValue);
-    } else {
-      this.consultarDatosEnMemoria();
-    }
+    this.consultarDatos(0, this.searchValue);
+  }
+  ngOnInit(): void {
+    this.consultarDatosEnMemoria();
   }
 
   consultarDatos(page: number, searchValue: string) {
@@ -59,9 +58,11 @@ export class ActualizarBaseRedireccionarComponent {
           [5, 10, 25, 100],
           page - 1
         );
-        this.service.createList$(
-          new AnyPagination(this.datas, this.paginationMaterial)
+        const anyPagination = new AnyPagination(
+          this.datas,
+          this.paginationMaterial
         );
+        this.service.listPagination$.next(anyPagination);
       });
   }
 
@@ -89,7 +90,7 @@ export class ActualizarBaseRedireccionarComponent {
   selectRow(row?: any) {
     this.row = row;
     this.out.emit(row);
-    if (this.sesion){
+    if (this.sesion) {
       Sesion.setObjectAux(row);
     }
     if (!this.combobox) {

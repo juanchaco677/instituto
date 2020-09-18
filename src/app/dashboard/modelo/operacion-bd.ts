@@ -1,3 +1,4 @@
+import { PaginationMaterial } from './../../paginationmaterial';
 import { Tabla } from './tabla';
 import { AnyPagination } from './anyPagination';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -10,7 +11,9 @@ import { AnySort } from 'src/app/sort/anySort';
 export class OperacionBD implements Tabla {
   listPagination$: BehaviorSubject<AnyPagination>;
 
-  constructor(public http: HttpClient) {}
+  constructor(public http: HttpClient) {
+    this.createList$(new AnyPagination());
+  }
 
   store(data: any, url: string): Observable<any> {
     return this.http
@@ -112,7 +115,7 @@ export class OperacionBD implements Tabla {
       .pipe(tap((objetos) => console.log('obtener objetos')));
   }
 
-  getList$(){
+  getList$() {
     return this.listPagination$.asObservable();
   }
   createList$(anyPagination: AnyPagination) {
@@ -121,14 +124,12 @@ export class OperacionBD implements Tabla {
   buscarElementList$(data: any) {
     const id: number = +data.id;
     let nuevoElement: any;
-    this.getList$().subscribe((anyPagination) => {
-      anyPagination.array.forEach((element) => {
-        if (element.id === id) {
-          nuevoElement = element;
-          return nuevoElement;
-        }
-      });
-    });
+    for (const element of this.listPagination$.getValue().array) {
+      if (element.id === id) {
+        nuevoElement = element;
+        return nuevoElement;
+      }
+    }
     return nuevoElement;
   }
 
@@ -143,14 +144,20 @@ export class OperacionBD implements Tabla {
   }
 
   addElementList$(data: any) {
+    const paginationMaterial = new PaginationMaterial(
+      this.listPagination$.getValue().pagination.length + 1,
+      this.listPagination$.getValue().pagination.pageSize,
+      [5, 10, 25, 100],
+      this.listPagination$.getValue().pagination.page
+    );
+    const anyPagination = new AnyPagination(
+      this.listPagination$.getValue().array,
+      paginationMaterial
+    );
     if (this.size$() < 5) {
-      console.log('si es menor a 5 ');
-      console.log(data);
-      const anyPagination = new AnyPagination(this.listPagination$.getValue().array, this.listPagination$.getValue().pagination);
       anyPagination.array = anyPagination.array.concat([data]);
-      this.listPagination$.next(anyPagination);
-      console.log(anyPagination);
     }
+    this.listPagination$.next(anyPagination);
   }
 
   size$(): number {

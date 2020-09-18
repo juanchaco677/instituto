@@ -24,11 +24,7 @@ import { PrincipalComponent } from './src/principal/principal.component';
     BrowserAnimationsModule,
     RouterModule.forRoot(routes),
   ],
-  declarations: [
-    AppComponent,
-    PrincipalComponent
-
-  ],
+  declarations: [AppComponent, PrincipalComponent],
   providers: [LoginGuard, ThemeService],
   bootstrap: [AppComponent],
 })

@@ -12,8 +12,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./actualizar-asig-estudiante-asigs.component.css'],
 })
 export class ActualizarAsigEstudianteAsigsComponent
-  extends ActualizarBaseComponent
-  implements OnInit {
+  extends ActualizarBaseComponent {
   constructor(
     public properties: PropertiesAsigEstudianteAsigs,
     public service: AsigEstudianteAsigsService,
@@ -34,7 +33,4 @@ export class ActualizarAsigEstudianteAsigsComponent
     this.menuService.add$(properties.get('menu-asig-estudiante-asigs').value);
   }
 
-  ngOnInit() {
-
-  }
 }

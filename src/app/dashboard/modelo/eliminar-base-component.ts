@@ -6,9 +6,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { PaginationMaterial } from 'src/app/paginationmaterial';
 import { OperacionBD } from './operacion-bd';
 import { Util } from 'src/app/utils/util';
-export class EliminarBaseComponent {
+import { OnInit } from '@angular/core';
+export class EliminarBaseComponent implements OnInit {
   paginationMaterial: PaginationMaterial;
-  data: any;
   datas: any[] = [];
   isLoadingResults = true;
   dataSource: MatTableDataSource<any>;
@@ -22,7 +22,9 @@ export class EliminarBaseComponent {
     public snackBar: MatSnackBar,
     public service: OperacionBD,
     public routeBD: string,
-    public route?: ActivatedRoute
+    public route?: ActivatedRoute,
+    public generic: boolean = false,
+    public data?: any
   ) {
     if (!Util.empty(route)) {
       this.route.paramMap.subscribe((params) => {
@@ -32,41 +34,59 @@ export class EliminarBaseComponent {
       });
     }
 
-    if (Util.empty(this.service.listPagination$)) {
-      this.consultarDatos(0, this.searchValue);
-    } else {
-      if (
-        !Util.empty(this.service.listPagination$) &&
-        this.service.listPagination$.getValue().array.length === 0
-      ) {
-        this.consultarDatos(0, this.searchValue);
-      } else {
-        this.consultarDatosEnMemoria();
-      }
-    }
+    this.consultarDatos(0, this.searchValue);
+  }
+  ngOnInit(): void {
+    this.consultarDatosEnMemoria();
   }
 
   consultarDatos(page: number, searchValue: string) {
-    this.service
-      .getAll(
-        this.routeBD + '/get-all-pagination',
-        page,
-        searchValue,
-        this.tipo
-      )
-      .subscribe((data) => {
-        this.datas = data['data'].data;
-        this.dataSource = new MatTableDataSource<any>(this.datas);
-        this.paginationMaterial = new PaginationMaterial(
-          data['data'].total,
-          data['data'].per_page,
-          [5, 10, 25, 100],
-          page - 1
-        );
-        this.service.createList$(
-          new AnyPagination(this.datas, this.paginationMaterial)
-        );
-      });
+    if (!this.generic) {
+      this.service
+        .getAll(
+          this.routeBD + '/get-all-pagination',
+          page,
+          searchValue,
+          this.tipo
+        )
+        .subscribe((data) => {
+          this.datas = data['data'].data;
+          this.dataSource = new MatTableDataSource<any>(this.datas);
+          this.paginationMaterial = new PaginationMaterial(
+            data['data'].total,
+            data['data'].per_page,
+            [5, 10, 25, 100],
+            page - 1
+          );
+          const anyPagination = new AnyPagination(
+            this.datas,
+            this.paginationMaterial
+          );
+          this.service.listPagination$.next(anyPagination);
+        });
+    } else {
+      this.service
+        .getAllGeneric(
+          this.routeBD + '/get-all-pagination',
+          page,
+          JSON.stringify({ buscar: searchValue, data: this.data })
+        )
+        .subscribe((data) => {
+          this.datas = data['data'].data;
+          this.dataSource = new MatTableDataSource<any>(this.datas);
+          this.paginationMaterial = new PaginationMaterial(
+            data['data'].total,
+            data['data'].per_page,
+            [5, 10, 25, 100],
+            page - 1
+          );
+          const anyPagination = new AnyPagination(
+            this.datas,
+            this.paginationMaterial
+          );
+          this.service.listPagination$.next(anyPagination);
+        });
+    }
   }
 
   consultarDatosEnMemoria() {

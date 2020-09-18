@@ -52,6 +52,10 @@ export class CrearForoAulaMateriaComponent
     });
   }
 
+  addElement(data: any){
+    this.aulaForoMateria = data;
+  }
+
   ngOnInit(): void {}
 
   onSubmit() {

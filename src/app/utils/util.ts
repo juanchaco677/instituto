@@ -155,6 +155,8 @@ export class Util {
   }
 
   static getUrlImage(usuario: Usuario) {
+    // console.log('viendo el usuario agregado');
+    // console.log(usuario);
     if (!Util.empty(usuario)) {
       if (usuario.foto.indexOf(Util.apiUrlImage) > -1) {
         return usuario.foto;

@@ -1,0 +1,21 @@
+<mat-expansion-panel *ngFor="let element of comentariosHijos" multi [expanded]="true"
+  [ngStyle]="{'margin-left':'30px'}">
+  <mat-expansion-panel-header>
+    <mat-panel-title style="position: relative;">
+      <img width="40" height="40" matListAvatar [src]="getUrl(element.usuario)">
+      <p class="ml-1 mt-2" class="color-nombre text-capitalize">{{element.usuario.nombre}}</p>
+      <p class="ml-2" class="posicion-badge" matBadge="{{element.comentario_hijo === undefined ? 0 : element.comentario_hijo.length}}">&nbsp;</p>
+    </mat-panel-title>
+    <mat-panel-description class="color-hora">
+      {{ element.created_at | date:'medium' }}
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <div class="ml-5 col-md-12">
+    <p class="text-justify"><span class="mensaje text-justify">{{element.comentario}}</span></p>
+  </div>
+  <div class="ml-5 col-md-12">
+    <button mat-button (click)="openDialogo(element)">Responder</button>
+  </div>
+  <app-comentarios-hijos [comentariosHijos]="element.comentario_hijo">
+  </app-comentarios-hijos>
+</mat-expansion-panel>

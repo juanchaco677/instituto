@@ -1,0 +1,18 @@
+.entrada-chat {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+}
+.mensaje {
+  font-size: 11px;
+  color: #a3a2a0;
+}
+.color-nombre {
+  font-weight: bold;
+  color: #7071b3;
+}
+.color-hora {
+  color: #ceccc8;
+}
+
+

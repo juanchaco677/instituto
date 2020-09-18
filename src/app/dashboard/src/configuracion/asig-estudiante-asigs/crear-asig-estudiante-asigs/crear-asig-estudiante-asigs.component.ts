@@ -1,3 +1,6 @@
+import { AsigEstudianteAsigsService } from './../../../../service/dashboard/asig-estudiante-asigs.service';
+import { Salon } from './../../../../modelo/salon';
+import { ActualizarSalonComponent } from './../../salones/actualizar-salon/actualizar-salon.component';
 import { Usuario } from './../../../../modelo/usuario';
 import { ActualizarUsuarioComponent } from './../../../usuario/estudiantes-profesores/actualizar/actualizar-usuario.component';
 import { Materia } from './../../../../modelo/materia';
@@ -32,14 +35,14 @@ export class CrearAsigEstudianteAsigsComponent
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
     private formBuilder: FormBuilder,
-    public service: PlanEstudioService,
+    public service: AsigEstudianteAsigsService,
     public route: ActivatedRoute,
     private menuService: MenuService,
     public properties: PropertiesAsigEstudianteAsigs
   ) {
     super(route, service, snackBar);
 
-    this.menuService.add$(properties.get('menu-asig-profe-asigs').value);
+    this.menuService.add$(properties.get('menu-asig-estudiante-asigs').value);
 
     this.asigEstudianteAsigs = new AsigEstudianteAsigs();
     this.asigEstudianteAsigs = !Util.empty(this.data)
@@ -53,6 +56,8 @@ export class CrearAsigEstudianteAsigsComponent
       estudiante: Validacion.getCampo(true),
       periodo: Validacion.getCampoNumero(true, 1, 1),
       ano: Validacion.getCampoNumero(true, 4, 4),
+      profesor: Validacion.getCampo(false),
+      salon: Validacion.getCampo(false),
     });
   }
 
@@ -110,11 +115,7 @@ export class CrearAsigEstudianteAsigsComponent
     });
     dialogRef.componentInstance.tipo = 'ES';
     dialogRef.componentInstance.combobox = true;
-    if (Util.empty(dialogRef.componentInstance.service.listPagination$)) {
-      dialogRef.componentInstance.consultarDatos(0, '');
-    } else {
-      dialogRef.componentInstance.consultarDatosEnMemoria();
-    }
+    dialogRef.componentInstance.consultarDatos(0, '');
     dialogRef.componentInstance.out.subscribe((element: Usuario) => {
       const usuario = new Usuario(
         element.email,
@@ -141,8 +142,59 @@ export class CrearAsigEstudianteAsigsComponent
       dialogRef.close();
     });
   }
+
+  openDialogProfesor(): void {
+    const dialogRef = this.dialog.open(ActualizarUsuarioComponent, {
+      width: '950px',
+    });
+    dialogRef.componentInstance.tipo = 'PR';
+    dialogRef.componentInstance.combobox = true;
+    dialogRef.componentInstance.consultarDatos(0, '');
+    dialogRef.componentInstance.out.subscribe((element: Usuario) => {
+      const usuario = new Usuario(
+        element.email,
+        null,
+        element.id,
+        element.nombre,
+        element.nombre_uno,
+        element.nombre_dos,
+        element.apellido_uno,
+        element.apellido_dos,
+        element.tipo,
+        element.cedula,
+        element.telefono,
+        element.celular,
+        element.fechanacimiento,
+        element.foto,
+        element.sex,
+        element.created_at,
+        element.updated_at,
+        null,
+        element.localizacion
+      );
+      this.asigEstudianteAsigs.profesor = usuario;
+      dialogRef.close();
+    });
+  }
+
+  openDialogSalon(): void {
+    const dialogRef = this.dialog.open(ActualizarSalonComponent, {
+      width: '950px',
+    });
+    dialogRef.componentInstance.combobox = true;
+    dialogRef.componentInstance.out.subscribe((element) => {
+      const salon = new Salon(
+        element.sede,
+        element.id,
+        element.nombre,
+        element.created_at,
+        element.updated_at
+      );
+      this.asigEstudianteAsigs.salon = salon;
+      dialogRef.close();
+    });
+  }
   onSubmit() {
-    console.log(this.asigEstudianteAsigs);
     this.onSubmit$(
       this.properties.get('route-asig-estudiante-asigs').value,
       this.asigEstudianteAsigs

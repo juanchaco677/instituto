@@ -11,8 +11,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./eliminar-asig-estudiante-asigs.component.css'],
 })
 export class EliminarAsigEstudianteAsigsComponent
-  extends EliminarBaseComponent
-  implements OnInit {
+  extends EliminarBaseComponent {
   constructor(
     public properties: PropertiesAsigEstudianteAsigs,
     public snackBar: MatSnackBar,
@@ -30,5 +29,4 @@ export class EliminarAsigEstudianteAsigsComponent
     this.menuService.add$(properties.get('menu-asig-estudiante-asigs').value);
   }
 
-  ngOnInit() {}
 }

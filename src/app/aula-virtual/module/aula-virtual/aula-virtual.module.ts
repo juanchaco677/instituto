@@ -1,3 +1,7 @@
+import { ComentariosHijosComponent } from './../../src/menu/foro/foro-comentarios/comentarios-hijos/comentarios-hijos.component';
+import { CrearForoAulaComentarioComponent } from './../../src/menu/foro/crear-foro-aula-comentario/crear-foro-aula-comentario.component';
+import { ForoComentarioService } from './../../service/foro-comentario.service';
+import { PropertiesForoComentarios } from './../../properties/properties-foro-comentarios';
 import { PropertiesAsigProfeAsigs } from './../../../dashboard/properties/properties-asig-profe-asigs';
 import { AsigProfeAsigsService } from './../../../dashboard/service/dashboard/asig-profe-asigs.service';
 import { VerAsigProfeAsigsComponent } from './../../src/ver-asig-profe-asigs/ver-asig-profe-asigs.component';
@@ -96,7 +100,9 @@ const config: SocketIoConfig = {
     ActualizarForoAulaMateriaComponent,
     EliminarForoAulaMateriaComponent,
     PlantillaForoAulaMateriaComponent,
-    VerAsigProfeAsigsComponent
+    VerAsigProfeAsigsComponent,
+    CrearForoAulaComentarioComponent,
+    ComentariosHijosComponent
   ],
   imports: [
     MaterialModule,
@@ -128,7 +134,9 @@ const config: SocketIoConfig = {
     ForoAulaMateriaService,
     PropertiesForoAualaMateria,
     AsigProfeAsigsService,
-    PropertiesAsigProfeAsigs
+    PropertiesAsigProfeAsigs,
+    PropertiesForoComentarios,
+    ForoComentarioService
   ],
 })
 export class AulaVirtualModule {}

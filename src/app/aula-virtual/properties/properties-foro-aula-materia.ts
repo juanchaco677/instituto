@@ -11,9 +11,14 @@ export class PropertiesForoAualaMateria {
    */
   datos = [
     {
-      key: 'menu-foro-aula-materia',
-      value: 'Crear Foro',
+      key: 'route-foro-aula-comentario',
+      value: '../foro-comentarios',
     },
+    {
+      key: 'menu-foro-aula-materia',
+      value: 'Foro Clase',
+    },
+
     {
       key: 'route-foro-aula-materia',
       value: 'foro-aula-materia',
@@ -33,6 +38,10 @@ export class PropertiesForoAualaMateria {
     {
       key: 'table-actualizar-foro-aula-materia-col',
       value: ['id', 'titulo', 'descripcion', 'profesor', 'materia'],
+    },
+    {
+      key: 'table-ver-foro-aula-materia-col',
+      value: ['titulo', 'descripcion', 'profesor', 'materia'],
     },
     {
       key: 'table-eliminar-foro-aula-materia-col',

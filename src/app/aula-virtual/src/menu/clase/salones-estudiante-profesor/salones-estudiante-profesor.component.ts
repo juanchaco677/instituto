@@ -32,16 +32,25 @@ export class SalonesEstudianteProfesorComponent
       'table-ver-salon-programacion-horario-estudiante-col'
     ).value;
     this.route.paramMap.subscribe((params) => {
-      console.log('reciviendo parametro');
-      console.log(      params.get('data').toString());
-      this.routeWeb = params.get('data').toString() === 'V'
-      ? this.properties.get('route-redirect-web-video').route
-      : this.properties.get('route-redirect-web-presentacion').route;
-      console.log(this.routeWeb);
+      switch (params.get('data').toString()) {
+        case 'V':
+          this.routeWeb = this.properties.get('route-redirect-web-video').route;
+          break;
+        case 'P':
+          this.routeWeb = this.properties.get(
+            'route-redirect-web-presentacion'
+          ).route;
+          break;
+        case 'F':
+          this.routeWeb = this.properties.get(
+            'route-redirect-web-foro-comentarios'
+          ).route;
+          break;
+        default:
+          break;
+      }
     });
   }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 }

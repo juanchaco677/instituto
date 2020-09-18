@@ -29,11 +29,11 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-nav-list>
-        <mat-list-item>
-          <a matLine class="ml-5" [routerLink]="['foro-crear-actualizar-eliminar']">Crear, Actulizar y Eliminar</a>
+        <mat-list-item *ngIf="usuario.rol.tipo === 'PR'">
+          <a matLine class="ml-5" [routerLink]="['foro-crear-actualizar-eliminar']" (click)="addMenuOpcion('Foro')">Foro</a>
         </mat-list-item>
         <mat-list-item>
-          <a matLine class="ml-5" >Asignaturas</a>
+          <a matLine class="ml-5" (click)="addMenuOpcion('Foro Clase')" [routerLink]="['foro-clase','F']">Foro Clase</a>
         </mat-list-item>
       </mat-nav-list>
     </mat-expansion-panel>
