@@ -28,6 +28,8 @@ export class GaleriaVideoComponent implements OnInit {
     this.src = Util.apiUrlImage + 'img/';
     this.srcDownlod = Util.apiUrlImage + 'mp4/';
     this.route.paramMap.subscribe((params) => {
+      console.log('all otro lado...');
+      console.log(params.get('id').toString());
       // tslint:disable-next-line: radix
       this.id = parseInt(params.get('id').toString());
     });
@@ -61,8 +63,8 @@ export class GaleriaVideoComponent implements OnInit {
       .getAllObject('archivo-biblioteca-jwt/get-all-pagination', page, {
         id_salon:
           this.data.programacion_horario === undefined
-            ? this.data.asig_profe_asig.salon.id
-            : this.data.programacion_horario.asig_profe_asig.salon.id,
+            ? this.data.salon.id
+            : this.data.programacion_horario.salon.id,
         extension: 'mp4',
         tipo: 'CLASE',
       })

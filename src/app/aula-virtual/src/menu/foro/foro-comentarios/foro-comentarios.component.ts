@@ -33,6 +33,7 @@ export class ForoComentariosComponent implements OnInit {
   @ViewChild('htmlComentarioHijos')
   htmlComentarioHijos: ComentariosHijosComponent;
   titulo = 'Comentarios';
+  spinner = false;
   constructor(
     public properties: PropertiesForoComentarios,
     public service: ForoComentarioService,
@@ -54,15 +55,11 @@ export class ForoComentariosComponent implements OnInit {
     if (this.comentar) {
       this.service.getList$().subscribe((data) => {
         if (!Util.empty(data) && !Util.empty(data.array) && data.array.length > 0) {
-          console.log('..daaaaaaaaaaaaaaaaaaaa..');
-          console.log(data);
           this.foroAulaComentarios = data.array;
-          console.log(this.foroAulaComentarios);
           this.titulo = this.foroAulaComentarios[0].foro.titulo;
         }
       });
 
-      console.log('..se agrega el log..');
       this.service
         .get('foro-aula-comentario/get-all', this.id)
         .subscribe((data) => {

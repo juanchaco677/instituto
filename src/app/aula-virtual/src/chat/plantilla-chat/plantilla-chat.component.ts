@@ -46,10 +46,7 @@ export class PlantillaChatComponent implements OnInit {
     private botones: BotonesService,
     private notificacionService: NotificacionService
   ) {
-    console.log('entrando el puto');
-    // if (this.overlay.getContainerElement().classList.contains('theme-dark')) {
     themeService.add$(3);
-    // }
     this.sesionUsuario = Sesion.user();
 
     if (!this.overlay.getContainerElement().classList.contains('theme-light')) {

@@ -50,44 +50,6 @@ export class ListFileUploadComponent implements OnInit {
       }
     });
     this.serviceSocket.$archivoPpt.subscribe((data) => this.recivePPT(data));
-    // const programacion = Sesion.getProgramacion();
-    // this.archivoService
-    //   .getAll('archivo-biblioteca/get-all', {
-    //     extension: 'ppt',
-    //     tipo: 'CLASE',
-    //     id_programacion: programacion.id,
-    //     id_salon: programacion.asig_profe_asig.salon.id,
-    //   })
-    //   .subscribe((data: any) => {
-    //     if (!Util.empty(data) && data.success) {
-    //       console.log(data);
-    //       for (const element of data.data) {
-    //         const nombre = element.nombre
-    //           .replace('.pptx', '')
-    //           .replace('.ppt', '');
-
-    //         const integrantes = {};
-    //         for (const usuario of element.integrantes) {
-    //           integrantes[usuario.id] = usuario;
-    //         }
-    //         console.log('integrantes');
-    //         console.log(element);
-    //         this.ppts[nombre] = new PPT(
-    //           nombre,
-    //           0,
-    //           0,
-    //           0,
-    //           0,
-    //           element.totalPaginas,
-    //           integrantes,
-    //           element.todos,
-    //           element.programacion_horario.id + '' + element.salon.id
-    //         );
-    //       }
-    //       console.log('por ultimo');
-    //       console.log(this.ppts);
-    //     }
-    //   });
   }
 
   buscarPPTnombre(data: any) {
@@ -192,6 +154,9 @@ export class ListFileUploadComponent implements OnInit {
                       1,
                       'top'
                     );
+                    console.log('entrando a salvar en biblioteca');
+                    console.log(data);
+
                     const programacion: ProgramacionHorario = Sesion.getProgramacion();
                     const biblioteca = new ArchivoBiblioteca(
                       null,
@@ -199,12 +164,14 @@ export class ListFileUploadComponent implements OnInit {
                       'ppt',
                       'CLASE',
                       Sesion.userAulaChat(),
-                      programacion.asig_profe_asig.salon,
+                      programacion.salon,
                       programacion,
                       data.body.totalPaginas,
                       integrantes,
                       permisos
                     );
+                    console.log(biblioteca);
+                    console.log('------------------------');
                     this.archivoService
                       .store({ biblioteca }, 'archivo-biblioteca')
                       // tslint:disable-next-line: no-shadowed-variable

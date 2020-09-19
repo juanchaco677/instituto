@@ -11,13 +11,11 @@ export class AsigProfeAsigs {
     public plan: Plan = new Plan(),
     public materia: Materia = new Materia(),
     public profesor: Usuario = new Usuario(),
-    public salon: Salon = new Salon(),
     public id?: number,
-    public cupos?: number,
-    public grupo?: number,
     public programaciones?: ProgramacionHorario[],
     public created_at?: string,
     public updated_at?: string,
-    public periodo?: number
-  ) { }
+    public periodo = 1,
+    public ano_gravable = new Date().getFullYear()
+  ) {}
 }

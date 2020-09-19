@@ -37,6 +37,7 @@ export class PropertiesListRoom {
     {
       key: 'label-buscar',
       value: 'Buscar',
+      placeholder: 'Materia'
     },
     {
       key: 'label-eliminar',

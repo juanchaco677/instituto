@@ -8,10 +8,8 @@ export class AsigEstudianteAsigs {
   constructor(
     public id?: number,
     public estudiante: Usuario = new Usuario(),
-    public profesor: Usuario = new Usuario(),
     public programa: Programa = new Programa(),
     public materia: Materia = new Materia(),
-    public salon: Salon = new Salon(),
     public plan: Plan = new Plan(),
     public periodo: number = 1,
     public ano_gravable: number = new Date().getFullYear(),

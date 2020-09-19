@@ -143,57 +143,7 @@ export class CrearAsigEstudianteAsigsComponent
     });
   }
 
-  openDialogProfesor(): void {
-    const dialogRef = this.dialog.open(ActualizarUsuarioComponent, {
-      width: '950px',
-    });
-    dialogRef.componentInstance.tipo = 'PR';
-    dialogRef.componentInstance.combobox = true;
-    dialogRef.componentInstance.consultarDatos(0, '');
-    dialogRef.componentInstance.out.subscribe((element: Usuario) => {
-      const usuario = new Usuario(
-        element.email,
-        null,
-        element.id,
-        element.nombre,
-        element.nombre_uno,
-        element.nombre_dos,
-        element.apellido_uno,
-        element.apellido_dos,
-        element.tipo,
-        element.cedula,
-        element.telefono,
-        element.celular,
-        element.fechanacimiento,
-        element.foto,
-        element.sex,
-        element.created_at,
-        element.updated_at,
-        null,
-        element.localizacion
-      );
-      this.asigEstudianteAsigs.profesor = usuario;
-      dialogRef.close();
-    });
-  }
 
-  openDialogSalon(): void {
-    const dialogRef = this.dialog.open(ActualizarSalonComponent, {
-      width: '950px',
-    });
-    dialogRef.componentInstance.combobox = true;
-    dialogRef.componentInstance.out.subscribe((element) => {
-      const salon = new Salon(
-        element.sede,
-        element.id,
-        element.nombre,
-        element.created_at,
-        element.updated_at
-      );
-      this.asigEstudianteAsigs.salon = salon;
-      dialogRef.close();
-    });
-  }
   onSubmit() {
     this.onSubmit$(
       this.properties.get('route-asig-estudiante-asigs').value,

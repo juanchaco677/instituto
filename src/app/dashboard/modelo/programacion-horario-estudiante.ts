@@ -14,8 +14,7 @@ export class ProgramacionHorarioEstudiante {
         new Programa(),
         new Plan(),
         new Materia(),
-        new Usuario(),
-        new Salon()
+        new Usuario()
       )
     ),
     public created_at?: string,

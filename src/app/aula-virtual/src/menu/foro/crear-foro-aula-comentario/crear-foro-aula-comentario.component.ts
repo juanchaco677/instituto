@@ -1,3 +1,4 @@
+import { ForoComentariosComponent } from './../foro-comentarios/foro-comentarios.component';
 import { AnySort } from 'src/app/sort/anySort';
 import { Sesion } from './../../../../../utils/sesion';
 import { PaginationMaterial } from './../../../../../paginationmaterial';
@@ -23,7 +24,7 @@ export class CrearForoAulaComentarioComponent
   extends CrearBaseComponent
   implements OnInit {
   @Input() foroAulaComentario: ForoAulaComentario;
-
+  @Input() htmlForoComentario: ForoComentariosComponent;
   constructor(
     private formBuilder: FormBuilder,
     public properties: PropertiesForoComentarios,
@@ -59,6 +60,7 @@ export class CrearForoAulaComentarioComponent
     }
     this.out.emit(true);
     this.activar = true;
+    this.htmlForoComentario.spinner = true;
     this.service.store({ data: dataModel }, key + '/store').subscribe(
       (data) => {
         if (data['success']) {
@@ -69,8 +71,6 @@ export class CrearForoAulaComentarioComponent
             'bottom'
           );
           if (!this.actCrear) {
-            console.log('1');
-            console.log(this.service.listPagination$);
             if (Util.empty(this.service.listPagination$)) {
               const paginationMaterial = new PaginationMaterial(
                 1,
@@ -83,12 +83,7 @@ export class CrearForoAulaComentarioComponent
               );
             }
             if (!Util.empty(this.service.listPagination$)) {
-              console.log('2');
-
-              console.log('3');
               data['data']['usuario'] = Sesion.user();
-              console.log(data);
-              console.log('---------------------');
               const paginationMaterial = new PaginationMaterial(
                 this.service.listPagination$.getValue().pagination.length + 1,
                 this.service.listPagination$.getValue().pagination.pageSize,
@@ -103,8 +98,8 @@ export class CrearForoAulaComentarioComponent
               anyPagination.array = data['data'];
 
               this.service.listPagination$.next(anyPagination);
-              console.log(this.service.listPagination$);
             }
+            this.htmlForoComentario.spinner = false;
             this.crear.reset();
           }
         } else {

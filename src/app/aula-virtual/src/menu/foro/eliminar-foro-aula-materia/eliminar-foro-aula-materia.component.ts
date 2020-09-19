@@ -26,7 +26,7 @@ export class EliminarForoAulaMateriaComponent
       properties.get('route-foro-aula-materia').value,
       null,
       true,
-      Sesion.userAulaChat().id
+      Sesion.userAulaChat()
     );
     this.displayedColumns = properties.get(
       'table-eliminar-foro-aula-materia-col'

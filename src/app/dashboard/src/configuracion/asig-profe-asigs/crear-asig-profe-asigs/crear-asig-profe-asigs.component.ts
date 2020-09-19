@@ -41,7 +41,7 @@ export class CrearAsigProfeAsigsComponent extends CrearBaseComponent implements 
 
     this.menuService.add$(properties.get('menu-asig-profe-asigs').value);
 
-    this.asigProfeAsigs = new AsigProfeAsigs(new Programa(), new Plan(), new Materia(), new Usuario(), new Salon());
+    this.asigProfeAsigs = new AsigProfeAsigs(new Programa(), new Plan(), new Materia(), new Usuario());
 
     this.asigProfeAsigs = !Util.empty(this.data) ? this.data : this.asigProfeAsigs;
 
@@ -54,9 +54,8 @@ export class CrearAsigProfeAsigsComponent extends CrearBaseComponent implements 
       plan: Validacion.getCampoLetras(true),
       materia: Validacion.getCampoLetras(true),
       profesor: Validacion.getCampo(false),
-      salon: Validacion.getCampo(true),
-      cupos: Validacion.getCampoNumero(true, 1, 2),
-      grupo: Validacion.getCampoNumero(true, 1, 1),
+      periodo: Validacion.getCampoNumero(true, 1 , 1),
+      ano_gravable: Validacion.getCampoNumero(true, 1 , 4 ),
     });
 
   }
@@ -90,11 +89,8 @@ export class CrearAsigProfeAsigsComponent extends CrearBaseComponent implements 
     });
     dialogRef.componentInstance.tipo = 'PR';
     dialogRef.componentInstance.combobox = true;
-    if (Util.empty(dialogRef.componentInstance.service.listPagination$)) {
-      dialogRef.componentInstance.consultarDatos(0, '');
-    } else {
-      dialogRef.componentInstance.consultarDatosEnMemoria();
-    }
+    dialogRef.componentInstance.consultarDatos(0, '');
+
     dialogRef.componentInstance.out.subscribe((element) => {
       const usuario = new Usuario(
         element.email,
@@ -141,23 +137,7 @@ export class CrearAsigProfeAsigsComponent extends CrearBaseComponent implements 
     });
   }
 
-  openDialogSalon(): void {
-    const dialogRef = this.dialog.open(ActualizarSalonComponent, {
-      width: '950px',
-    });
-    dialogRef.componentInstance.combobox = true;
-    dialogRef.componentInstance.out.subscribe((element) => {
-      const salon = new Salon(
-        element.sede,
-        element.id,
-        element.nombre,
-        element.created_at,
-        element.updated_at
-      );
-      this.asigProfeAsigs.salon = salon;
-      dialogRef.close();
-    });
-  }
+
 
   openDialogMateria(): void {
     const dialogRef = this.dialog.open(ActualizarMateriasComponent, {

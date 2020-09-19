@@ -61,8 +61,8 @@ export class GaleriaPresentacionComponent implements OnInit {
       .getAllObject('archivo-biblioteca-jwt/get-all-pagination', page, {
         id_salon:
           this.data.programacion_horario === undefined
-            ? this.data.asig_profe_asig.salon.id
-            : this.data.programacion_horario.asig_profe_asig.salon.id,
+            ? this.data.salon.id
+            : this.data.programacion_horario.salon.id,
         extension: 'ppt',
         tipo: 'CLASE',
       })

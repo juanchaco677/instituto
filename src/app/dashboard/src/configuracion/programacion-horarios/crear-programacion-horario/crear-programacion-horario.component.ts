@@ -1,3 +1,4 @@
+import { ActualizarSalonComponent } from './../../salones/actualizar-salon/actualizar-salon.component';
 import { AsigProfeAsigs } from './../../../../modelo/asig-profe-asigs';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
@@ -48,7 +49,6 @@ export class CrearProgramacionHorarioComponent
         new Plan(),
         new Materia(),
         new Usuario(),
-        new Salon()
       )
     );
 
@@ -75,9 +75,6 @@ export class CrearProgramacionHorarioComponent
   ngOnInit(): void {}
 
   onSubmit() {
-    this.programacionHorario.fecha_final.setHours(18);
-    this.programacionHorario.fecha_final.setMinutes(59);
-    this.programacionHorario.fecha_final.setSeconds(0);
     this.onSubmit$(
       this.properties.get('route-programacion-horario').value,
       this.programacionHorario
@@ -105,6 +102,23 @@ export class CrearProgramacionHorarioComponent
       );
 
       this.dialogRef.close();
+    });
+  }
+  openDialogSalon(): void {
+    const dialogRef = this.dialog.open(ActualizarSalonComponent, {
+      width: '950px',
+    });
+    dialogRef.componentInstance.combobox = true;
+    dialogRef.componentInstance.out.subscribe((element) => {
+      const salon = new Salon(
+        element.sede,
+        element.id,
+        element.nombre,
+        element.created_at,
+        element.updated_at
+      );
+      this.programacionHorario.salon = salon;
+      dialogRef.close();
     });
   }
 }

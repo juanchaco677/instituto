@@ -112,11 +112,9 @@ export class CrearMatriculaComponent
     });
     dialogRef.componentInstance.tipo = 'ES';
     dialogRef.componentInstance.combobox = true;
-    if (Util.empty(dialogRef.componentInstance.service.listPagination$)) {
-      dialogRef.componentInstance.consultarDatos(0, '');
-    } else {
-      dialogRef.componentInstance.consultarDatosEnMemoria();
-    }
+
+    dialogRef.componentInstance.consultarDatos(0, '');
+
     dialogRef.componentInstance.out.subscribe((element: Usuario) => {
       const usuario = new Usuario(
         element.email,

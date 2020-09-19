@@ -1,3 +1,4 @@
+<mat-spinner class="posicion-spinner" *ngIf="spinner"></mat-spinner>
 <mat-tab-group #tabGroup mat-align-tabs="end" class="h-75 mh-75">
   <mat-tab label="{{titulo}}" #tabCrear class="w-75 text-capitalize" style=" text-transform: capitalize!important;">
     <mat-accordion class="mt-5 w-75" style="width: 400px!important;">
@@ -5,4 +6,4 @@
     </mat-accordion>
   </mat-tab>
 </mat-tab-group>
-<app-crear-foro-aula-comentario (out)="out.emit(true)" [foroAulaComentario]="foroAulaComentario"></app-crear-foro-aula-comentario>
+<app-crear-foro-aula-comentario (out)="out.emit(true)" [htmlForoComentario]="this" [foroAulaComentario]="foroAulaComentario"></app-crear-foro-aula-comentario>

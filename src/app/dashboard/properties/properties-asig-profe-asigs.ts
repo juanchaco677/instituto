@@ -34,16 +34,16 @@ export class PropertiesAsigProfeAsigs {
     },
     {
       key: 'table-actualizar-asig-profe-asigs-col',
-      value: ['id', 'programa' , 'profesor', 'plan', 'salon', 'materia', 'cupos', 'grupo']
+      value: ['id', 'programa' , 'profesor', 'plan', 'materia', 'ano_gravable' , 'periodo' ]
     },
     {
       key: 'table-eliminar-asig-profe-asigs-col',
-      value: ['select', 'id', 'programa' , 'profesor', 'plan', 'salon', 'materia', 'cupos', 'grupo']
+      value: ['select', 'id', 'programa' , 'profesor', 'plan', 'materia', 'ano_gravable' , 'periodo']
     },
     {
       key: 'table',
-      matColumnDef: ['programa' , 'profesor', 'plan', 'salon', 'materia', 'cupos', 'grupo'],
-      matHeaderCellDef: ['Programa', 'Profesor' , 'Plan' , 'Salon', 'Materia', 'Cupos', 'Grupo'],
+      matColumnDef: ['programa' , 'profesor', 'plan', 'materia', 'ano_gravable' , 'periodo'],
+      matHeaderCellDef: ['Programa', 'Profesor' , 'Plan' , 'Materia', 'Año Gravable' , 'Periodo'],
     },
     {
       key: 'mat-form-field-programa',
@@ -66,13 +66,7 @@ export class PropertiesAsigProfeAsigs {
       control: 'profesor',
       error: 'Profesor'
     },
-    {
-      key: 'mat-form-field-salon',
-      value: 'Salon',
-      placeholder: 'ej: Ra-345',
-      control: 'salon',
-      error: 'Salon'
-    },
+
     {
       key: 'mat-form-field-materia',
       value: 'Materia',
@@ -81,18 +75,18 @@ export class PropertiesAsigProfeAsigs {
       error: 'Materia'
     },
     {
-      key: 'mat-form-field-cupos',
-      value: 'Cupos',
-      placeholder: 'ej: 25 - 45 - 60',
-      control: 'cupos',
-      error: 'Cupos'
+      key: 'mat-form-field-periodo',
+      value: 'Periodo',
+      placeholder: 'ej: 1 - 2 - 3 ...',
+      control: 'periodo',
+      error: 'Periodo'
     },
     {
-      key: 'mat-form-field-grupo',
-      value: 'Grupo',
-      placeholder: 'ej: 1 - 2 -3',
-      control: 'grupo',
-      error: 'Grupo'
+      key: 'mat-form-field-ano-gravable',
+      value: 'Año Gravable',
+      placeholder: 'ej: 2020 - 2021 - 2022 ...',
+      control: 'ano_gravable',
+      error: 'Año Gravable'
     },
     {
       key: 'r-c-asig-profe-asigs',

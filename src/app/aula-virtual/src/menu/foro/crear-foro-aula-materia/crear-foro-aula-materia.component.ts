@@ -66,28 +66,23 @@ export class CrearForoAulaMateriaComponent
     );
   }
 
-  openDialogAsigProfesorAsignatura(): void {
-    const dialogRef = this.dialog.open(VerAsigProfeAsigsComponent, {
+
+  openDialogMateria(): void {
+    const dialogRef = this.dialog.open(ActualizarMateriasComponent, {
       width: '950px',
     });
     dialogRef.componentInstance.combobox = true;
-    dialogRef.componentInstance.out.subscribe((element: any) => {
-      const asigProfesAsigs = new AsigProfeAsigs(
-        element.programa,
-        element.plan,
-        element.materia,
-        element.profesor,
-        element.salon,
+    dialogRef.componentInstance.out.subscribe((element) => {
+      const materia = new Materia(
         element.id,
-        element.cupos,
-        element.grupo,
-        element.programaciones,
+        element.nombre,
+        element.credito,
         element.created_at,
-        element.updated_at,
-        element.periodo
+        element.updated_at
       );
-      this.aulaForoMateria.asig_profe_asig = asigProfesAsigs;
+      this.aulaForoMateria.materia = materia;
       dialogRef.close();
     });
   }
+
 }

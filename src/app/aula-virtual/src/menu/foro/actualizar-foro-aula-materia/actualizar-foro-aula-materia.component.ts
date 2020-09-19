@@ -30,7 +30,7 @@ export class ActualizarForoAulaMateriaComponent extends ActualizarBaseComponent 
       properties.get('route-foro-aula-materia').value,
       properties.get('r-a-foro-aula-materia').route,
       true,
-      Sesion.userAulaChat().id
+      Sesion.userAulaChat()
     );
     this.displayedColumns = properties.get(
       'table-actualizar-foro-aula-materia-col'

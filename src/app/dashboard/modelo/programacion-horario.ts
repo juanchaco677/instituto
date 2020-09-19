@@ -1,3 +1,4 @@
+import { Salon } from './salon';
 import { AsigProfeAsigs } from './asig-profe-asigs';
 import { DateTime } from 'luxon';
 export class ProgramacionHorario {
@@ -10,6 +11,9 @@ export class ProgramacionHorario {
     public fecha_inicial?: Date,
     public fecha_final?: Date,
     public created_at?: string,
-    public updated_at?: string
+    public updated_at?: string,
+    public salon: Salon = new Salon(),
+    public cupos = 0,
+    public grupo = 0,
   ) {}
 }

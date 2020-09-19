@@ -124,7 +124,7 @@ export class BotonesComponent implements OnInit {
       biblioteca: {
         id_usuario: this.usuario.id,
         id_programacion_horario: programacion.id,
-        id_salon: programacion.asig_profe_asig.salon.id,
+        id_salon: programacion.salon.id,
       },
     });
   }
@@ -220,7 +220,7 @@ export class BotonesComponent implements OnInit {
         biblioteca: {
           id_usuario: this.usuario.id,
           id_programacion_horario: programacion.id,
-          id_salon: programacion.asig_profe_asig.salon.id,
+          id_salon: programacion.salon.id,
         },
       });
     }
@@ -294,7 +294,7 @@ export class BotonesComponent implements OnInit {
         biblioteca: {
           id_usuario: this.usuario.id,
           id_programacion_horario: programacion.id,
-          id_salon: programacion.asig_profe_asig.salon.id,
+          id_salon: programacion.salon.id,
         },
       });
     }

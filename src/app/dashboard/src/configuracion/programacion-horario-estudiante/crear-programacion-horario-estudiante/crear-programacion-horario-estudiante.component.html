@@ -67,7 +67,7 @@
                 <input matInput [readonly]="true"
                   [formControl]="getControls(properties.get('mat-form-field-salon').control)"
                   placeholder="{{properties.get('mat-form-field-salon').placeholder}}"
-                  [(ngModel)]="programacionHorarioEstudiante.programacion_horario.asig_profe_asig.salon.nombre">
+                  [(ngModel)]="programacionHorarioEstudiante.programacion_horario.salon.nombre">
                 <mat-error
                   *ngIf="getControls(properties.get('mat-form-field-salon').control).errors!= null && getControls(properties.get('mat-form-field-salon').control).errors.required">
                   {{properties.get('mat-form-field-salon').error}} es <strong>obligatorio</strong>
