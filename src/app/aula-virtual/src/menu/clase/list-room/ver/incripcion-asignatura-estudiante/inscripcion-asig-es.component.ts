@@ -27,8 +27,8 @@ export class InscripcionAsigEsComponent
       properties.get('route-programacion-horario-estudiante').value,
       properties.get('route-redirect-web').route
     );
-    this.displayedColumns = properties.get(
-      'table-actualizar-programacion-horario-estudiante-col'
+    this.displayedColumns = this.properties.get(
+      'table-ver-programacion-horario-estudiante-col'
     ).value;
     this.menuService.add$(properties.get('menu-programacion-horario-estudiante').value);
   }

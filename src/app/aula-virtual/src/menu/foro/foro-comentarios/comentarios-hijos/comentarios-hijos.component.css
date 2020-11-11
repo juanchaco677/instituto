@@ -1,27 +1,3 @@
-.mensaje {
-  font-size: 11px;
-  color: #8d8d8c;
-}
-.color-nombre {
-  font-weight: bold;
-  color: #7071b3;
-  font-size: 11px;
-}
-.color-hora {
-  color: #8d8d8c;
-  font-size: 11px;
-}
-mat-grid-tile {
-  background: lightblue;
-}
-
-.posicion-badge {
-  position: relative;
-  top: 27%;
-  left: 2%;
-}
-
-.mat-badge-content {
-  background: #ceccc8 !important;
-  color: #7071b3 !important;
+.list-borde{
+  border-left: solid 1px #8d8d8c;
 }

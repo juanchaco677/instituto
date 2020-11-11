@@ -6,7 +6,6 @@ import { tap } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Util } from 'src/app/utils/util';
 import { Sesion } from 'src/app/utils/sesion';
-import { AnySort } from 'src/app/sort/anySort';
 
 export class OperacionBD implements Tabla {
   listPagination$: BehaviorSubject<AnyPagination>;

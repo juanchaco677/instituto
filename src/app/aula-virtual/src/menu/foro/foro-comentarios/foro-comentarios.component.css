@@ -1,24 +1,3 @@
-.entrada-chat {
-  position: fixed;
-  bottom: 0px;
-  left: 0px;
-}
-.mensaje {
-  font-size: 11px;
-  color: #a3a2a0;
-}
-.color-nombre {
-  font-weight: bold;
-  color: #7071b3;
-}
-.color-hora {
-  color: #ceccc8;
-}
-
-
-.posicion-spinner {
-  z-index: 2;
-  position: fixed;
-  left: 50%;
-  top: 50%;
+.mat-tab-body.mat-tab-body-active {
+  overflow: hidden!important;
 }

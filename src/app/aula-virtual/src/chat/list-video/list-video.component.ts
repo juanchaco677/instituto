@@ -42,8 +42,7 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
   color: string;
   @Input() visible = true;
   @Input() contador = 0;
-  @ViewChild('videoHtml') videoHtml: VideoMultimediaComponent;
-  @ViewChild('desktopHtml') desktopHtml: DesktopMultimediaComponent;
+  @ViewChild('videoMultimedia') videoMultimedia: VideoMultimediaComponent;
   @ViewChild('contenedor') contenedor: ElementRef;
   @ViewChild('boton') htmlBoton: BotonesComponent;
   @ViewChild('htmlVideoDesktop') htmlVideoDesktop: DesktopMultimediaComponent;
@@ -68,8 +67,7 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
     public botonesService: BotonesService,
     public notificacionService: NotificacionService
   ) {
-    console.log('nuevo componennte');
-    this.room = new Room(null, {}, [], {}, {}, {} , {});
+    this.room = new Room(null, {}, [], {}, {}, {}, {});
     this.usuario = Sesion.userAulaChat();
   }
   ngAfterViewInit(): void {
@@ -143,7 +141,7 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
   addUsuario(data: any) {
     this.notificacionService.add$(new Notificacion(
       '',
-      data.usuario.nombre + ' ha ingrasa al salón de clase.',
+      data.usuario.nombre + ' ha ingrasado al salón de clase.',
       4000,
       1,
       data.usuario
@@ -197,7 +195,7 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
     if (Util.empty(this.room.chat)) {
       this.room.chat = [];
     }
-    if (Util.empty(this.room.peerRecord) && Util.empty(this.room.peerRecord[1])){
+    if (Util.empty(this.room.peerRecord) && Util.empty(this.room.peerRecord[1])) {
       this.room.peerRecord = {};
       this.room.peerRecord[1] = new PeerServerEmisorReceptor();
     }
@@ -211,6 +209,21 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
     console.log(this.room);
     this.socket.addRoom$(this.room);
     this.socket.addListen(true);
+    // si los usuarios tiene el microfono prendiio o el video este debe vilver a generar una nueva conexion peer
+    if (!Util.empty(this.videoMultimedia) && !Util.empty(this.videoMultimedia.videoBoton) &&
+      (this.videoMultimedia.videoBoton.video || this.videoMultimedia.videoBoton.audio)) {
+      if (!Util.empty(this.room) && !Util.empty(this.room.id) &&
+        !Util.empty(this.room.peerServerEmisorReceptor) &&
+        Object.keys(this.room.peerServerEmisorReceptor).length > 0) {
+        let keyAux = 'P' + data.usuario.id + '' + this.usuario.id;
+        if (!Util.empty(this.room.peerServerEmisorReceptor[keyAux])) {
+          this.videoMultimedia.startCamDesktopReconect(true, keyAux);
+        } else {
+          keyAux = 'P' + this.usuario.id + '' + data.usuario.id;
+          this.videoMultimedia.startCamDesktopReconect(true, keyAux);
+        }
+      }
+    }
   }
 
   buscarUsuario(data: any) {
@@ -227,8 +240,11 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
    * @param data
    */
   async createAnswer(data: any) {
-    this.socket.addListen(true);
+
     if (!Util.empty(data.data)) {
+      console.log('creante answer');
+      console.log(data);
+      this.socket.addListen(true);
       if (data.camDesktop) {
         if (data.data.type === 'offer') {
           await this.room.peerServerEmisorReceptorDesktop[
@@ -272,12 +288,12 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
             camDesktop: data.camDesktop,
             usuarioOrigen:
               this.room.peerServerEmisorReceptor[data.key].usuario1.id ===
-              this.usuario.id
+                this.usuario.id
                 ? this.room.peerServerEmisorReceptor[data.key].usuario1
                 : this.room.peerServerEmisorReceptor[data.key].usuario2,
             usuarioDestino:
               this.room.peerServerEmisorReceptor[data.key].usuario1.id ===
-              this.usuario.id
+                this.usuario.id
                 ? this.room.peerServerEmisorReceptor[data.key].usuario2
                 : this.room.peerServerEmisorReceptor[data.key].usuario1,
           });
@@ -318,6 +334,8 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
           }
         }
       } else {
+        console.log('add answer');
+        console.log(data);
         if (data.data.type === 'answer') {
           await this.room.peerServerEmisorReceptor[
             data.key
@@ -334,11 +352,11 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
       }
       this.socket.addRoom$(this.room);
       this.socket.addListen(true);
-    }else{
+    } else {
       console.log('ingreso para add asnwer');
       console.log(data);
       // iniciar el record en entre el cliente profesor
-      if (!Util.empty(data.record) && !Util.empty(data.data) && data.record){
+      if (!Util.empty(data.record) && !Util.empty(data.data) && data.record) {
         if (data.camDesktop) {
           console.log('0');
           if (data.data.type === 'answer') {
@@ -391,7 +409,7 @@ export class ListVideoComponent implements OnInit, AfterViewInit {
         cont++;
       }
     }
-    if (!this.htmlVideoDesktop.visible) {
+    if (!Util.empty(this.htmlVideoDesktop) && !Util.empty(this.htmlVideoDesktop.visible) && !this.htmlVideoDesktop.visible) {
       cont++;
     }
     return cont;

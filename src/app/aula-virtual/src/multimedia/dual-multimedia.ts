@@ -191,6 +191,7 @@ export class DualMultimedia {
    * @param ev
    */
   getRemoteStream(ev: any) {
+    console.log('reciviendo stream del cliente..');
     try {
       if (ev.streams && ev.streams.length > 0) {
         for (const element of ev.streams) {
@@ -268,6 +269,49 @@ export class DualMultimedia {
           delay(1000);
         }
       };
+    }
+  }
+  async startCamDesktopReconect(addtrack: boolean, key: string) {
+    let stream = null;
+    if (addtrack) {
+      stream = this.video.stream;
+    }
+    if (
+      !Util.empty(this.room) &&
+      !Util.empty(this.room.usuarios) &&
+      Object.keys(this.room.usuarios).length > 0
+    ) {
+      const emiRecep = this.camDesktop
+        ? this.room.peerServerEmisorReceptorDesktop
+        : this.room.peerServerEmisorReceptor;
+
+      if (
+        emiRecep[key].usuario1.id === this.usuarioSesion.id ||
+        emiRecep[key].usuario2.id === this.usuarioSesion.id
+      ) {
+        if (addtrack && !Util.empty(stream)) {
+          for (const track of stream.getTracks()) {
+            emiRecep[key].peerServer.peerConnection.addTrack(track, stream);
+          }
+        }
+        await emiRecep[key].peerServer.createOffer();
+        this.socket.emit('createAnswer', {
+          data: emiRecep[key].peerServer.localDescription,
+          id: this.room.id,
+          key,
+          camDesktop: this.camDesktop,
+          usuarioOrigen:
+            emiRecep[key].usuario1.id === this.usuarioSesion.id
+              ? emiRecep[key].usuario1
+              : emiRecep[key].usuario2,
+          usuarioDestino:
+            emiRecep[key].usuario1.id === this.usuarioSesion.id
+              ? emiRecep[key].usuario2
+              : emiRecep[key].usuario1,
+        });
+      }
+      this.socket.addRoom$(this.room);
+      this.socket.addListen(true);
     }
   }
   /**

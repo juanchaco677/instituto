@@ -13,11 +13,8 @@
 
 .plano-fondo {
   position: absolute;
-  left: 0px;
   top: 0px;
   z-index: 9;
-  width: 100%;
-  height: 101%;
 }
 
 .wrapper {
@@ -35,6 +32,10 @@
   position: relative;
   right: 16%;
 }
+.posicion-botones{
+  position: relative;
+  top:-12%;
+}
 .player-controls {
   cursor: pointer;
   display: block;
@@ -42,7 +43,7 @@
 
   position: relative;
   text-decoration: none;
-  width: 64%;
+  /* // width: 64%; */
   height: 98%;
   border-radius: 1000px;
   -webkit-transition: transform 0.25s ease-in-out;
@@ -208,4 +209,8 @@
   background-color: black;
   opacity: 0.40;
   padding: 2px;
+  color: white;
+  font-size: 11px;
 }
+
+

@@ -1,7 +1,5 @@
 import { Materia } from './../../dashboard/modelo/materia';
 import { Usuario } from 'src/app/dashboard/modelo/usuario';
-import { AsigProfeAsigs } from 'src/app/dashboard/modelo/asig-profe-asigs';
-
 export class ForoAulaMateria {
   constructor(
     public id?: number,

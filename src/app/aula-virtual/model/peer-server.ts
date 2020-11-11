@@ -2,7 +2,7 @@ export class PeerServer {
   config = {
     iceServers: [
       {
-        urls: 'stun:181.55.192.137:3478',
+        urls: 'stun:186.87.90.15:3478',
         username: 'cony',
         password: 'juancamilo65',
       },

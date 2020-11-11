@@ -42,3 +42,58 @@
   width: 100%;
   height: 100%;
 }
+
+.contenedor-list-video{
+  overflow-y: scroll;
+}
+
+.contenedor-list-video::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.contenedor-list-video::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+.contenedor-list-video::-webkit-scrollbar-thumb {
+  border: 0px none #ffffff;
+  border-radius: 50px;
+  background-color: #33344a !important;
+  opacity: 0.30;
+}
+.contenedor-list-video::-webkit-scrollbar-track {
+  background: #666666;
+  border: 0px none #ffffff;
+  border-radius: 50px;
+
+}
+.contenedor-list-video::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.redimensionarDesktopH{
+  width: 80%;
+  height: 100%;
+}
+.redimensionarDesktopV{
+  width: 0%;
+  height: 0%;
+}
+.redimensionarCamV{
+  width: 20%;
+  height: 100%;
+}
+
+.redimensionarCamH{
+  width: 100%;
+  height: 100%;
+}
+
+.item {
+
+  float: left;
+}
+.item app-video-multimedia {
+  display: block;
+  width: 100%;
+}

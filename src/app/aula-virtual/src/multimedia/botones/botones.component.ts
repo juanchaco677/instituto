@@ -45,6 +45,7 @@ export class BotonesComponent implements OnInit {
   room = new Room(null, {}, [], {}, {}, {}, {});
   usuario: Usuario;
   peerServer: PeerServer;
+  window = window;
   constructor(
     private botones: BotonesService,
     private socket: SocketIoClientService,
@@ -230,7 +231,7 @@ export class BotonesComponent implements OnInit {
     this.botones.add(Util.redistribuir[opcion]);
   }
 
-  cerrar() {
+  close() {
     this.botones.add(Util.cerrar);
     this.socket.emit('closeUserS', {
       id: this.room.id,
@@ -275,9 +276,9 @@ export class BotonesComponent implements OnInit {
         this.peerServer.send('conectados record..');
       };
 
-      this.peerServer.dataChannel.onclose = () => {};
+      this.peerServer.dataChannel.onclose = () => { };
 
-      this.peerServer.peerConnection.ondatachannel = () => {};
+      this.peerServer.peerConnection.ondatachannel = () => { };
     }
   }
 
@@ -298,5 +299,13 @@ export class BotonesComponent implements OnInit {
         },
       });
     }
+  }
+
+  goBack() {
+    if (!Util.empty(this.videoMultimedia.video.stream)) {
+      console.log('pausando stream todo..');
+      this.videoMultimedia.video.stop();
+    }
+    this.router.navigate(['../../../aula-virtual']);
   }
 }

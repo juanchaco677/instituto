@@ -62,8 +62,9 @@ import { ForoComentariosComponent } from '../../src/menu/foro/foro-comentarios/f
 import { CrearForoAulaMateriaComponent } from '../../src/menu/foro/crear-foro-aula-materia/crear-foro-aula-materia.component';
 import { ActualizarForoAulaMateriaComponent } from '../../src/menu/foro/actualizar-foro-aula-materia/actualizar-foro-aula-materia.component';
 import { EliminarForoAulaMateriaComponent } from '../../src/menu/foro/eliminar-foro-aula-materia/eliminar-foro-aula-materia.component';
+import { ItemForoComponent } from '../../src/menu/foro/foro-comentarios/comentarios-hijos/item-foro/item-foro.component';
 const config: SocketIoConfig = {
-  url: 'http://181.55.192.137:4444',
+  url: 'http://nodechatcami.tk',
   options: {},
 };
 
@@ -102,7 +103,8 @@ const config: SocketIoConfig = {
     PlantillaForoAulaMateriaComponent,
     VerAsigProfeAsigsComponent,
     CrearForoAulaComentarioComponent,
-    ComentariosHijosComponent
+    ComentariosHijosComponent,
+    ItemForoComponent
   ],
   imports: [
     MaterialModule,

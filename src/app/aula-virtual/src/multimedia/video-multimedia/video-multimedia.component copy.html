@@ -1,13 +1,13 @@
 <div style="position: relative;">
   <video #videoElement
-  [ngStyle]="{'width': (window.innerWidth / 4.5) +'px','height': (window.innerHeight / 4 ) +'px'}"
-  autoplay></video>
+    [ngStyle]="{'width': width,'height': height}"
+    autoplay></video>
 
   <div *ngIf="!esComponenteItem">
     <div matLine *ngIf="videoBoton.video" [ngClass]="{'contenedor-nombre': videoBoton.video }">
       {{usuario.nombre}}
     </div>
-    <div class="plano-fondo" [ngStyle]="{'background-color': videoBoton.video ? 'transparent':'#292828' ,'width':videoElement.clientWidth + 'px',height:videoElement.clientHeight +'px'}" #planoFondo>
+    <div class="plano-fondo" [ngStyle]="{'background-color': videoBoton.video ? 'transparent':'#292828'}" #planoFondo>
       <div class="div-boton-true" [hidden]="!videoBoton.video">
         <div class="d-flex justify-content-center contenedor-buttons">
           <button mat-icon-button>
@@ -21,7 +21,7 @@
         </div>
       </div>
       <div class="wrapper" #wrapper
-           [ngStyle]="{position:'absolute',left: ((planoFondo.clientWidth - wrapper.clientWidth) / 2)+ 'px' ,width : ((planoFondo.clientWidth + 20) / 2 ) + 'px' , height : (planoFondo.clientHeight) +'px'}"
+           [ngStyle]="{left: (planoFondo.clientWidth - wrapper.clientWidth) / 2 +'px' ,width : ((planoFondo.clientWidth + 20) / 2 ) + 'px' , height : (planoFondo.clientHeight) +'px'}"
           [hidden]="videoBoton.video">
         <a matTooltip="{{usuario.nombre}}" [ngClass]="{'playing': videoBoton.latencia }"
           class="player-controls d-flex align-items-center justify-content-center">
@@ -47,9 +47,9 @@
     <div matLine *ngIf="videoBoton.video " [ngClass]="{'contenedor-nombre': videoBoton.video }">
       {{usuarioSesion.nombre}}
     </div>
-    <div class="plano-fondo" [ngStyle]="{'background-color': videoBoton.video ? 'transparent':'#292828','width':videoElement.clientWidth + 'px',height:videoElement.clientHeight +'px'}" #planoFondo>
+    <div class="plano-fondo" [ngStyle]="{'background-color': videoBoton.video ? 'transparent':'#292828'}" #planoFondo>
       <div class="wrapper" #wrapper
-        [ngStyle]="{position:'absolute',left: ((planoFondo.clientWidth - wrapper.clientWidth) / 2)+ 'px'  ,width : ((planoFondo.clientWidth + 20) / 2 ) + 'px' , height : (planoFondo.clientHeight ) +'px'}"
+        [ngStyle]="{left: (planoFondo.clientWidth - wrapper.clientWidth) / 2 +'px' ,width : ((planoFondo.clientWidth + 20) / 2 ) + 'px' , height : (planoFondo.clientHeight ) +'px'}"
         [hidden]="videoBoton.video">
         <a matTooltip="{{usuarioSesion.nombre}}" [ngClass]="{'playing': videoBoton.latencia }"
           class="player-controls d-flex align-items-center justify-content-center">

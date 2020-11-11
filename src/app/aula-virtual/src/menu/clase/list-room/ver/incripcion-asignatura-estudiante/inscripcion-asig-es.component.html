@@ -2,17 +2,16 @@
 
 <mat-card class="w-100">
   <mat-card-content>
-    <div class="bmd-form-group bmd-collapse-inline pull-xs-right">
-      <button mat-fab for="search" data-toggle="collapse" data-target="#collapse-search" aria-expanded="false"
-        aria-controls="collapse-search">
-        <i class="material-icons">search</i>
-      </button>
-      <span id="collapse-search" class="collapse">
-        <mat-form-field class="form-campo">
-          <mat-label>{{properties.get('label-buscar').value}}</mat-label>
-          <input matInput (keyup)="onSearchChange($event.target.value)" placeholder="{{properties.get('label-buscar').placeholder}}">
-        </mat-form-field>
-      </span>
+    <div class="mb-5 w-75">
+
+      <mat-form-field appearance="legacy" class="w-50">
+        <mat-label>Buscar Materia</mat-label>
+        <input matInput (keyup)="onSearchChange($event.target.value)"
+        placeholder="{{properties.get('label-buscar').placeholder}}">
+        <mat-icon matSuffix>search</mat-icon>
+        <mat-hint>Asignatura</mat-hint>
+      </mat-form-field>
+
     </div>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 

@@ -25,11 +25,11 @@ export class Util {
 
   static redistribuir = ['1', '2', '3'];
 
-  static apiUrl = 'http://181.55.192.137:8000/api/';
+  static apiUrl = 'http://186.87.90.15:8000/api/';
 
-  static apiUrlNode = 'http://181.55.192.137:4444/api/';
+  static apiUrlNode = 'http://nodechatcami.tk';
 
-  static apiUrlImage = 'http://181.55.192.137:8000/archivos/';
+  static apiUrlImage = 'http://186.87.90.15:8000/archivos/';
 
   static httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),

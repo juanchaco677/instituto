@@ -28,8 +28,6 @@ export class GaleriaVideoComponent implements OnInit {
     this.src = Util.apiUrlImage + 'img/';
     this.srcDownlod = Util.apiUrlImage + 'mp4/';
     this.route.paramMap.subscribe((params) => {
-      console.log('all otro lado...');
-      console.log(params.get('id').toString());
       // tslint:disable-next-line: radix
       this.id = parseInt(params.get('id').toString());
     });

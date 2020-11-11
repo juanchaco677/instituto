@@ -30,8 +30,7 @@
   bottom: 115%;
 }
 .div-boton-false {
-  position: absolute;
-  left: 41%;
+  position: fixed;
   bottom: 10px;
   z-index: 10;
   border-radius: 4px 4px 4px 4px;

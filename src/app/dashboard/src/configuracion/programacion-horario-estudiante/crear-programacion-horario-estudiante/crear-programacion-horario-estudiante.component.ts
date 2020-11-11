@@ -55,9 +55,9 @@ export class CrearProgramacionHorarioEstudianteComponent
       hora_final: Validacion.getCampo(true),
     });
   }
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
-  openDialogProgramacionHorario(){
+  openDialogProgramacionHorario() {
     const dialogRef = this.dialog.open(ActualizarProgramacionHorarioComponent, {
       width: '80%',
     });
@@ -65,7 +65,7 @@ export class CrearProgramacionHorarioEstudianteComponent
 
     dialogRef.componentInstance.out.subscribe((element: ProgramacionHorario) => {
       const programacionHorario = new ProgramacionHorario(
-        element.asig_profe_asig ,
+        element.asig_profe_asig,
         element.id,
         element.dia,
         element.hora_inicial,
@@ -73,7 +73,10 @@ export class CrearProgramacionHorarioEstudianteComponent
         element.fecha_inicial,
         element.fecha_final,
         element.created_at,
-        element.updated_at
+        element.updated_at,
+        element.salon,
+        element.cupos,
+        element.grupo
       );
       this.programacionHorarioEstudiante.programacion_horario = programacionHorario;
       dialogRef.close();
@@ -86,11 +89,7 @@ export class CrearProgramacionHorarioEstudianteComponent
     });
     dialogRef.componentInstance.tipo = 'ES';
     dialogRef.componentInstance.combobox = true;
-    if (Util.empty(dialogRef.componentInstance.service.listPagination$)) {
-      dialogRef.componentInstance.consultarDatos(0, '');
-    } else {
-      dialogRef.componentInstance.consultarDatosEnMemoria();
-    }
+    dialogRef.componentInstance.consultarDatos(0, '');
     dialogRef.componentInstance.out.subscribe((element: Usuario) => {
       const usuario = new Usuario(
         element.email,

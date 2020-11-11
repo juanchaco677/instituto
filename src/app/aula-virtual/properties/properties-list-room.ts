@@ -52,6 +52,16 @@ export class PropertiesListRoom {
       value: 'Horario Estudiante',
     },
     {
+      key: 'table-ver-programacion-horario-estudiante-col',
+      value: [
+        'profesor',
+        'materia',
+        'salon',
+        'hora_inicial',
+        'hora_final',
+      ],
+    },
+    {
       key: 'table-actualizar-programacion-horario-estudiante-col',
       value: [
         'estudiante',

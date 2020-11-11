@@ -1,0 +1,13 @@
+.mensaje {
+  font-size: 11px;
+  color: #8d8d8c;
+}
+.color-nombre {
+  font-weight: bold;
+  color: #7071b3;
+  font-size: 11px;
+}
+.color-hora {
+  color: #8d8d8c;
+  font-size: 11px;
+}

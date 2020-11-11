@@ -2,6 +2,9 @@ table {
   width: 100%;
 
 }
-th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
-  padding: 5px!important;
+th, td {
+  overflow: hidden;
+  width: 200px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

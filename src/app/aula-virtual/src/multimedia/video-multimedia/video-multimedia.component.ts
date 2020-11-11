@@ -12,6 +12,7 @@ import {
   Input,
   ChangeDetectorRef,
 } from '@angular/core';
+import { Platform } from '@angular/cdk/platform';
 
 // tslint:disable-next-line: no-conflicting-lifecycle
 @Component({
@@ -22,13 +23,15 @@ import {
 export class VideoMultimediaComponent
   extends DualMultimedia
   implements OnInit, OnDestroy, OnChanges {
+  public window = window;
   constructor(
     public socket: SocketIoClientService,
     public botones: BotonesService,
     public cdr: ChangeDetectorRef,
     public router: Router,
   ) {
-    super(false, socket, botones, cdr , router);
+    super(false, socket, botones, cdr, router);
+
   }
   ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
     this.listenPeer();
@@ -57,5 +60,5 @@ export class VideoMultimediaComponent
     }
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
 }

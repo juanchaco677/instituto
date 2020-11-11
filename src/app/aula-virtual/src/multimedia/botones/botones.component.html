@@ -1,10 +1,11 @@
-<div class="div-boton-false bg-dark" [hidden]="visible">
+<div class="div-boton-false bg-dark" [hidden]="visible" #boton
+  [ngStyle]="{'left':((window.innerWidth - boton.clientWidth) / 2) + 'px'}">
   <div class="d-flex justify-content-center contenedor-buttons">
     <div style="position:relative;" (mouseover)="visibleComentario[0] = true" (mouseout)="visibleComentario[0] = false">
       <app-comentario *ngIf="visibleComentario[0]" class="posicion-comentario" [comentario]="'atras'" [width]="'100%'"
         [height]="'50%'" [fontSize]="'12px'" [left]="'35%'"></app-comentario>
       <button class="m-0 p-0 not-btn-hover" [ngClass]="{'btn-hover':visibleComentario[0]}" mat-raised-button
-        [routerLink]="['../../../aula-virtual']">
+        (click)="goBack()" >
         <mat-icon class="icon-color">arrow_back</mat-icon>
       </button>
     </div>
@@ -31,8 +32,8 @@
       <app-comentario *ngIf="visibleComentario[5]" class="posicion-comentario" [comentario]="'Compartir'"
         [width]="'100%'" [height]="'50%'" [fontSize]="'12px'" [left]="'25%'"></app-comentario>
 
-      <button class="m-0 p-0 not-btn-hover " [ngClass]="{'btn-hover':visibleCompartir || visibleComentario[5]}" mat-raised-button
-        (click)="htmlListVideo.visibleBotones = false; visibleCompartir = !visibleCompartir">
+      <button class="m-0 p-0 not-btn-hover " [ngClass]="{'btn-hover':visibleCompartir || visibleComentario[5]}"
+        mat-raised-button (click)="htmlListVideo.visibleBotones = false; visibleCompartir = !visibleCompartir">
         <mat-icon class="icon-color">present_to_all</mat-icon>
       </button>
       <div class="visibleCompartir" *ngIf="visibleCompartir">
@@ -77,7 +78,7 @@
       <app-comentario *ngIf="visibleComentario[7]" class="posicion-comentario" [ngStyle]="{'width':'300px'}"
         [comentario]="'Grabar'" [width]="'fit-content'" [height]="'50%'" [fontSize]="'12px'" [left]="'28%'">
       </app-comentario>
-      <button  class="m-0 p-0 not-btn-hover" [ngClass]="{'btn-hover': record || visibleComentario[7]}" mat-raised-button
+      <button class="m-0 p-0 not-btn-hover" [ngClass]="{'btn-hover': record || visibleComentario[7]}" mat-raised-button
         (click)="starRecord()">
         <mat-icon [ngStyle]="{'color': '#a72c37'}">fiber_manual_record</mat-icon>
       </button>
@@ -86,7 +87,8 @@
       (mouseout)="visibleComentario[6] = false">
       <app-comentario *ngIf="visibleComentario[6]" class="posicion-comentario" [comentario]="'Colgar'" [width]="'100%'"
         [height]="'50%'" [fontSize]="'12px'" [left]="'16%'"></app-comentario>
-      <button (click)="cerrar()" class="m-0 p-0 color-phone" [ngClass]="{'color-phone-hover':visibleComentario[6]}" mat-icon-button>
+      <button (click)="close()" class="m-0 p-0 color-phone" [ngClass]="{'color-phone-hover':visibleComentario[6]}"
+        mat-icon-button>
         <mat-icon class="icon-color">phone</mat-icon>
       </button>
     </div>
